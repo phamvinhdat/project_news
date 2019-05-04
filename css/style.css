@@ -1,0 +1,62 @@
+.site-top{
+	margin-bottom: 0px;
+}
+.left{
+	padding-left: 0px;
+	padding-right: 0;
+	height: 560px;;
+	background: #f5f5f5;
+	border-right: 5px solid #e7ebee
+}
+.panel-collapse>ul{
+	list-style: none;
+	background: #eeeeee;
+	margin-bottom: 0;
+}
+.panel-collapse>ul>li{
+	padding-bottom: 5px;
+}
+.panel-collapse>ul>li>a{
+	color: #7b7c7e;
+	font-size: 15px;
+}
+.panel-title>a:focus{
+	color: #ff9708;
+	text-decoration: underline; 
+}
+.panel-title>a:hover{
+	text-decoration: underline;
+	color: #ff9708;
+}
+.panel-title>a:active{
+	text-decoration: underline;
+}
+.right{
+	padding: 30px;
+}
+.content{
+	border-right: 5px solid #d2d2d2;
+	padding: 0 40px;
+}
+.codm{
+	background: #f8b729;
+}
+.cobv{
+	background: #639613;
+}
+.cotv{
+	background: #42b7d8;
+}
+.thongbao{
+	border: 1px solid #d2d2d2;
+}
+
+/*danh muc*/
+.add-dm{
+	background: #eeeeee;
+}
+.form{
+	margin: 20px 0;
+	border: 1px solid #dbe1e8;
+}
+.table>tbody>tr>td{border: none !important;}

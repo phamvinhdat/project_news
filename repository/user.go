@@ -24,7 +24,7 @@ func (u *MySQLUserRepo) Create(user *models.User) error {
 	return nil
 }
 
-func (u *MySQLUserRepo) GetByUsername(username string) (*models.User, error) {
+func (u *MySQLUserRepo) FetchByUsername(username string) (*models.User, error) {
 	var user models.User
 	err := u.Conn.First(user, "username = ?", username).Error
 	if err != nil {
@@ -34,7 +34,7 @@ func (u *MySQLUserRepo) GetByUsername(username string) (*models.User, error) {
 	return &user, nil
 }
 
-func (u *MySQLUserRepo) GetByEmail(email string) (*models.User, error) {
+func (u *MySQLUserRepo) FetchByEmail(email string) (*models.User, error) {
 	var user models.User
 	err := u.Conn.First(user, "email = ?", email).Error
 	if err != nil {

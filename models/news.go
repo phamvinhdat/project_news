@@ -13,4 +13,5 @@ type News struct {
 	UserID     int        `gorm:"column:user_id;type:int(11) not null"`
 	DatePost   *time.Time `gorm:"column:date_post;type:datetime not null"`
 	CategoryID int        `gorm:"column:category_id;type:int(11) not null"`
+	Views      int        `gorm:"colums:views;type:int(11);default 0"`
 }

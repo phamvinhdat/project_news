@@ -6,6 +6,10 @@ import (
 
 type IUserRepo interface {
 	Create(user *models.User) error
-	GetByUsername(username string) (*models.User, error)
-	GetByEmail(email string) (*models.User, error)
+	FetchByUsername(username string) (*models.User, error)
+	FetchByEmail(email string) (*models.User, error)
+}
+
+type ICaregoryRepo interface{
+	FetchAll()([]models.Category, error)
 }

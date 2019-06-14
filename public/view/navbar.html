@@ -1,0 +1,123 @@
+<body>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-3 fh5co_padding_menu">
+                    <a href="/"><img src="images/logo.png" alt="logo-24h" class="fh5co_logo_width" /></a>
+                </div>
+
+                <div class="col-12 col-md-9 align-self-center fh5co_mediya_right">
+                    <div class="text-center d-inline-block">
+                        <div class="fh5co_verticle_middle">
+                            <div class="h-100">
+                                <div class="d-flex justify-content-center h-100">
+                                    <div class="searchbar bg-success">
+                                        <input id="txtSearch" class="search_input" type="text" name=""
+                                            placeholder="Search...">
+                                        <a href="/" id="aSearch" class="search_icon"><i class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="text-center d-inline-block">
+                        <a class="fh5co_display_table" href="signIn.html">
+                            <div class="fh5co_verticle_middle">
+                                <i class="fa fa-user-circle-o"></i>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-success fh5co_padd_mediya padding_786">
+        <div class="container padding_786">
+            <nav class="navbar navbar-toggleable-md navbar-light ">
+                <button class="navbar-toggler navbar-toggler-right mt-3" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation"><span class="fa fa-bars"></span></button>
+                <a class="navbar-brand" href="#"><img src="images/logo.png" alt="img" class="mobile_logo_width" /></a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="index.html">Trang chủ<span class="sr-only">(current)</span></a>
+                        </li>
+                        <!-- <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton1" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">Xã hội <span
+                                    class="sr-only">(current)</span></a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
+                                <a class="dropdown-item" href="#">Thời sự</a>
+                                <a class="dropdown-item" href="#">Giao thông</a>
+                                <a class="dropdown-item" href="#">Môi trường-Khi hậu</a>
+                                <a class="dropdown-item" href="#">Pháp luật</a>
+                            </div>
+                        </li> -->
+
+                        {{range .Categories}}
+                        <li class="nav-item {{if .CategoryChild}}dropdown{{end}}">
+                            <a class="nav-link dropdown-toggle" href="/{{.Name}}" id="dropdownMenuButton1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{.Name}}<span
+                                    class="sr-only">(current)</span></a>
+                            {{if .CategoryChild}}
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
+                                {{range .CategoryChild}}
+                                <a class="dropdown-item" href="/{{.Name}}">{{.Name}}</a>
+                                {{end}}
+                            </div>
+                            {{end}}
+                        </li>
+                        {{end}}
+
+                        <!-- <li class="nav-item ">
+                            <a class="nav-link" href="single.html">Thế giới <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">Văn hóa <span
+                                    class="sr-only">(current)</span></a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
+                                <a class="dropdown-item" href="#">Nghệ thuật</a>
+                                <a class="dropdown-item" href="#">Ẩm thực</a>
+                                <a class="dropdown-item" href="#">Du lịch</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton3" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">Kinh tế<span
+                                    class="sr-only">(current)</span></a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
+                                <a class="dropdown-item" href="#">Khinh doanh</a>
+                                <a class="dropdown-item" href="#">Lao động-Việc làm</a>
+                                <a class="dropdown-item" href="#">Tài chính</a>
+                                <a class="dropdown-item" href="#">Chứng khoán</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton4" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">Giáo dục<span
+                                    class="sr-only">(current)</span></a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
+                                <a class="dropdown-item" href="#">Học bổng-Du học</a>
+                                <a class="dropdown-item" href="#">Đào tạo-Thi cử</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton4" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">Thể thao<span
+                                    class="sr-only">(current)</span></a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
+                                <a class="dropdown-item" href="#">Bóng đá quốc tế</a>
+                                <a class="dropdown-item" href="#">Bóng đá việt nam</a>
+                                <a class="dropdown-item" href="#">Quần vợt</a>
+                            </div>
+                        </li> -->
+
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>

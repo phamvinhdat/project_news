@@ -17,6 +17,6 @@ func DefaultConfig() *Config {
 		Password:     "root",
 		DatabaseName: "news",
 		IP:           "127.0.0.1",
-		Port:         "33306",
+		Port:         "3306",
 	}
 }

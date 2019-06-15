@@ -4,88 +4,122 @@
 <head>
     <title>{{.title}}</title>
     <!--Bootsrap 4 CDN-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/signUpStyles.css">
     <script type="text/javascript" src="js/javaScript.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
-    <body>
-        <div class="container">
-            <form class="form-horizontal" role="form" method="POST" action="/api/register" onsubmit="return signUpValidation()">
-                <h2>Đăng ký</h2>
-                <div class="form-group">
-                    <label for="name" class="col-sm-3 control-label">Họ tên*</label>
-                    <div class="col-sm-9">
-                        <input type="text" id="name" name="name" placeholder="Họ tên" class="form-control" autofocus required="">
-                    </div>
+<body>
+    <div class="container">
+        <form class="form-horizontal" id="formRegister" role="form" action="/api/register"
+            onsubmit="return signUpValidation()">
+            <h2>Đăng ký</h2>
+            <div class="form-group">
+                <label for="name" class="col-sm-3 control-label">Họ tên*</label>
+                <div class="col-sm-9">
+                    <input type="text" id="name" name="name" placeholder="Họ tên" class="form-control" autofocus
+                        required="">
                 </div>
-                <div class="form-group">
-                    <label for="email" class="col-sm-3 control-label">Email*</label>
-                    <div class="col-sm-9">
-                        <input type="email" id="email" placeholder="Email" name="email" class="form-control" autofocus required="">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="col-sm-3 control-label">Email*</label>
+                <div class="col-sm-9">
+                    <input type="email" id="email" placeholder="Email" name="email" class="form-control" autofocus
+                        required="">
                 </div>
-                <div class="form-group">
-                    <label for="username" class="col-sm-3 control-label">Username*</label>
-                    <div class="col-sm-9">
-                        <input type="text" id="username" name="username" placeholder="Tên đăng nhập" class="form-control" required="">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label for="username" class="col-sm-3 control-label">Username*</label>
+                <div class="col-sm-9">
+                    <input type="text" id="username" name="username" placeholder="Tên đăng nhập" class="form-control"
+                        required="">
                 </div>
-                <div class="form-group">
-                    <label for="password" class="col-sm-3 control-label">Password*</label>
-                    <div class="col-sm-9">
-                        <input type="password" id="password" name="password" placeholder="Mật khẩu" class="form-control" required="">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-3 control-label">Password*</label>
+                <div class="col-sm-9">
+                    <input type="password" id="password" name="password" placeholder="Mật khẩu" class="form-control"
+                        required="">
                 </div>
-                <div class="form-group">
-                    <label for="password" class="col-sm-3 control-label">Repeat password*</label>
-                    <div class="col-sm-9">
-                        <input type="password" id="confirmPassword" placeholder="Mật khẩu" class="form-control" required="">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-3 control-label">Repeat password*</label>
+                <div class="col-sm-9">
+                    <input type="password" id="confirmPassword" placeholder="Mật khẩu" class="form-control" required="">
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label class="control-label col-sm-3">Giới tính</label>
-                    <div class="col-sm-6">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <label class="radio-inline">
-                                <input type="radio" id="maleRadio" value="true" name="sex" checked="true">Nam
+            <div class="form-group">
+                <label class="control-label col-sm-3">Giới tính</label>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="radio-inline">
+                                <input type="radio" id="sex0" value="1" name="sex" checked="true">Nam
                             </label>
-                            </div>
-                            <div class="col-sm-4">
-                                <label class="radio-inline">
-                                <input type="radio" id="femaleRadio" value="false" name="sex">Nữ
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="radio-inline">
+                                <input type="radio" id="sex1" value="0" name="sex">Nữ
                             </label>
-                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.form-group -->
-                <div class="form-group">
-                    <div class="col-sm-9 col-sm-offset-3">
-                        <span class="help-block">*Bắt buộc</span>
-                    </div>
+            </div>
+            <!-- /.form-group -->
+            <div class="form-group">
+                <div class="col-sm-9 col-sm-offset-3">
+                    <span class="help-block">*Bắt buộc</span>
                 </div>
-                <div>
-                    <p></p>
+            </div>
+            <div>
+                <p></p>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Đăng ký</button>
+            <div class="card-footer">
+                <div class="d-flex justify-content-center links">
+                    Đã có tài khoản?<a href="/login">Đăng Nhập</a>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">Đăng ký</button>
-                <div class="card-footer">
-                    <div class="d-flex justify-content-center links">
-                        Đã có tài khoản?<a href="/login">Đăng Nhập</a>
-                    </div>
-                </div>
-            </form>
-            <!-- /form -->
-        </div>
-        <!-- ./container -->
-        <script>
-            $()
-        </script>
-    </body>
+            </div>
+        </form>
+        <!-- /form -->
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#formRegister").submit(function (event) {
+                event.preventDefault();
+                var data = $(this).serialize()
+                var url = $(this).attr("action")
+                var posting = $.post(url, data)
+                console.log(data)
+                posting.done(function (d) {
+                    console.log(d)
+                    if (d.status == false) {
+                        alert("Error form: " + d)
+                    } else {
+                        var postLogin = $.post("/api/login", {
+                            username: $("#username").val(),
+                            password: $("#password").val()
+                        })
+
+                        postLogin.done(function (d) {
+                            if (d.status == false) {
+                                alert("Username or Password invalid!")
+                            } else {
+                                window.location.href = "/"
+                            }
+                        })
+                    }
+                })
+            })
+        })
+    </script>
+
+</body>
 
 </html>

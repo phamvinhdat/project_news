@@ -11,28 +11,15 @@ function validation(){
 	}
 	else
 	{
-
 		var str=username.slice(0,1);
 		if(username.slice(0,1)=="_"||username.slice(0,1)=="@"||str.match(/[0-9]/g) !=null)
 		{
 			alert("username should not start with _, @ and number");
 			return false;
 		}
-		else
-		{
-			if(username=="admin" && password=="admin")
-			{
-				document.location = "index.html";
-				return false;
-			}
-			else
-			{
-				alert("Sai mật khẩu hoặc tên đăng nhập");
-				return false;
-			}
-		}
-
 	}
+
+	return true
 }
 function signUpValidation()
 {

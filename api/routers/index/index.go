@@ -3,6 +3,7 @@ package index
 import (
 	"net/http"
 
+	"github.com/phamvinhdat/project_news/api/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/phamvinhdat/project_news/models"
 	"github.com/phamvinhdat/project_news/repository"
@@ -17,12 +18,14 @@ type CategoryParent struct {
 type RouterIndex struct {
 	UserRepo     repository.IUserRepo
 	CategoryRepo repository.ICaregoryRepo
+	JwtAuthen    *middleware.JWTAuthen
 }
 
-func NewRouterIndex(userRepo repository.IUserRepo, categoryRepo repository.ICaregoryRepo) *RouterIndex {
+func NewRouterIndex(userRepo repository.IUserRepo, categoryRepo repository.ICaregoryRepo, jwtAuthen *middleware.JWTAuthen) *RouterIndex {
 	return &RouterIndex{
 		UserRepo:     userRepo,
 		CategoryRepo: categoryRepo,
+		JwtAuthen: jwtAuthen,
 	}
 }
 
@@ -45,13 +48,29 @@ func (*RouterIndex) getRegister(c *gin.Context) {
 }
 
 func (r *RouterIndex) getIndex(c *gin.Context) {
+	//get category
 	categories, err := r.CategoryRepo.FetchAll()
 	HandlerError(http.StatusNotFound, err, c)
-
 	categoryParents := convertCategoriesToCategorytParents(categories)
+
+	//get cookie
+	isLogin := false
+	name := "Login"
+	cookie, err := c.Request.Cookie("token")
+	if err == nil {
+		token := cookie.Value
+		tk, err := r.JwtAuthen.ParseToken(token)
+		if err == nil{
+			isLogin = true
+			name = tk.Username
+		}
+	}
+
 	c.HTML(http.StatusOK, "index.html", gin.H{
 		"title":      "24 News — Tin tức 24h",
 		"Categories": categoryParents,
+		"isLogin": isLogin,
+		"name": name,
 	})
 }
 

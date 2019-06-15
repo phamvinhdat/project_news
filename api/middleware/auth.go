@@ -13,7 +13,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/phamvinhdat/project_news/api"
+	_"github.com/phamvinhdat/project_news/api"
 	"github.com/phamvinhdat/project_news/models"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -33,27 +33,32 @@ func NewJWTAuthen(user repository.IUserRepo) *JWTAuthen {
 	}
 }
 
+func (*JWTAuthen) ParseToken(tokenStr string) (*Token, error) {
+	tk := &Token{}
+	godotenv.Load()
+	_, err := jwt.ParseWithClaims(tokenStr, tk, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("token_password")), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return tk, nil
+}
+
 //JWTAuthentication check whether token client submissions are valid
 func (*JWTAuthen) JWTAuthentication() gin.HandlerFunc {
 	return gin.HandlerFunc(func(c *gin.Context) {
-		response := make(map[string]interface{})
-		tokenHeader := c.Request.Header.Get("Authorization") //grap the token from the header
-
-		if tokenHeader == "" { //token missing
-			response = api.Message(false, "Missing auth token")
-			c.JSON(http.StatusUnauthorized, response)
+		//response := make(map[string]interface{})
+		cookie, err := c.Request.Cookie("token")
+		if err != nil { //token missing
+			//response = api.Message(false, "Missing auth token")
+			//c.JSON(http.StatusUnauthorized, response)
+			c.Redirect(http.StatusSeeOther, "/")
 			return
 		}
 
-		seperate := " "
-		splitted := strings.Split(tokenHeader, seperate)
-		if len(splitted) != 2 {
-			response = api.Message(false, "Invalid/malfomed auth token")
-			c.JSON(http.StatusForbidden, response)
-			return
-		}
-
-		tokenPath := splitted[1]
+		tokenPath := cookie.Value
 		tk := &Token{}
 		godotenv.Load()
 		token, err := jwt.ParseWithClaims(tokenPath, tk, func(token *jwt.Token) (interface{}, error) {
@@ -61,14 +66,18 @@ func (*JWTAuthen) JWTAuthentication() gin.HandlerFunc {
 		})
 
 		if err != nil {
-			response = api.Message(false, "Malformed authentication token")
-			c.JSON(http.StatusForbidden, response)
+			//response = api.Message(false, "Malformed authentication token")
+			//c.JSON(http.StatusForbidden, response)
+			c.Redirect(http.StatusSeeOther, "/")
+			c.Abort()
 			return
 		}
 
 		if !token.Valid {
-			response = api.Message(false, "Token is not valid.")
-			c.JSON(http.StatusForbidden, response)
+			//response = api.Message(false, "Token is not valid.")
+			//c.JSON(http.StatusForbidden, response)
+			c.Redirect(http.StatusSeeOther, "/")
+			c.Abort()
 			return
 		}
 
@@ -123,12 +132,12 @@ func (j *JWTAuthen) Validate(user *models.User) error {
 
 func (j *JWTAuthen) Auth(username, password string) error {
 	findUser, err := j.UserRepo.FetchByUsername(username)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(findUser.Password), []byte(password))
-	if err != nil{
+	if err != nil {
 		return err
 	}
 

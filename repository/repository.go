@@ -8,6 +8,7 @@ type IUserRepo interface {
 	Create(user *models.User) error
 	FetchByUsername(username string) (*models.User, error)
 	FetchByEmail(email string) (*models.User, error)
+	FetchRole(username string)(*models.Role, error)
 }
 
 type ICaregoryRepo interface{

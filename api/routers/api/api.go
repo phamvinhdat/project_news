@@ -1,8 +1,10 @@
 package api
 
 import (
-	"github.com/phamvinhdat/project_news/api/middleware"
+	"log"
 	"net/http"
+
+	"github.com/phamvinhdat/project_news/api/middleware"
 
 	"github.com/gin-gonic/gin"
 	"github.com/phamvinhdat/project_news/models"
@@ -11,69 +13,71 @@ import (
 )
 
 type RouterApi struct {
-	UserRepo repository.IUserRepo
+	UserRepo  repository.IUserRepo
 	JwtAuthen *middleware.JWTAuthen
 }
 
 func NewRouterApi(userRepo repository.IUserRepo, jwtAuthen *middleware.JWTAuthen) *RouterApi {
 	return &RouterApi{
-		UserRepo: userRepo,
+		UserRepo:  userRepo,
 		JwtAuthen: jwtAuthen,
 	}
 }
 
 func (r *RouterApi) Register(group *gin.RouterGroup) {
 	group.POST("/register", r.postRegister)
-	group.POST("/login", r.postLogin)	
+	group.POST("/login", r.postLogin)
 }
 
 func (r *RouterApi) postLogin(c *gin.Context) {
 	username := c.PostForm("username")
-	password := c.PostForm("pssword")
+	password := c.PostForm("password")
 	err := r.JwtAuthen.Auth(username, password)
-	if err != nil{
+	if err != nil {
+		log.Println("Loi nay vois username: ", username, err)
 		c.JSON(http.StatusOK, gin.H{
-			"status":false,
-			"message": err,
+			"status":  false,
+			"message": err.Error(),
 		})
+		return
 	}
 
 	token := r.JwtAuthen.NewToken(username, 5)
-	c.SetCookie("token", token, 3600, "/", ".localhost", false, false)
+	c.SetCookie("token", token, 3600, "/", "localhost", false, false)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  true,
-		"message":  "authenticated",
+		"message": "login success",
 		"username": username,
-		"token":    token,
 	})
 }
 
 func (r *RouterApi) postRegister(c *gin.Context) {
 	user := models.User{}
 	err := c.ShouldBind(&user)
+	log.Println(user, err)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"status":  false,
-			"message": err,
+			"message": err.Error(),
 		})
 		return
 	}
 
 	err = r.JwtAuthen.Validate(&user)
-	if err != nil{
+	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"status":  false,
-			"message": err,
+			"message": err.Error(),
 		})
 		return
 	}
 
 	hashPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 
-	if err != nil{
+	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"status":  false,
-			"message": err,
+			"message": err.Error(),
 		})
 		return
 	}
@@ -81,13 +85,16 @@ func (r *RouterApi) postRegister(c *gin.Context) {
 	user.Password = string(hashPassword)
 	user.RoleID = 1 // default usernormal
 	err = r.UserRepo.Create(&user)
-	if err != nil{
+	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"status":  false,
-			"message": err,
+			"message": err.Error(),
 		})
 		return
 	}
 
-	c.Redirect(http.StatusSeeOther, "/login")
+	c.JSON(http.StatusOK, gin.H{
+		"status":  true,
+		"message": "Register seccess",
+	})
 }

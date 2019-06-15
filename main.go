@@ -1,10 +1,14 @@
 package main
 
 import (
-	"github.com/jinzhu/gorm"
 	"log"
 
+	"github.com/phamvinhdat/project_news/api/routers/api/admin"
+	"github.com/phamvinhdat/project_news/api/routers/api/writer"
+	"github.com/phamvinhdat/project_news/api/routers/profile"
+
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 	"github.com/phamvinhdat/project_news/api/middleware"
 	"github.com/phamvinhdat/project_news/api/routers"
 	"github.com/phamvinhdat/project_news/api/routers/api"
@@ -30,16 +34,22 @@ func setup(dbConfig *database.Config, conn *gorm.DB) *gin.Engine {
 	JWTAuthen := middleware.NewJWTAuthen(userRepo)
 
 	//create router
-	routerIndex := index.NewRouterIndex(userRepo, categoryRepo)
+	routerIndex := index.NewRouterIndex(userRepo, categoryRepo, JWTAuthen)
 	routerApi := api.NewRouterApi(userRepo, JWTAuthen)
-	router := routers.NewRouter(JWTAuthen, routerIndex, routerApi)
+	routerAdmin := admin.NewRouterAdmin(userRepo, JWTAuthen)
+	routerWriter := writer.NewRouterWriter(userRepo, JWTAuthen)
+	routerProfile := profile.NewRouterProfile(userRepo, JWTAuthen)
+	router := routers.NewRouter(JWTAuthen, routerIndex, routerApi, routerAdmin, routerWriter, routerProfile)
 
 	//create group
 	groupIndex := r.Group("/")
+	groupProfile := r.Group("/api/profile", JWTAuthen.JWTAuthentication())
 	groupApi := r.Group("/api")
+	groupAdmin := r.Group("/api/admin", JWTAuthen.JWTAuthentication())
+	groupWriter := r.Group("/api/writer", JWTAuthen.JWTAuthentication())
 
 	//regis router
-	router.Register(groupIndex, groupApi)
+	router.Register(groupIndex, groupApi, groupAdmin, groupWriter, groupProfile)
 
 	return r
 }

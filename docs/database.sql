@@ -9,6 +9,7 @@ drop table if exists `categories`;
 drop table if exists `users`;
 drop table if exists `tags`;
 drop table if exists `news_tags`;
+drop table if exists `censor`;
 
 create table if not exists `roles`(
 	`id` 	int(11) auto_increment,
@@ -47,10 +48,21 @@ create table if not exists `news`(
     `date_post` 	datetime,
     `category_id` 	int not null,
     `views` 		int not null default 0,
-    `isPremium`		bool not null default false,
+    `is_premium`		bool not null default false,
     primary key (`id`),
     constraint `news_ibfk1` foreign key (`user_id`) references `users` (`id`),
     constraint `news_ibfk2` foreign key (`category_id`) references `categories` (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+create table if not exists `censor`(
+	`news_id` 		int(11),
+    `user_id`		int(11),
+    `is_public`		bool not null default false,
+    `date_censor`	timestamp not null,
+    `date_public`	timestamp not null,
+    primary key(`news_id`, `user_id`),
+    constraint `censor_ibfk1` foreign key (`news_id`) references `news` (`id`),
+    constraint `censor_ibfk2` foreign key (`user_id`) references `users` (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 create table if not exists `comments`(
@@ -102,8 +114,8 @@ insert into `categories` (`name`,`parent_category_id`) value
 ('Bóng đá việt nam', 19);
 
 insert into `roles` (`name`) value
-('Độc giả'),
-('Premium'),
+('độc giả'),
+('premium'),
 ('writer'),
 ('editor'),
 ('administrator');

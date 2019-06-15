@@ -22,9 +22,15 @@
 
                     </div>
                     <div class="text-center d-inline-block">
-                        <a class="fh5co_display_table" href="signIn.html">
+                        <a class="fh5co_display_table" href="
+                        {{if eq .isLogin false}}
+                        /login
+                        {{else}}
+                        /api/profile
+                        {{end}}">
                             <div class="fh5co_verticle_middle">
                                 <i class="fa fa-user-circle-o"></i>
+                                {{.name}}
                             </div>
                         </a>
                     </div>
@@ -43,7 +49,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.html">Trang chủ<span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="/">Trang chủ<span class="sr-only">(current)</span></a>
                         </li>
                         <!-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton1" data-toggle="dropdown"
@@ -71,51 +77,6 @@
                             {{end}}
                         </li>
                         {{end}}
-
-                        <!-- <li class="nav-item ">
-                            <a class="nav-link" href="single.html">Thế giới <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">Văn hóa <span
-                                    class="sr-only">(current)</span></a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
-                                <a class="dropdown-item" href="#">Nghệ thuật</a>
-                                <a class="dropdown-item" href="#">Ẩm thực</a>
-                                <a class="dropdown-item" href="#">Du lịch</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton3" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">Kinh tế<span
-                                    class="sr-only">(current)</span></a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
-                                <a class="dropdown-item" href="#">Khinh doanh</a>
-                                <a class="dropdown-item" href="#">Lao động-Việc làm</a>
-                                <a class="dropdown-item" href="#">Tài chính</a>
-                                <a class="dropdown-item" href="#">Chứng khoán</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton4" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">Giáo dục<span
-                                    class="sr-only">(current)</span></a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
-                                <a class="dropdown-item" href="#">Học bổng-Du học</a>
-                                <a class="dropdown-item" href="#">Đào tạo-Thi cử</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton4" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">Thể thao<span
-                                    class="sr-only">(current)</span></a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
-                                <a class="dropdown-item" href="#">Bóng đá quốc tế</a>
-                                <a class="dropdown-item" href="#">Bóng đá việt nam</a>
-                                <a class="dropdown-item" href="#">Quần vợt</a>
-                            </div>
-                        </li> -->
-
                     </ul>
                 </div>
             </nav>

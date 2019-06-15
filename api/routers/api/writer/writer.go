@@ -41,5 +41,8 @@ func (r *RouterWriter) getWriter(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "addNews.html", gin.H{})
+	c.HTML(http.StatusOK, "addNews.html", gin.H{
+		"status": true,
+		"name":tk.Username,
+	})
 }

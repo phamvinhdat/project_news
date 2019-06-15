@@ -11,59 +11,67 @@
         integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/signUpStyles.css">
     <script type="text/javascript" src="js/javaScript.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
-
+    <style>
+        .error {
+            color: #FFC312;
+        }
+    </style>
+</head>
 
 <body>
     <div class="container">
-        <form class="form-horizontal" role="form" id="registerForm">
+        <form class="form-horizontal" role="form" method="POST" action="/api/register" id="registerForm" novalidate>
             <h2>Đăng ký</h2>
             <div class="form-group">
-                <label for="name" class="col-sm-3 control-label">Họ tên*</label>
+                <label for="name" class="col-sm-4 control-label">Họ tên*</label>
                 <div class="col-sm-9">
                     <input type="text" id="name" name="name" placeholder="Họ tên" class="form-control" autofocus
                         required="">
                 </div>
             </div>
             <div class="form-group">
-                <label for="email" class="col-sm-3 control-label">Email*</label>
+                <label for="email" class="col-sm-4 control-label">Email*</label>
                 <div class="col-sm-9">
-                    <input type="text" id="email" placeholder="Email" name="email" class="form-control" autofocus
+                    <input type="email" id="email" placeholder="Email" name="email" class="form-control" autofocus
                         required="">
                 </div>
             </div>
             <div class="form-group">
-                <label for="username" class="col-sm-3 control-label">Tên đăng nhập* </label>
+                <label for="username" class="col-sm-4 control-label">Tên đăng nhập*</label>
                 <div class="col-sm-9">
                     <input type="text" id="username" name="username" placeholder="Tên đăng nhập" class="form-control"
                         required="">
                 </div>
             </div>
             <div class="form-group">
-                <label for="password" class="col-sm-3 control-label">Mật khẩu*</label>
+                <label for="password" class="col-sm-4 control-label">Mật khẩu*</label>
                 <div class="col-sm-9">
                     <input type="password" id="password" name="password" placeholder="Mật khẩu" class="form-control"
                         required="">
                 </div>
             </div>
             <div class="form-group">
-                <label for="confirmPassword" class="col-sm-3 control-label">Nhập lại mật khẩu*</label>
+                <label for="password" class="col-sm-4 control-label">Nhập lại mật khẩu*</label>
                 <div class="col-sm-9">
                     <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Mật khẩu"
                         class="form-control" required="">
                 </div>
             </div>
             <div class="form-group">
-                <label for="phoneNumber" class="col-sm-3 control-label">Số điện thoại</label>
+                <label for="phoneNumber" class="col-sm-4 control-label">Số điện thoại</label>
                 <div class="col-sm-9">
-                    <input type="password" id="phoneNumber" name="phoneNumber" placeholder="Số điện thoại"
-                        class="form-control" >
+                    <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Số điện thoại"
+                        class="form-control">
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-sm-3">Giới tính</label>
+                <label class="control-label col-sm-4">Giới tính</label>
                 <div class="col-sm-6">
                     <div class="row">
                         <div class="col-sm-4">
@@ -78,7 +86,8 @@
                         </div>
                     </div>
                 </div>
-            </div> <!-- /.form-group -->
+            </div>
+            <!-- /.form-group -->
             <div class="form-group">
                 <div class="col-sm-9 col-sm-offset-3">
                     <span class="help-block">*Bắt buộc</span>
@@ -93,9 +102,11 @@
                     Đã có tài khoản?<a href="/login">Đăng Nhập</a>
                 </div>
             </div>
-        </form> <!-- /form -->
-    </div> <!-- ./container -->
-    <script type="text/javascript">
+        </form>
+        <!-- /form -->
+    </div>
+    <!-- ./container -->
+    <script>
         $(document).ready(function () {
             $("#registerForm").validate({
                 rules: {
@@ -106,11 +117,11 @@
                         required: true,
                         email: true
                     },
-                    username: {
+                    phone: {
                         required: true,
-                        remote: {
-                            url: '/account/is-available',
-                        }
+                        // remote: {
+                        //     url: '/account/is-available',
+                        // }
                     },
                     password: {
                         required: true,
@@ -125,23 +136,24 @@
                 },
                 messages: {
                     name: {
-                        required: 'Your firstName is required.',
+                        required: 'Vui lòng nhập họ tên.',
                     },
 
                     email: {
-                        required: 'Your email is required.',
-                        email: 'Please enter a valid email'
+                        required: 'Vui lòng nhập email.',
+                        email: 'Vui lòng nhập địa chỉ email hợp lệ'
                     },
                     username: {
-                        required: 'Your username is required.',
+                        required: 'Vui lòng nhập tên đăng nhập.',
+                        // remote: 'Your username have been taken, please take another one.'
                     },
                     password: {
-                        required: 'Your password is required.',
-                        minlength: 'Password must have at least 6 charactor'
+                        required: 'Vui lòng nhập mật khẩu.',
+                        minlength: 'Mật khẩu phải có ít nhất 6 ký tự'
                     },
-                    rePassword: {
-                        required: 'Please write password again.',
-                        equalTo: 'Your password dose not match'
+                    confirmPassword: {
+                        required: 'Vui lòng nhập lại mật khẩu.',
+                        equalTo: 'Mật khẩu không trùng khớp'
                     },
                     errorElement: 'small',
                     errorClass: 'help-block text-danger',

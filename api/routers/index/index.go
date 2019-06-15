@@ -19,7 +19,7 @@ type RouterIndex struct {
 	CategoryRepo repository.ICaregoryRepo
 }
 
-func New(userRepo repository.IUserRepo, categoryRepo repository.ICaregoryRepo) *RouterIndex {
+func NewRouterIndex(userRepo repository.IUserRepo, categoryRepo repository.ICaregoryRepo) *RouterIndex {
 	return &RouterIndex{
 		UserRepo:     userRepo,
 		CategoryRepo: categoryRepo,

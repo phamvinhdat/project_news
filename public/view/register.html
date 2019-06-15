@@ -11,10 +11,13 @@
         integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/signUpStyles.css">
     <script type="text/javascript" src="js/javaScript.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
+
 
 <body>
     <div class="container">
-        <form class="form-horizontal" role="form" onsubmit="return signUpValidation()">
+        <form class="form-horizontal" role="form" id="registerForm">
             <h2>Đăng ký</h2>
             <div class="form-group">
                 <label for="name" class="col-sm-3 control-label">Họ tên*</label>
@@ -24,14 +27,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="lastName" class="col-sm-3 control-label">Email*</label>
+                <label for="email" class="col-sm-3 control-label">Email*</label>
                 <div class="col-sm-9">
-                    <input type="email" id="email" placeholder="Email" name="email" class="form-control" autofocus
+                    <input type="text" id="email" placeholder="Email" name="email" class="form-control" autofocus
                         required="">
                 </div>
             </div>
             <div class="form-group">
-                <label for="email" class="col-sm-3 control-label">Tên đăng nhập* </label>
+                <label for="username" class="col-sm-3 control-label">Tên đăng nhập* </label>
                 <div class="col-sm-9">
                     <input type="text" id="username" name="username" placeholder="Tên đăng nhập" class="form-control"
                         required="">
@@ -45,9 +48,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="password" class="col-sm-3 control-label">Nhập lại mật khẩu*</label>
+                <label for="confirmPassword" class="col-sm-3 control-label">Nhập lại mật khẩu*</label>
                 <div class="col-sm-9">
-                    <input type="password" id="confirmPassword" placeholder="Mật khẩu" class="form-control" required="">
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Mật khẩu"
+                        class="form-control" required="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber" class="col-sm-3 control-label">Số điện thoại</label>
+                <div class="col-sm-9">
+                    <input type="password" id="phoneNumber" name="phoneNumber" placeholder="Số điện thoại"
+                        class="form-control" >
                 </div>
             </div>
 
@@ -57,12 +68,12 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <label class="radio-inline">
-                                <input type="radio" id="femaleRadio" value="Male" name="gender" checked="true">Nam
+                                <input type="radio" id="maleRadio" value="true" name="sex" checked="true">Nam
                             </label>
                         </div>
                         <div class="col-sm-4">
                             <label class="radio-inline">
-                                <input type="radio" id="maleRadio" value="Female" name="gender">Nữ
+                                <input type="radio" id="femaleRadio" value="false" name="sex">Nữ
                             </label>
                         </div>
                     </div>
@@ -85,7 +96,65 @@
         </form> <!-- /form -->
     </div> <!-- ./container -->
     <script type="text/javascript">
+        $(document).ready(function () {
+            $("#registerForm").validate({
+                rules: {
+                    name: {
+                        required: true,
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    username: {
+                        required: true,
+                        remote: {
+                            url: '/account/is-available',
+                        }
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6
+                    },
+                    confirmPassword: {
+                        required: true,
+                        equalTo: $('[name="password"]')
+                    },
 
+
+                },
+                messages: {
+                    name: {
+                        required: 'Your firstName is required.',
+                    },
+
+                    email: {
+                        required: 'Your email is required.',
+                        email: 'Please enter a valid email'
+                    },
+                    username: {
+                        required: 'Your username is required.',
+                    },
+                    password: {
+                        required: 'Your password is required.',
+                        minlength: 'Password must have at least 6 charactor'
+                    },
+                    rePassword: {
+                        required: 'Please write password again.',
+                        equalTo: 'Your password dose not match'
+                    },
+                    errorElement: 'small',
+                    errorClass: 'help-block text-danger',
+                    validClass: 'is-valid',
+                    highlight: function (e) {
+                        $(e).removeClass('is-valid').addClass('is-invalid');
+                    },
+                    unhighlight: function (e) {
+                        $(e).removeClass('is-invalid').addClass('is-valid');
+                    }
+                }
+            });
+        });
     </script>
 </body>
 

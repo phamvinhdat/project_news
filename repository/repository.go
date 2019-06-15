@@ -13,3 +13,16 @@ type IUserRepo interface {
 type ICaregoryRepo interface{
 	FetchAll()([]models.Category, error)
 }
+
+type IRoleRepo interface{
+
+}
+
+type ICommentRepo interface{
+	Create(comment *models.Comment) error
+	FetchByNews(idNews int)(*models.Comment, error)
+}
+
+type INewsRepo interface{
+	Create(news *models.News) error
+}

@@ -4,12 +4,12 @@
 <head>
     <meta charset=utf-8 />
     <title>Thêm bài viết</title>
-    <link rel=stylesheet href="css/bootstrap.min.css" />
-    <script src="js/jquery-2.2.2.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <link rel=stylesheet href="../../css/bootstrap.min.css" />
+    <script src="../../js/jquery-2.2.2.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="../../css/normalize.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
 
     <!-- Include stylesheet -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -25,16 +25,16 @@
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="index.html" style="color: #ff9708;"><img src="images/logo.png" width="70" height="35"></a>
+                        <a class="navbar-brand" href="/" style="color: #ff9708;"><img src="../../images/logo.png" width="70" height="35"></a>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
                             <li>
-                                <p class="text-center" style="padding-top: 15px;">Xin chào <span style="color: red">Admin</span></p>
+                                <p class="text-center" style="padding-top: 15px;">Xin chào <span style="color: red">{{.name}}</span></p>
                             </li>
-                            <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                            <li><a href="/api/profile/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
                         </ul>
                     </div>
                     <!-- /.navbar-collapse -->

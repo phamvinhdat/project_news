@@ -4,21 +4,19 @@
 <head>
 	<meta charset="utf-8">
 	<title>{{.title}}</title>
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<!------ Include the above in your HEAD tag ---------->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
-	<!------ Include the above in your HEAD tag ---------->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+		integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
-	<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
-	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
 	<link rel="stylesheet" type="text/css" href="css/signInStyles.css">
 	<script type="text/javascript" src="js/javascript.js"></script>
+	
+
+
 </head>
 
 <body>
@@ -34,7 +32,7 @@
 					</div>
 				</div>
 				<div class="card-body">
-					<form name="login" id="loginForm">
+					<form name="login" id="formLogin" action="api/login">
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -54,10 +52,11 @@
 							<input type="checkbox">Remember Me
 						</div>
 						<div class="form-group">
-							<button type="submit" class="btn float-right login_btn">Đăng nhập</button>
+							<input id="btnSubmit" type="submit" class="btn float-right login_btn"
+								value="Đăng nhập"></input>
 						</div>
 					</form>
-					
+
 				</div>
 
 				</script>
@@ -72,6 +71,58 @@
 			</div>
 		</div>
 	</div>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="/js/jquery.validate.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("#formLogin").validate({
+				rules: {
+					username: {
+						required: true,
+					},
+					password: {
+						required: true,
+						minlength: 6
+					},
+				},
+				messages: {
+					username: {
+						required: 'Tên đăng nhập không được để trống.',
+					},
+					password: {
+						required: 'Mật khẩu không được để trống. Vui lòng nhập',
+					},
+					
+					highlight: function (e) {
+						$(e).removeClass('is-valid').addClass('is-invalid');
+					},
+					unhighlight: function (e) {
+						$(e).removeClass('is-invalid').addClass('is-valid');
+					},
+					errorElement: 'small',
+					errorColor: 'red'
+				},
+				submitHandler: function (form) {
+					$("#formLogin").submit(function (event) {
+						event.preventDefault();
+						var data = $(this).serialize()
+						var url = $(this).attr("action")
+
+						var posting = $.post(url, data)
+						posting.done(function (d) {
+							console.log(d.status)
+							if (d.status == false) {
+								alert("Username or Password invalid!")
+							} else {
+								window.location.href = "/"
+							}
+						})
+					})
+					return false
+				},
+			});
+		})
+	</script>
 </body>
 
 </html>

@@ -26,7 +26,7 @@ func (u *MySQLUserRepo) Create(user *models.User) error {
 
 func (u *MySQLUserRepo) FetchByUsername(username string) (*models.User, error) {
 	var user models.User
-	err := u.Conn.First(user, "username = ?", username).Error
+	err := u.Conn.First(&user, "username = ?", username).Error
 	if err != nil {
 		return nil, err
 	}
@@ -36,10 +36,25 @@ func (u *MySQLUserRepo) FetchByUsername(username string) (*models.User, error) {
 
 func (u *MySQLUserRepo) FetchByEmail(email string) (*models.User, error) {
 	var user models.User
-	err := u.Conn.First(user, "email = ?", email).Error
+	err := u.Conn.First(&user, "email = ?", email).Error
 	if err != nil {
 		return nil, err
 	}
 
 	return &user, nil
+}
+
+func (u *MySQLUserRepo) FetchRole(username string) (*models.Role, error) {
+	user, err := u.FetchByUsername(username)
+	if err != nil {
+		return nil, err
+	}
+
+	var role models.Role
+	err = u.Conn.First(&role, "id = ?", user.RoleID).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &role, err
 }

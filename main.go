@@ -37,7 +37,7 @@ func setup(dbConfig *database.Config, conn *gorm.DB) *gin.Engine {
 	routerIndex := index.NewRouterIndex(userRepo, categoryRepo, JWTAuthen)
 	routerApi := api.NewRouterApi(userRepo, JWTAuthen)
 	routerAdmin := admin.NewRouterAdmin(userRepo, JWTAuthen)
-	routerWriter := writer.NewRouterWriter(userRepo, JWTAuthen)
+	routerWriter := writer.NewRouterWriter(userRepo, JWTAuthen, categoryRepo)
 	routerProfile := profile.NewRouterProfile(userRepo, JWTAuthen)
 	router := routers.NewRouter(JWTAuthen, routerIndex, routerApi, routerAdmin, routerWriter, routerProfile)
 

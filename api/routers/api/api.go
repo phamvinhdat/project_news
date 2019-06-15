@@ -42,7 +42,7 @@ func (r *RouterApi) postLogin(c *gin.Context) {
 		return
 	}
 
-	token := r.JwtAuthen.NewToken(username, 5)
+	token := r.JwtAuthen.NewToken(username, 60)
 	c.SetCookie("token", token, 3600, "/", "localhost", false, false)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  true,

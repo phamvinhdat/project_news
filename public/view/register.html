@@ -14,10 +14,9 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
-    <style>
-
-    </style>
-
+<style>
+   
+</style>
 <body>
     <div class="container">
         <form class="form-horizontal" id="formRegister" role="form" action="/api/register">
@@ -150,13 +149,13 @@
                         equalTo: 'Mật khẩu không trùng khớp'
                     },
                     highlight: function (element) {
-                        $(element).addClass("is-invalid").removeClass("is-valid");
-                    },
-                    unhighlight: function (element) {
-                        $(element).addClass("is-valid").removeClass("is-invalid");
-                    },
-                    errorElement: "small",
-                    errorColor: "red",
+                    $(element).addClass("is-invalid").removeClass("is-valid");
+                },
+                unhighlight: function (element) {
+                    $(element).addClass("is-valid").removeClass("is-invalid");
+                },
+                errorElement: "small",
+                errorColor: "red",
                 },
                 submitHandler: function (form) {
                     $("#formRegister").submit(function (event) {
@@ -167,7 +166,7 @@
                         console.log(data)
                         posting.done(function (d) {
                             console.log(d)
-                            if (d.status == false) {
+                            if (d.status == false)   {
                                 alert("Error form: " + d)
                             } else {
                                 var postLogin = $.post("/api/login", {
@@ -178,8 +177,7 @@
                                 postLogin.done(function (d) {
                                     if (d.status == false) {
                                         alert(
-                                            "Username or Password invalid!"
-                                            )
+                                            "Username or Password invalid!")
                                     } else {
                                         window.location.href = "/"
                                     }

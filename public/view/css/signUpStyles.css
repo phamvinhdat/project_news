@@ -17,10 +17,7 @@ body {
     font-weight: 600;
     color: #000000;
     margin-top: 5%;
-    text-align: center;
+    text-align: right;
     text-transform: uppercase;
     letter-spacing: 4px;
 }
-/* .error{
-    color: #FFC312;
-} */

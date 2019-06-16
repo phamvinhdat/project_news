@@ -21,6 +21,7 @@
                         </div>
 
                     </div>
+
                     <div class="text-center d-inline-block">
                         <a class="fh5co_display_table" href="
                         {{if eq .isLogin false}}
@@ -29,7 +30,11 @@
                         /api/profile
                         {{end}}">
                             <div class="fh5co_verticle_middle">
-                                <i class="fa fa-user-circle-o"></i>
+                                <i class="{{if eq .isLogin false}}
+                                fa fa-sign-in
+                                {{else}}
+                                fa fa-user-circle-o
+                                {{end}}"></i>
                                 {{.name}}
                             </div>
                         </a>

@@ -22,7 +22,7 @@ func (i *ImgLocalService) Save(fileHeader *multipart.FileHeader) (string, error)
 	defer file.Close()
 
 	//create empty file
-	tempFile, err := ioutil.TempFile("public/view/images", "news-*"+filepath.Ext(fileHeader.Filename))
+	tempFile, err := ioutil.TempFile("public/view/img", "news-*"+filepath.Ext(fileHeader.Filename))
 	if err != nil {
 		return "", err
 	}
@@ -35,14 +35,14 @@ func (i *ImgLocalService) Save(fileHeader *multipart.FileHeader) (string, error)
 
 	tempFile.Write(fileBytes)
 	fileInfo, _ := tempFile.Stat()
-	filePath := "images/" + fileInfo.Name()
+	filePath := "img/" + fileInfo.Name()
 	return filePath, nil
 }
 
 //Delete a file with path
 func (i *ImgLocalService) Delete(path string) error {
 	_, file := filepath.Split(path)
-	err := os.Remove("public/view/images/" + file)
+	err := os.Remove("public/view/img/" + file)
 	if err == nil {
 		return nil
 	}

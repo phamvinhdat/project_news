@@ -22,42 +22,42 @@
         <form class="form-horizontal" id="formRegister" role="form" action="/api/register">
             <h2>Đăng ký</h2>
             <div class="form-group">
-                <label for="name" class="col-sm-3 control-label">Họ tên*</label>
+                <label for="name" class="col-sm-4 control-label">Họ tên*</label>
                 <div class="col-sm-9">
                     <input type="text" id="name" name="name" placeholder="Họ tên" class="form-control" autofocus
                         required="">
                 </div>
             </div>
             <div class="form-group">
-                <label for="email" class="col-sm-3 control-label">Email*</label>
+                <label for="email" class="col-sm-4 control-label">Email*</label>
                 <div class="col-sm-9">
                     <input type="text" id="email" placeholder="Email" name="email" class="form-control" autofocus
                         required="">
                 </div>
             </div>
             <div class="form-group">
-                <label for="username" class="col-sm-3 control-label">Username*</label>
+                <label for="username" class="col-sm-4 control-label">Username*</label>
                 <div class="col-sm-9">
                     <input type="text" id="username" name="username" placeholder="Tên đăng nhập" class="form-control"
                         required="">
                 </div>
             </div>
             <div class="form-group">
-                <label for="password" class="col-sm-3 control-label">Password*</label>
+                <label for="password" class="col-sm-4 control-label">Password*</label>
                 <div class="col-sm-9">
                     <input type="password" id="password" name="password" placeholder="Mật khẩu" class="form-control"
                         required="">
                 </div>
             </div>
             <div class="form-group">
-                <label for="password" class="col-sm-3 control-label">Repeat password*</label>
+                <label for="password" class="col-sm-4 control-label">Repeat password*</label>
                 <div class="col-sm-9">
                     <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Mật khẩu"
                         class="form-control" required="">
                 </div>
             </div>
             <div class="form-group">
-                <label for="phoneNumber" class="col-sm-3 control-label">Số điện thoại</label>
+                <label for="phoneNumber" class="col-sm-4 control-label">Số điện thoại</label>
                 <div class="col-sm-9">
                     <input type="password" id="phoneNumber" name="phoneNumber" placeholder="Số điện thoại"
                         class="form-control">
@@ -100,7 +100,7 @@
         <!-- /form -->
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="/js/jquery.validate.js"></script>
+    <script src="js/jquery.validate.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -113,7 +113,7 @@
                         required: true,
                         email: true
                     },
-                    phone: {
+                    username: {
                         required: true,
                         // remote: {
                         //     url: '/account/is-available',

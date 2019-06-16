@@ -85,6 +85,12 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" id="content" name="content" readonly>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="avatar">Ảnh đại diện bài viết</label>
@@ -113,9 +119,64 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="/js/jquery.validate.js"></script>
     <script>
+        $.validator.addMethod("notEmpty", function (value, element) {
+            var myEditor = document.querySelector('#editor');
+            if (myEditor.children[0].innerHTML == "<p><br></p>") {
+                var check = document.querySelector('#content');
+                check.value = "Vui lòng nhập nội dung bài viết";
+                return false;
+            } else {
+                var check = document.querySelector('#content');
+                check.value = "";
+                return true;
+            }
+        }, "");
+        
         $(document).ready(function () {
             $("#formnews").validate({
                 submitHandler: postNews,
+                rules: {
+                    title: {
+                        required: true,
+                    },
+                    summary: {
+                        required: true,
+                    },
+                    avatar: {
+                        required: true,
+                    },
+                    content: {
+                        notEmpty: 'on',
+                    }
+                },
+                messages: {
+                    title: {
+                        required: 'Vui lòng nhập tiêu đề bài viết.',
+                    },
+                    summary: {
+                        required: 'Vui lòng nhập tóm tắt bài viết.',
+                    },
+                    avatar: {
+                        required: 'Vui lòng chọn avartar cho bài viết.',
+                        // remote: 'Your username have been taken, please take another one.'
+                    },
+                    password: {
+                        required: 'Vui lòng nhập mật khẩu.',
+                        minlength: 'Mật khẩu phải có ít nhất 6 ký tự'
+                    },
+                    confirmPassword: {
+                        required: 'Vui lòng nhập lại mật khẩu.',
+                        equalTo: 'Mật khẩu không trùng khớp'
+                    },
+                    highlight: function (element) {
+                        $(element).addClass("is-invalid").removeClass("is-valid");
+                    },
+                    unhighlight: function (element) {
+                        $(element).addClass("is-valid").removeClass("is-invalid");
+                    },
+                    errorElement: "small",
+                    errorColor: "red",
+                }
             })
 
             function postNews() {
@@ -147,7 +208,6 @@
                 });
             }
         })
-
     </script>
 
     <!-- Initialize Quill editor -->

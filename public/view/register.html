@@ -14,58 +14,67 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
-<style>
-   
-</style>
+    <style>
+
+    </style>
+
 <body>
+
+
     <div class="container">
         <form class="form-horizontal" id="formRegister" role="form" action="/api/register">
+
+            <h2>
+                <a id="home" href="/"><img src="images/logo.png" width="100" height="100" alt="logo-24h" /></a>
+            </h2>
+            <hr>
+
             <h2>Đăng ký</h2>
             <div class="form-group">
                 <label for="name" class="col-sm-4 control-label">Họ tên*</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" id="name" name="name" placeholder="Họ tên" class="form-control" autofocus
                         required="">
                 </div>
             </div>
             <div class="form-group">
                 <label for="email" class="col-sm-4 control-label">Email*</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" id="email" placeholder="Email" name="email" class="form-control" autofocus
                         required="">
                 </div>
             </div>
             <div class="form-group">
                 <label for="username" class="col-sm-4 control-label">Username*</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" id="username" name="username" placeholder="Tên đăng nhập" class="form-control"
                         required="">
                 </div>
             </div>
             <div class="form-group">
                 <label for="password" class="col-sm-4 control-label">Password*</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="password" id="password" name="password" placeholder="Mật khẩu" class="form-control"
                         required="">
                 </div>
             </div>
             <div class="form-group">
                 <label for="password" class="col-sm-4 control-label">Repeat password*</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Mật khẩu"
                         class="form-control" required="">
                 </div>
             </div>
             <div class="form-group">
                 <label for="phoneNumber" class="col-sm-4 control-label">Số điện thoại</label>
-                <div class="col-sm-9">
-                    <input type="password" id="phoneNumber" name="phoneNumber" placeholder="Số điện thoại"
+                <div class="col-sm-12">
+                    <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Số điện thoại"
                         class="form-control">
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-sm-3">Giới tính</label>
+                <label class="control-label col-sm-3">Giới tính*</label>
                 <div class="col-sm-6">
                     <div class="row">
                         <div class="col-sm-4">
@@ -149,13 +158,13 @@
                         equalTo: 'Mật khẩu không trùng khớp'
                     },
                     highlight: function (element) {
-                    $(element).addClass("is-invalid").removeClass("is-valid");
-                },
-                unhighlight: function (element) {
-                    $(element).addClass("is-valid").removeClass("is-invalid");
-                },
-                errorElement: "small",
-                errorColor: "red",
+                        $(element).addClass("is-invalid").removeClass("is-valid");
+                    },
+                    unhighlight: function (element) {
+                        $(element).addClass("is-valid").removeClass("is-invalid");
+                    },
+                    errorElement: "small",
+                    errorColor: "red",
                 },
                 submitHandler: function (form) {
                     $("#formRegister").submit(function (event) {
@@ -166,7 +175,7 @@
                         console.log(data)
                         posting.done(function (d) {
                             console.log(d)
-                            if (d.status == false)   {
+                            if (d.status == false) {
                                 alert("Error form: " + d)
                             } else {
                                 var postLogin = $.post("/api/login", {
@@ -177,7 +186,8 @@
                                 postLogin.done(function (d) {
                                     if (d.status == false) {
                                         alert(
-                                            "Username or Password invalid!")
+                                            "Username or Password invalid!"
+                                        )
                                     } else {
                                         window.location.href = "/"
                                     }

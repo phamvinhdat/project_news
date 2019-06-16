@@ -3,8 +3,8 @@ package index
 import (
 	"net/http"
 
-	"github.com/phamvinhdat/project_news/api/middleware"
 	"github.com/gin-gonic/gin"
+	"github.com/phamvinhdat/project_news/api/middleware"
 	"github.com/phamvinhdat/project_news/models"
 	"github.com/phamvinhdat/project_news/repository"
 )
@@ -25,7 +25,7 @@ func NewRouterIndex(userRepo repository.IUserRepo, categoryRepo repository.ICare
 	return &RouterIndex{
 		UserRepo:     userRepo,
 		CategoryRepo: categoryRepo,
-		JwtAuthen: jwtAuthen,
+		JwtAuthen:    jwtAuthen,
 	}
 }
 
@@ -60,7 +60,7 @@ func (r *RouterIndex) getIndex(c *gin.Context) {
 	if err == nil {
 		token := cookie.Value
 		tk, err := r.JwtAuthen.ParseToken(token)
-		if err == nil{
+		if err == nil && tk.Username != "" {
 			isLogin = true
 			name = tk.Username
 		}
@@ -69,8 +69,8 @@ func (r *RouterIndex) getIndex(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", gin.H{
 		"title":      "24 News — Tin tức 24h",
 		"Categories": categoryParents,
-		"isLogin": isLogin,
-		"name": name,
+		"isLogin":    isLogin,
+		"name":       name,
 	})
 }
 

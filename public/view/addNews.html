@@ -42,11 +42,12 @@
                     <p></p>
                 </nav>
             </div>
-            <form class="form-horizontal ml-sm-5 mt-sm-5" action="/">
+            <hr>
+            <form id="formnews" class="form-horizontal ml-sm-5 mt-sm-5" action="/api/writer">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="title">Tiêu đề:</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control" id="title" placeholder="Enter title">
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
                     </div>
                 </div>
 
@@ -62,37 +63,92 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="fileInput">Ảnh đại diện bài viết</label>
-                    <div class="col-sm-12">
-                        <input id="fileInput" type="file" name="fileInput" class="form-control-file" accept="image/*">
+                    <div class="form-check ml-3">
+                        <input class="form-check-input" type="checkbox" name="ispremium" id="ispremium" value="0">
+                        <label class="form-check-label" for="ispremium">Is premium</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="summary">Tóm tắt:</label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control" id="summary" placeholder="Enter summary">
+                        <input type="text" class="form-control" id="summary" name="summary" placeholder="Enter summary">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2">content:</label>
+                    <label class="control-label col-sm-2">Nội dung:</label>
                     <div class="col-sm-12">
                         <div id="toolbar">
                         </div>
-                        <div id="editor" style="height: 400px">
+                        <div id="editor" style="height: 600px">
                         </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="avatar">Ảnh đại diện bài viết</label>
+                    <div class="col-sm-12">
+                        <input id="avatar" type="file" name="avatar" class="form-control-file" accept="image/*">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-12">
-                        <button type="submit" class="btn btn-outline-success ">Save</button>
+                        <input type="submit" class="btn btn-outline-success" value="Save" id="btnSave"></input>
                     </div>
                 </div>
             </form>
+
+            <!-- <form id="formnews" class="form-horizontal ml-sm-5 mt-sm-5" action="/api/writer">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="avatar">Ảnh đại diện bài viết</label>
+                    <div class="col-sm-12">
+                        <input id="avatar" type="file" name="avatar" class="form-control-file" accept="image/*">
+                    </div>
+                </div>
+            </form> -->
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="/js/jquery.validate.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#formnews").validate({
+                submitHandler: postNews,
+            })
+
+            function postNews() {
+                var myEditor = document.querySelector('#editor')
+                var checkVal = 0
+                if ($('#ispremium').is(":checked")) {
+                    checkVal = 1
+                }
+
+                var formData = new FormData()
+                formData.append('title', $("#title").val())
+                formData.append('ispremium', checkVal)
+                formData.append('summary', $("#summary").val())
+                formData.append('content', myEditor.children[0].innerHTML)
+                formData.append('category', $("#category").val())
+                formData.append('avatar', $('#avatar')[0].files[0])
+
+                var url = $("#formLogin").attr("action")
+                console.log(formData)
+                $.ajax({
+                    url: url,
+                    data: formData,
+                    type: 'POST',
+                    contentType: false,
+                    processData: false,
+                    success: function (returnData) {
+                        console.log(returnData)
+                    }
+                });
+            }
+        })
+
+    </script>
 
     <!-- Initialize Quill editor -->
     <script>
@@ -152,14 +208,6 @@
             },
             theme: 'snow'
         });
-
-        $(document).ready(function () {
-            $("#btnCreate").click(function () {
-                var html = quill.container.firstChild.innerHTML
-                console.log(html)
-            })
-        })
-
     </script>
 
 </body>

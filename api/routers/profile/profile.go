@@ -30,7 +30,7 @@ func (r *RouterProfile) getProfile(c *gin.Context) {
 }
 
 func (r *RouterProfile) getLogout(c *gin.Context) {
-	tokenMock := r.JwtAuthen.NewToken("Login", 0)
+	tokenMock := r.JwtAuthen.NewToken("", 0)
 	c.SetCookie("token", tokenMock, 7200, "/", "localhost", false, false)
 	c.Redirect(http.StatusSeeOther, "/")
 }

@@ -60,7 +60,7 @@ func (r *RouterIndex) getIndex(c *gin.Context) {
 	if err == nil {
 		token := cookie.Value
 		tk, err := r.JwtAuthen.ParseToken(token)
-		if err == nil{
+		if err == nil && tk.Username != ""{
 			isLogin = true
 			name = tk.Username
 		}

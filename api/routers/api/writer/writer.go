@@ -1,9 +1,9 @@
 package writer
 
 import (
-	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/phamvinhdat/project_news/services"
@@ -20,14 +20,20 @@ type RouterWriter struct {
 	JwtAuthen       *middleware.JWTAuthen
 	CategoryRepo    repository.ICaregoryRepo
 	ImgLocalService services.IImg_service
+	NewsRepo        repository.INewsRepo
+	TagRepo         repository.ITagRepo
+	NewsTagRepo     repository.INewsTagRepo
 }
 
-func NewRouterWriter(userRepo repository.IUserRepo, jwtAuthen *middleware.JWTAuthen, category repository.ICaregoryRepo, imgLocalService services.IImg_service) *RouterWriter {
+func NewRouterWriter(userRepo repository.IUserRepo, jwtAuthen *middleware.JWTAuthen, category repository.ICaregoryRepo, imgLocalService services.IImg_service, newsRepo repository.INewsRepo, tagRepo repository.ITagRepo, newsTagRepo repository.INewsTagRepo) *RouterWriter {
 	return &RouterWriter{
 		UserRepo:        userRepo,
 		JwtAuthen:       jwtAuthen,
 		CategoryRepo:    category,
 		ImgLocalService: imgLocalService,
+		NewsRepo:        newsRepo,
+		TagRepo:         tagRepo,
+		NewsTagRepo:     newsTagRepo,
 	}
 }
 
@@ -41,7 +47,6 @@ func (r *RouterWriter) postWriter(c *gin.Context) {
 	token := cookie.Value
 	tk, _ := r.JwtAuthen.ParseToken(token)
 	role, err := r.UserRepo.FetchRole(tk.Username)
-	log.Println("hihi", role, err)
 	if err != nil {
 		c.Redirect(http.StatusSeeOther, "/")
 		return
@@ -51,8 +56,6 @@ func (r *RouterWriter) postWriter(c *gin.Context) {
 		c.Redirect(http.StatusSeeOther, "/")
 		return
 	}
-
-	fmt.Println("hihi vao roi ne")
 
 	var news models.News
 	err = c.ShouldBind(&news)
@@ -83,13 +86,53 @@ func (r *RouterWriter) postWriter(c *gin.Context) {
 		return
 	}
 
+	user, err := r.UserRepo.FetchByUsername(tk.Username)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  false,
+			"message": "Error when get userID",
+		})
+		return
+	}
+
 	datePost := time.Now()
 	news.Avatar = strPath
 	news.DatePost = &datePost
+	news.UserID = user.ID
+	err = r.NewsRepo.Create(&news)
+	if err != nil {
+		_ = r.ImgLocalService.Delete(strPath)
+		c.JSON(http.StatusOK, gin.H{
+			"status":  false,
+			"message": "Error when save news",
+		})
+		return
+	}
+
+	strTags := c.PostForm("tags")
+	tags := strings.Split(strTags, ",")
+	for _, value := range tags {
+		value = strings.TrimSpace(value)
+		if value != "" {
+			tag := models.Tag{Name: value}
+			tagID := r.TagRepo.IsExists(value)
+			log.Println(tagID)
+			if tagID == 0 {
+				err = r.TagRepo.Create(&tag)
+				if err != nil {
+					tagID = tag.ID
+				}
+			}
+
+			newsTag := models.NewsTag{NewsID: news.ID, TagID: tagID}
+			_ = r.NewsTagRepo.Create(&newsTag)
+		}
+	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"status": true,
-		"news":   news,
+		"status":  true,
+		"news":    news,
+		"message": "Save news successfully",
 	})
 }
 

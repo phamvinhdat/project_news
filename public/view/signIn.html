@@ -109,8 +109,8 @@
 				var data = $("#formLogin").serialize()
 				var url = $("#formLogin").attr("action")
 				var posting = $.post(url, data)
+				console.log(data)
 				posting.done(function (d) {
-					console.log(d.status)
 					if (d.status == false) {
 						alert("Username or Password invalid!")
 					} else {

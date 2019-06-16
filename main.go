@@ -1,19 +1,19 @@
 package main
 
 import (
-	"github.com/phamvinhdat/project_news/services"
 	"log"
 
-	"github.com/phamvinhdat/project_news/api/routers/api/admin"
-	"github.com/phamvinhdat/project_news/api/routers/api/writer"
-	"github.com/phamvinhdat/project_news/api/routers/profile"
+	"github.com/phamvinhdat/project_news/services"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/phamvinhdat/project_news/api/middleware"
 	"github.com/phamvinhdat/project_news/api/routers"
 	"github.com/phamvinhdat/project_news/api/routers/api"
+	"github.com/phamvinhdat/project_news/api/routers/api/admin"
+	"github.com/phamvinhdat/project_news/api/routers/api/writer"
 	"github.com/phamvinhdat/project_news/api/routers/index"
+	"github.com/phamvinhdat/project_news/api/routers/profile"
 	"github.com/phamvinhdat/project_news/database"
 	"github.com/phamvinhdat/project_news/repository"
 )
@@ -23,6 +23,9 @@ func setup(dbConfig *database.Config, conn *gorm.DB) *gin.Engine {
 	//create repository
 	userRepo := repository.NewMySQLUserRepo(conn)
 	categoryRepo := repository.NewMySQLCategoryRepo(conn)
+	newsRepo := repository.NewMySQLNewsRepo(conn)
+	newsTagRepo := repository.NewMySQLNewsTagRepo(conn)
+	tagRepo := repository.NewMySQLTagRepo(conn)
 
 	//load static file
 	r := gin.Default()
@@ -41,7 +44,7 @@ func setup(dbConfig *database.Config, conn *gorm.DB) *gin.Engine {
 	routerIndex := index.NewRouterIndex(userRepo, categoryRepo, JWTAuthen)
 	routerAPI := api.NewRouterApi(userRepo, JWTAuthen)
 	routerAdmin := admin.NewRouterAdmin(userRepo, JWTAuthen)
-	routerWriter := writer.NewRouterWriter(userRepo, JWTAuthen, categoryRepo, imgLocalService)
+	routerWriter := writer.NewRouterWriter(userRepo, JWTAuthen, categoryRepo, imgLocalService, newsRepo, tagRepo, newsTagRepo)
 	routerProfile := profile.NewRouterProfile(userRepo, JWTAuthen)
 	router := routers.NewRouter(JWTAuthen, routerIndex, routerAPI, routerAdmin, routerWriter, routerProfile)
 

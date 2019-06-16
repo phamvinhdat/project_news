@@ -119,4 +119,3 @@ insert into `roles` (`name`) value
 ('writer'),
 ('editor'),
 ('administrator');
-

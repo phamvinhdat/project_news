@@ -1,6 +1,7 @@
 package profile
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,7 +27,21 @@ func (r *RouterProfile) Register(group *gin.RouterGroup) {
 }
 
 func (r *RouterProfile) getProfile(c *gin.Context) {
+	cookie, _ := c.Request.Cookie("token")
+	token := cookie.Value
+	tk, _ := r.JwtAuthen.ParseToken(token)
+	user, err := r.UserRepo.FetchByUsername(tk.Username)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/")
+		return
+	}
+	user.Password = ""
+	user.RoleID = 0
 
+	c.HTML(http.StatusOK, "profile.html", gin.H{
+		"status":   true,
+		"userinfo": user,
+	})
 }
 
 func (r *RouterProfile) getLogout(c *gin.Context) {

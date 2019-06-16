@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <title>{{.userinfo.Name}}</title>
+  <style>
+    body {
+      background: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg') fixed;
+      background-size: cover;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4" style="height: 3000">
+        <div class="card mt-4 box-shadow" style=" width: 18rem;">
+          <div class="card-body">
+
+            <div class="list-group-flush mt-4">
+              <a href="#" class="list-group-item list-group-item-action active">
+                <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+              <a onclick="logout()" class="list-group-item list-group-item-action"><i class="fa fa-power-off"
+                  aria-hidden="true"></i> Logout</a>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-lg-8" id="center">
+        <div class="card mt-4 shadow">
+          <div class="card-body">
+            <h5 class="card-title">Login Information</h5>
+
+            <div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <div class="form-group row">
+                    <label for="uname" class="col-lg-3 col-form-label">Username: </label>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control" id="uname" placeholder="Username" value="{{.userinfo.Email}}" readonly>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="form-group row">
+                    <label for="password" class="col-lg-3 col-form-label">Password:</label>
+                    <div class="col-lg-9">
+                      <input type="password" class="form-control" id="password" placeholder="******" readonly>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="form-group row">
+                    <label for="email" class="col-lg-3 col-form-label">Email: </label>
+                    <div class="col-lg-9">
+                      <input type="email" class="form-control" id="email" placeholder="abc@gmail.com" value="{{.userinfo.Email}}" readonly>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#ChangePassCollapse"
+              aria-expanded="false" aria-controls="ChangePassCollapse">Change password</button>
+          </div>
+        </div>
+        <div class="card mt-4 shadow">
+          <div class="card-body">
+            <h5 class="card-title">Personal information</h5>
+            <div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <div class="form-group row">
+                    <label for="fullname" class="col-lg-3 col-form-label">Full name:</label>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control" id="fullname" placeholder="Your name" value="{{.userinfo.Name}}" readonly>
+                    </div>
+                  </div>
+                </li>
+
+                <li class="list-group-item">
+                  <div class="form-group row">
+                    <label for="phoneNumber" class="col-lg-3 col-form-label">Phone number: </label>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control" id="phone" placeholder="0123 456 789" value="{{.userinfo.PhoneNumber}}" readonly>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#UserInfo"
+              aria-expanded="false" aria-controls="UserInfo">Change</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- change user info -->
+    <div class="container">
+      <form id="changePassForm" class="form-group">
+        <div class="collapse" id="ChangePassCollapse">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card mt-4 box-shadow" style=" width: 18rem;">
+                <div class="card-body">
+                  <div class="list-group-flush mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                      <i class="fa fa-floppy-o" area-hidden="true"></i> Save</button>
+                    <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse"
+                      data-target="#ChangePassCollapse" aria-expanded="false" aria-controls="ChangePassCollapse"><i
+                        class="fa fa-times-circle" aria-hidden="true"></i> Close</a>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="card mt-4 shadow">
+                <div class="card-body">
+                  <h5 class="card-title">Basic</h5>
+
+                  <div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                        <div class="form-group row">
+                          <label for="oldPass" class="col-lg-3 col-form-label">Old password: </label>
+                          <div class="col-lg-9">
+                            <input type="password" class="form-control" id="oldPass" name="oldPass"
+                              placeholder="Password">
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="form-group row">
+                          <label for="newPass" class="col-lg-3 col-form-label">New password:</label>
+                          <div class="col-lg-9">
+                            <input type="password" class="form-control" id="newPass" name="newPass"
+                              placeholder="New Password">
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="form-group row">
+                          <label for="rePass" class="col-lg-3 col-form-label">Email: </label>
+                          <div class="col-lg-9">
+                            <input type="password" class="form-control" id="rePass" name="rePass"
+                              placeholder="Repeat new password">
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </form>
+    </div>
+
+    <!-- Change pass word -->
+    <div class="container">
+      <form id="ChangeUserInfo">
+        <div class="collapse" id="UserInfo">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card mt-4 box-shadow" style=" width: 18rem;">
+                <div class="card-body">
+
+                  <div class="list-group-flush mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                      <i class="fa fa-floppy-o" area-hidden="true"></i> Save</button>
+                    <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse"
+                      data-target="#UserInfo" aria-expanded="false" aria-controls="UserInfo"><i
+                        class="fa fa-times-circle" aria-hidden="true"></i> Close</a>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="card mt-4 shadow">
+                <div class="card-body">
+                  <h5 class="card-title">Basic</h5>
+
+                  <div>
+                    <ul class="list-group list-group-flush">
+
+                      <li class="list-group-item">
+                        <div class="form-group row">
+                          <label for="name" class="col-lg-3 col-form-label">New name:</label>
+                          <div class="col-lg-9">
+                            <input type="password" class="form-control" id="name" name="name" placeholder="New name">
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="form-group row">
+                          <label for="phoneNumber" class="col-lg-3 col-form-label">New phone number: </label>
+                          <div class="col-lg-9">
+                            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                              placeholder="New phone number">
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+
+    $(document).ready(function () {
+      $("#ChangeUserInfo").validate({
+        rules: {
+          name: {
+            required: true,
+          },
+          phoneNumber: {
+            required: true,
+
+          },
+
+        },
+        messages: {
+          name: {
+            required: 'Vui lòng nhập tên mới.',
+          },
+          phoneNumber: {
+            required: 'Vui lòng nhập số điện thoại mới.',
+          },
+
+          errorElement: 'small',
+          errorClass: 'help-block text-danger',
+          validClass: 'is-valid',
+          highlight: function (e) {
+            $(e).removeClass('is-valid').addClass('is-invalid');
+          },
+          unhighlight: function (e) {
+            $(e).removeClass('is-invalid').addClass('is-valid');
+          }
+        }
+      });
+
+      $("#changePassForm").validate({
+        rules: {
+          oldPass: {
+            required: true,
+          },
+          newPass: {
+            required: true,
+
+          },
+          rePass: {
+            required: true,
+            equalTo: $(['name=password'])
+          },
+        },
+        messages: {
+          oldPass: {
+            required: 'Vui lòng nhập mật khẩu hiện tại.',
+          },
+          newPass: {
+            required: 'Vui lòng nhập mật khẩu mới.',
+          },
+          rePass: {
+            required: 'Vui lòng nhập lại mật khẩu mới.',
+            equalTo: "Mật khẩu không khớp."
+          },
+          errorElement: 'small',
+          errorClass: 'help-block text-danger',
+          validClass: 'is-valid',
+          highlight: function (e) {
+            $(e).removeClass('is-valid').addClass('is-invalid');
+          },
+          unhighlight: function (e) {
+            $(e).removeClass('is-invalid').addClass('is-valid');
+          }
+        }
+      });
+
+    });
+
+  </script>
+
+</body>
+
+</html>

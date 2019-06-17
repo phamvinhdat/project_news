@@ -30,8 +30,8 @@
 				<th scope="col">Tóm tắt</th>
 				<th scope="col">Avatar</th>
 				<th scope="col">Trạng thái</th>
-				<th scope="col" width="100">Duyệt bài viết</th>
-				<th scope="col" width="100">Xóa bài viết</th>
+				<th scope="col" >Duyệt bài viết</th>
+				<th scope="col" >Xóa bài viết</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -41,10 +41,7 @@
 				<td>{{.News.Title}}</td>
 				<td>{{.News.Summary}}</td>
 				<td>
-<<<<<<< HEAD
-					<img width="150" src="/../../{{.Avatar}}" alt="{{.Summary}}">
-=======
-					<img style="height: 100px;" src="/../../{{.News.Avatar}}" alt="{{.News.Summary}}">
+					<img style="width: 150px;" src="/../../{{.News.Avatar}}" alt="{{.News.Summary}}">
 				</td>
 				<td id="tdCensor{{.News.ID}}">
 					{{if .Censor}}
@@ -56,15 +53,10 @@
 					{{else}}
 					Đợi duyệt
 					{{end}}
->>>>>>> 2e26c324e06610f1c5376513a2594eb53d075eb5
 				</td>
 				<td>
-<<<<<<< HEAD
-					<input type="checkbox">
-=======
 					<input type="checkbox" id="{{.News.ID}}" {{if .Censor}} {{if eq .Censor.IsPublic true}} checked
 						{{end}} {{end}}>
->>>>>>> 2e26c324e06610f1c5376513a2594eb53d075eb5
 				</td>
 				<td>
 					<div bordered><a href="#"><i class="fa fa-trash-o"></i></a>

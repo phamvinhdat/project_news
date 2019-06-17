@@ -24,6 +24,16 @@ func (n *MySQLNewsRepo)Create(news *models.News)error{
 	return nil
 }
 
+func (n *MySQLNewsRepo)FetchAllNew()(*[]models.News, error){
+	var news []models.News
+	err := n.Conn.Find(&news).Error
+	if err != nil{
+		return nil, err
+	}
+
+	return &news, nil
+}
+
 func (n *MySQLNewsRepo)FetchByID(newID int)(*models.News, error){
 	var news models.News
 	err := n.Conn.First(&news, "id = ?", newID).Error
@@ -32,4 +42,14 @@ func (n *MySQLNewsRepo)FetchByID(newID int)(*models.News, error){
 	}
 
 	return &news, nil
+}
+
+func (n *MySQLNewsRepo) CountAll() int {
+	var count int
+	err := n.Conn.Model(&models.News{}).Count(&count).Error
+	if err != nil{
+		return 0
+	}
+
+	return count
 }

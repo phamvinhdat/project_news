@@ -24,3 +24,13 @@ func (c *MySQLCategoryRepo) FetchAll() ([]models.Category, error) {
 
 	return categories, nil
 }
+
+func (c *MySQLCategoryRepo) CountAll() int {
+	var count int
+	err := c.Conn.Model(&models.Category{}).Count(&count).Error
+	if err != nil{
+		return 0
+	}
+
+	return count
+}

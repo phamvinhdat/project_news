@@ -1,0 +1,44 @@
+{{template "adminHeader_nav.html" .}}
+<div class="col-md-10">
+	<div class="content">
+		<h4 class="text-center"> Bài viết</h4>
+	</div>
+	<div class="clearfix"></div>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th scope="col">Id</th>
+				<th scope="col">Tiêu đề</th>
+				<th scope="col">Tóm tắt</th>
+				<th scope="col">Avatar</th>
+				<th scope="col">Trạng thái</th>
+				<th scope="col" width="100">Duyệt bài viết</th>
+				<th scope="col" width="100">Xóa bài viết</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{range .news}}
+			<tr>
+				<td>{{.ID}}</td>
+				<td>{{.Title}}</td>
+				<td>{{.Summary}}</td>
+				<td>
+					<img style="height: 100px;" src="/../../{{.Avatar}}" alt="{{.Summary}}">
+				</td>
+				<td>hihi</td>
+				<td>
+					<input type="checkbox" {{}}>
+				</td>
+				<td>
+					<div bordered><a href="#"><i class="fa fa-trash-o"></i></a>
+					</div>
+				</td>
+			</tr>
+			{{end}}
+		</tbody>
+	</table>
+</div>
+</div>
+</body>
+
+</html>

@@ -31,6 +31,7 @@ func setup(dbConfig *database.Config, conn *gorm.DB) *gin.Engine {
 	r := gin.Default()
 	r.Static("/css", "./public/view/css")
 	r.Static("/images", "./public/view/images")
+	r.Static("/img", "./public/view/img")
 	r.Static("/js", "./public/view/js")
 	r.LoadHTMLGlob("public/view/*.html")
 
@@ -43,7 +44,7 @@ func setup(dbConfig *database.Config, conn *gorm.DB) *gin.Engine {
 	//create router
 	routerIndex := index.NewRouterIndex(userRepo, categoryRepo, JWTAuthen)
 	routerAPI := api.NewRouterApi(userRepo, JWTAuthen)
-	routerAdmin := admin.NewRouterAdmin(userRepo, JWTAuthen)
+	routerAdmin := admin.NewRouterAdmin(userRepo, JWTAuthen, categoryRepo, newsRepo)
 	routerWriter := writer.NewRouterWriter(userRepo, JWTAuthen, categoryRepo, imgLocalService, newsRepo, tagRepo, newsTagRepo)
 	routerProfile := profile.NewRouterProfile(userRepo, JWTAuthen)
 	router := routers.NewRouter(JWTAuthen, routerIndex, routerAPI, routerAdmin, routerWriter, routerProfile)
@@ -53,7 +54,7 @@ func setup(dbConfig *database.Config, conn *gorm.DB) *gin.Engine {
 
 	groupProfile := r.Group("/api/profile", JWTAuthen.JWTAuthentication())
 	groupAPI := r.Group("/api")
-	groupAdmin := r.Group("/api/admin", JWTAuthen.JWTAuthentication())
+	groupAdmin := r.Group("/api/admin", JWTAuthen.JWTAuthentication(), JWTAuthen.JWTAuthenAdminRole())
 	groupWriter := r.Group("/api/writer", JWTAuthen.JWTAuthentication())
 
 	//regis router

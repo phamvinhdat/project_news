@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset=utf-8 />
+    <title>{{.username}}</title>
+    <link rel=stylesheet href="../../css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="../../js/jquery-2.2.2.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../../css/normalize.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    
+</head>
+
+<body>
+    <div id="warper">
+        <div id="top">
+            <nav class="navbar navbar-default site-top">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/" style="color: #ff9708;"><img src="../../images/logo.png"
+                                width="70" height="35"></a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <p class="text-center" style="padding-top: 15px;">Xin chào <span
+                                        style="color: red">{{.username}}</span></p>
+                            </li>
+                            <li><a href="/api/profile/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>
+                                    Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!--end #top-->
+        <div class="col-md-2 left">
+            <div class="left-menu">
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="/api/admin"><i class="fa fa-tachometer"
+                                        aria-hidden="true"></i>
+                                    Dashboard</a>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#danhmuc"> <i class="fa fa-table"
+                                        aria-hidden="true"></i> Quản lý danh mục</a>
+                            </h4>
+                        </div>
+                        <div id="danhmuc" class="panel-collapse collapse">
+                            <ul id="home" class="danhmuc">
+                                <li><a href=""><i class="fa fa-angle-right" aria-hidden="true"></i> Thêm danh mục</a>
+                                </li>
+                                <li><a href=""><i class="fa fa-angle-right" aria-hidden="true"></i> Xem danh mục</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#baiviet"> <i class="fa fa-newspaper-o"
+                                        aria-hidden="true"></i>Quản lý bài viết</a>
+                            </h4>
+                        </div>
+                        <div id="baiviet" class="panel-collapse collapse">
+                            <ul id="home" class="baiviet">
+                                <li><a href=""><i class="fa fa-angle-right" aria-hidden="true"></i>Tất cả bài viết</a>
+                                </li>
+                                <li><a href="/api/admin/news"><i class="fa fa-angle-right" aria-hidden="true"></i>Kiểm
+                                        duyệt bài viết</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#thanhvien"><i class="fa fa-user"
+                                        aria-hidden="true"></i> Quản lý Thành viên</a>
+                            </h4>
+                        </div>
+                        <div id="thanhvien" class="panel-collapse collapse">
+                            <ul id="home" class="baiviet">
+                                <li><a href=""><i class="fa fa-angle-right" aria-hidden="true"></i> Thêm Thành viên</a>
+                                </li>
+                                <li><a href=""><i class="fa fa-angle-right" aria-hidden="true"></i> Xem thành viên</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end .left-menu-->
+            <div class="clearfix"></div>
+        </div>

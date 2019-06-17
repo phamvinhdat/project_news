@@ -8,13 +8,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/phamvinhdat/project_news/repository"
-
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	_"github.com/phamvinhdat/project_news/api"
+	_ "github.com/phamvinhdat/project_news/api"
 	"github.com/phamvinhdat/project_news/models"
+	"github.com/phamvinhdat/project_news/repository"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -49,11 +48,8 @@ func (*JWTAuthen) ParseToken(tokenStr string) (*Token, error) {
 //JWTAuthentication check whether token client submissions are valid
 func (*JWTAuthen) JWTAuthentication() gin.HandlerFunc {
 	return gin.HandlerFunc(func(c *gin.Context) {
-		//response := make(map[string]interface{})
 		cookie, err := c.Request.Cookie("token")
 		if err != nil { //token missing
-			//response = api.Message(false, "Missing auth token")
-			//c.JSON(http.StatusUnauthorized, response)
 			c.Redirect(http.StatusSeeOther, "/")
 			return
 		}
@@ -66,18 +62,36 @@ func (*JWTAuthen) JWTAuthentication() gin.HandlerFunc {
 		})
 
 		if err != nil {
-			//response = api.Message(false, "Malformed authentication token")
-			//c.JSON(http.StatusForbidden, response)
 			c.Redirect(http.StatusSeeOther, "/")
 			c.Abort()
 			return
 		}
 
 		if !token.Valid {
-			//response = api.Message(false, "Token is not valid.")
-			//c.JSON(http.StatusForbidden, response)
 			c.Redirect(http.StatusSeeOther, "/")
 			c.Abort()
+			return
+		}
+
+		ctx := context.WithValue(c.Request.Context(), "username", tk.Username)
+		c.Request = c.Request.WithContext(ctx)
+		c.Next()
+	})
+}
+
+func (j *JWTAuthen) JWTAuthenAdminRole() gin.HandlerFunc {
+	return gin.HandlerFunc(func(c *gin.Context) {
+		cookie, _ := c.Request.Cookie("token")
+		token := cookie.Value
+		tk, _ := j.ParseToken(token)
+		role, err := j.UserRepo.FetchRole(tk.Username)
+		if err != nil {
+			c.Redirect(http.StatusSeeOther, "/")
+			return
+		}
+
+		if role.Name != "administrator" {
+			c.Redirect(http.StatusSeeOther, "/")
 			return
 		}
 

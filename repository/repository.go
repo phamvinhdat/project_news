@@ -10,6 +10,7 @@ type IUserRepo interface {
 	FetchByEmail(email string) (*models.User, error)
 	FetchRole(username string) (*models.Role, error)
 	UpdatePassword(newPassword string, username string) error
+	CountAll() int
 }
 
 type ITagRepo interface {
@@ -25,6 +26,7 @@ type INewsTagRepo interface {
 
 type ICaregoryRepo interface {
 	FetchAll() ([]models.Category, error)
+	CountAll() int
 }
 
 type IRoleRepo interface {
@@ -36,5 +38,8 @@ type ICommentRepo interface {
 }
 
 type INewsRepo interface {
+	CountAll() int
 	Create(news *models.News) error
+	FetchAllNew()(*[]models.News, error)
+	FetchByID(newID int)(*models.News, error)
 }

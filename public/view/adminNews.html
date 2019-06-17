@@ -19,15 +19,26 @@
 		<tbody>
 			{{range .news}}
 			<tr>
-				<td>{{.ID}}</td>
-				<td>{{.Title}}</td>
-				<td>{{.Summary}}</td>
+				<td>{{.News.ID}}</td>
+				<td>{{.News.Title}}</td>
+				<td>{{.News.Summary}}</td>
 				<td>
-					<img style="height: 100px;" src="/../../{{.Avatar}}" alt="{{.Summary}}">
+					<img style="height: 100px;" src="/../../{{.News.Avatar}}" alt="{{.News.Summary}}">
 				</td>
-				<td>hihi</td>
+				<td id="tdCensor{{.News.ID}}">
+					{{if .Censor}}
+					{{if eq .Censor.IsPublic false}}
+					Không được duyệt
+					{{else}}
+					Đã duyệt
+					{{end}}
+					{{else}}
+					Đợi duyệt
+					{{end}}
+				</td>
 				<td>
-					<input type="checkbox" {{}}>
+					<input type="checkbox" id="{{.News.ID}}" {{if .Censor}} {{if eq .Censor.IsPublic true}} checked
+						{{end}} {{end}}>
 				</td>
 				<td>
 					<div bordered><a href="#"><i class="fa fa-trash-o"></i></a>
@@ -39,6 +50,43 @@
 	</table>
 </div>
 </div>
+
+<script>
+	$(document).ready(function () {
+		$("input[type='checkbox']").click(function () {
+			var btnRadio = $(this)
+			var dataSend = {
+				isPublic: btnRadio.is(':checked'),
+				newsID: btnRadio.get(0).id,
+			}
+			$.ajax({
+				url: '/api/admin/news/ispublic',
+				type: 'post',
+				dataType: 'json',
+				data: dataSend,
+				success: function (data) {
+					if (data.status == false) {
+						alert(errorThrown)
+						window.location.href = "/api/admin/news"
+					}
+					var id = "#tdCensor" + dataSend.newsID
+					if (dataSend.isPublic) {
+						$(id).html("Đã duyệt")
+					} else {
+						$(id).html("Không được duyệt")
+					}
+				},
+				error: function (jqXhr, textStatus, errorThrown) {
+					alert(errorThrown)
+					window.location.href = "/api/admin/news"
+				}
+			})
+		})
+		
+		//$()
+	})
+</script>
+
 </body>
 
 </html>

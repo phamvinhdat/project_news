@@ -13,6 +13,11 @@ type IUserRepo interface {
 	CountAll() int
 }
 
+type ICensorRepo interface {
+	Create(*models.Censor) error
+	FetchByIDNews(idNews int) (*models.Censor, error)
+	Update(censor *models.Censor) error
+}
 type ITagRepo interface {
 	Create(*models.Tag) error
 	Fetch(id int) (*models.Tag, error)

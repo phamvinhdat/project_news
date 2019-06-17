@@ -24,6 +24,11 @@
         .quill-editor iframe {
             pointer-events: none;
         }
+
+        .error {
+            color: rgb(255, 93, 18);
+            font-size: 13px;
+        }
     </style>
 </head>
 
@@ -140,7 +145,7 @@
                 return true;
             }
         }, "");
-        
+
         $(document).ready(function () {
             $("#formnews").validate({
                 submitHandler: postNews,

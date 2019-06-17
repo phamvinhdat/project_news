@@ -26,6 +26,7 @@ func setup(dbConfig *database.Config, conn *gorm.DB) *gin.Engine {
 	newsRepo := repository.NewMySQLNewsRepo(conn)
 	newsTagRepo := repository.NewMySQLNewsTagRepo(conn)
 	tagRepo := repository.NewMySQLTagRepo(conn)
+	censorRepo := repository.NewMySQLCenorRepo(conn)
 
 	//load static file
 	r := gin.Default()
@@ -44,7 +45,7 @@ func setup(dbConfig *database.Config, conn *gorm.DB) *gin.Engine {
 	//create router
 	routerIndex := index.NewRouterIndex(userRepo, categoryRepo, JWTAuthen)
 	routerAPI := api.NewRouterApi(userRepo, JWTAuthen)
-	routerAdmin := admin.NewRouterAdmin(userRepo, JWTAuthen, categoryRepo, newsRepo)
+	routerAdmin := admin.NewRouterAdmin(userRepo, JWTAuthen, categoryRepo, newsRepo, censorRepo)
 	routerWriter := writer.NewRouterWriter(userRepo, JWTAuthen, categoryRepo, imgLocalService, newsRepo, tagRepo, newsTagRepo)
 	routerProfile := profile.NewRouterProfile(userRepo, JWTAuthen)
 	router := routers.NewRouter(JWTAuthen, routerIndex, routerAPI, routerAdmin, routerWriter, routerProfile)

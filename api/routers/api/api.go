@@ -27,6 +27,18 @@ func NewRouterApi(userRepo repository.IUserRepo, jwtAuthen *middleware.JWTAuthen
 func (r *RouterApi) Register(group *gin.RouterGroup) {
 	group.POST("/register", r.postRegister)
 	group.POST("/login", r.postLogin)
+	group.GET("/is-available", r.getIsAvailable)
+}
+
+func (r *RouterApi) getIsAvailable(c *gin.Context) {
+	username := c.Query("username")
+	user, _ := r.UserRepo.FetchByUsername(username)
+	if user != nil {
+		c.JSON(http.StatusOK, false)
+		return
+	}
+
+	c.JSON(http.StatusOK, true)
 }
 
 func (r *RouterApi) postLogin(c *gin.Context) {
@@ -45,8 +57,8 @@ func (r *RouterApi) postLogin(c *gin.Context) {
 	token := r.JwtAuthen.NewToken(username, 60)
 	c.SetCookie("token", token, 3600, "/", "localhost", false, false)
 	c.JSON(http.StatusOK, gin.H{
-		"status":  true,
-		"message": "login success",
+		"status":   true,
+		"message":  "login success",
 		"username": username,
 	})
 }

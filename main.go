@@ -50,6 +50,7 @@ func setup(dbConfig *database.Config, conn *gorm.DB) *gin.Engine {
 
 	//create group
 	groupIndex := r.Group("/")
+
 	groupProfile := r.Group("/api/profile", JWTAuthen.JWTAuthentication())
 	groupAPI := r.Group("/api")
 	groupAdmin := r.Group("/api/admin", JWTAuthen.JWTAuthentication())

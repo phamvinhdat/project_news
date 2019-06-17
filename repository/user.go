@@ -58,3 +58,17 @@ func (u *MySQLUserRepo) FetchRole(username string) (*models.Role, error) {
 
 	return &role, err
 }
+
+func (u *MySQLUserRepo) UpdatePassword(newPassword string, username string) error {
+	user, err := u.FetchByUsername(username)
+	if err != nil{
+		return err
+	}
+
+	err = u.Conn.Model(user).Update("password", newPassword).Error
+	if err != nil{
+		return err
+	}
+
+	return nil
+}

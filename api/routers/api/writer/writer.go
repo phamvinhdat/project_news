@@ -111,21 +111,25 @@ func (r *RouterWriter) postWriter(c *gin.Context) {
 
 	strTags := c.PostForm("tags")
 	tags := strings.Split(strTags, ",")
+	var tagID int
 	for _, value := range tags {
+		tagID = 0
 		value = strings.TrimSpace(value)
 		if value != "" {
 			tag := models.Tag{Name: value}
-			tagID := r.TagRepo.IsExists(value)
-			log.Println(tagID)
+			tagID = r.TagRepo.IsExists(value)
 			if tagID == 0 {
-				err = r.TagRepo.Create(&tag)
-				if err != nil {
-					tagID = tag.ID
-				}
+				_ = r.TagRepo.Create(&tag)
+				tagID = tag.ID
 			}
 
+		}
+
+		if tagID != 0 {
 			newsTag := models.NewsTag{NewsID: news.ID, TagID: tagID}
+			log.Println(newsTag)
 			_ = r.NewsTagRepo.Create(&newsTag)
+
 		}
 	}
 

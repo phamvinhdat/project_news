@@ -124,9 +124,9 @@
                     },
                     username: {
                         required: true,
-                        // remote: {
-                        //     url: '/account/is-available',
-                        // }
+                        remote: {
+                            url: '/api/is-available',
+                        }
                     },
                     password: {
                         required: true,
@@ -147,7 +147,7 @@
                     },
                     username: {
                         required: 'Vui lòng nhập tên đăng nhập.',
-                        // remote: 'Your username have been taken, please take another one.'
+                        remote: 'Your username have been taken, please take another one.'
                     },
                     password: {
                         required: 'Vui lòng nhập mật khẩu.',
@@ -166,38 +166,36 @@
                     errorElement: "small",
                     errorColor: "red",
                 },
-                submitHandler: function (form) {
-                    $("#formRegister").submit(function (event) {
-                        event.preventDefault();
-                        var data = $(this).serialize()
-                        var url = $(this).attr("action")
-                        var posting = $.post(url, data)
-                        console.log(data)
-                        posting.done(function (d) {
-                            console.log(d)
-                            if (d.status == false) {
-                                alert("Error form: " + d)
-                            } else {
-                                var postLogin = $.post("/api/login", {
-                                    username: $("#username").val(),
-                                    password: $("#password").val()
-                                })
+                submitHandler: postRegister,
+            });
 
-                                postLogin.done(function (d) {
-                                    if (d.status == false) {
-                                        alert(
-                                            "Username or Password invalid!"
-                                        )
-                                    } else {
-                                        window.location.href = "/"
-                                    }
-                                })
+            function postRegister() {
+                var data = $("#formRegister").serialize()
+                var url = $("#formRegister").attr("action")
+                var posting = $.post(url, data)
+                console.log(data)
+                posting.done(function (d) {
+                    console.log(d)
+                    if (d.status == false) {
+                        alert("Error form: " + d)
+                    } else {
+                        var postLogin = $.post("/api/login", {
+                            username: $("#username").val(),
+                            password: $("#password").val()
+                        })
+
+                        postLogin.done(function (d) {
+                            if (d.status == false) {
+                                alert(
+                                    "Username or Password invalid!"
+                                )
+                            } else {
+                                window.location.href = "/"
                             }
                         })
-                    })
-
-                }
-            });
+                    }
+                })
+            }
 
         })
     </script>

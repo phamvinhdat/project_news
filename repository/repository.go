@@ -9,6 +9,7 @@ type IUserRepo interface {
 	FetchByUsername(username string) (*models.User, error)
 	FetchByEmail(email string) (*models.User, error)
 	FetchRole(username string) (*models.Role, error)
+	UpdatePassword(newPassword string, username string) error
 }
 
 type ITagRepo interface {
@@ -19,7 +20,7 @@ type ITagRepo interface {
 
 type INewsTagRepo interface {
 	Create(newsTag *models.NewsTag) error
-	FetchAllTagsOfNews(idNews int)([]*models.Tag, error)
+	FetchAllTagsOfNews(idNews int) ([]*models.Tag, error)
 }
 
 type ICaregoryRepo interface {

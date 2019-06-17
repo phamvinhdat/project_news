@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"log"
-
 	"github.com/jinzhu/gorm"
 	"github.com/phamvinhdat/project_news/models"
 )
@@ -33,7 +31,6 @@ func (t *MySQLTagRepo) IsExists(name string) int {
 		return 0
 	}
 
-	log.Println(tag)
 	return tag.ID
 }
 

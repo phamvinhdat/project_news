@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -32,9 +33,9 @@
           <div class="card-body">
 
             <div class="list-group-flush mt-4">
-              <a href="#" class="list-group-item list-group-item-action active">
+              <a href="/" class="list-group-item list-group-item-action active">
                 <i class="fa fa-home" aria-hidden="true"></i> Home</a>
-              <a onclick="logout()" class="list-group-item list-group-item-action"><i class="fa fa-power-off"
+              <a href="/api/profile/logout" class="list-group-item list-group-item-action"><i class="fa fa-power-off"
                   aria-hidden="true"></i> Logout</a>
 
             </div>
@@ -53,7 +54,8 @@
                   <div class="form-group row">
                     <label for="uname" class="col-lg-3 col-form-label">Username: </label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="uname" placeholder="Username" value="{{.userinfo.Email}}" readonly>
+                      <input type="text" class="form-control" id="uname" placeholder="Username"
+                        value="{{.userinfo.Username}}" readonly>
                     </div>
                   </div>
                 </li>
@@ -69,7 +71,8 @@
                   <div class="form-group row">
                     <label for="email" class="col-lg-3 col-form-label">Email: </label>
                     <div class="col-lg-9">
-                      <input type="email" class="form-control" id="email" placeholder="abc@gmail.com" value="{{.userinfo.Email}}" readonly>
+                      <input type="email" class="form-control" id="email" placeholder="abc@gmail.com"
+                        value="{{.userinfo.Email}}" readonly>
                     </div>
                   </div>
                 </li>
@@ -88,7 +91,8 @@
                   <div class="form-group row">
                     <label for="fullname" class="col-lg-3 col-form-label">Full name:</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="fullname" placeholder="Your name" value="{{.userinfo.Name}}" readonly>
+                      <input type="text" class="form-control" id="fullname" placeholder="Your name"
+                        value="{{.userinfo.Name}}" readonly>
                     </div>
                   </div>
                 </li>
@@ -97,7 +101,18 @@
                   <div class="form-group row">
                     <label for="phoneNumber" class="col-lg-3 col-form-label">Phone number: </label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="phone" placeholder="0123 456 789" value="{{.userinfo.PhoneNumber}}" readonly>
+                      <input type="text" class="form-control" id="phone" placeholder="0123 456 789"
+                        value="{{.userinfo.PhoneNumber}}" readonly>
+                    </div>
+                  </div>
+                </li>
+
+                <li class="list-group-item">
+                  <div class="form-group row">
+                    <label for="sex" class="col-lg-3 col-form-label">Giới tính: </label>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control" id="sex" placeholder="Bê đê"
+                        value="{{if eq .userinfo.Sex true}}Nam{{else}}Nữ{{end}}" readonly>
                     </div>
                   </div>
                 </li>
@@ -113,22 +128,10 @@
     </div>
     <!-- change user info -->
     <div class="container">
-      <form id="changePassForm" class="form-group">
+      <form id="changePassForm" name="changePassForm"  action="/api/profile/password">
         <div class="collapse" id="ChangePassCollapse">
           <div class="row">
             <div class="col-lg-4">
-              <div class="card mt-4 box-shadow" style=" width: 18rem;">
-                <div class="card-body">
-                  <div class="list-group-flush mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">
-                      <i class="fa fa-floppy-o" area-hidden="true"></i> Save</button>
-                    <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse"
-                      data-target="#ChangePassCollapse" aria-expanded="false" aria-controls="ChangePassCollapse"><i
-                        class="fa fa-times-circle" aria-hidden="true"></i> Close</a>
-
-                  </div>
-                </div>
-              </div>
             </div>
             <div class="col-lg-8">
               <div class="card mt-4 shadow">
@@ -157,11 +160,22 @@
                       </li>
                       <li class="list-group-item">
                         <div class="form-group row">
-                          <label for="rePass" class="col-lg-3 col-form-label">Email: </label>
+                          <label for="rePass" class="col-lg-3 col-form-label">Repeat new password: </label>
                           <div class="col-lg-9">
                             <input type="password" class="form-control" id="rePass" name="rePass"
                               placeholder="Repeat new password">
                           </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="list-group-flush mt-4">
+                          <input type="submit" id="btnSubmitPassword"  class="btn btn-primary ">
+
+                            <i class="fa fa-floppy-o" area-hidden="true"></i>
+                          <button class="btn btn-danger" type="button" data-toggle="collapse"
+                            data-target="#ChangePassCollapse" aria-expanded="false"
+                            aria-controls="ChangePassCollapse"><i class="fa fa-times-circle" aria-hidden="true"></i>
+                            Close</a>
                         </div>
                       </li>
                     </ul>
@@ -174,25 +188,12 @@
     </div>
 
     <!-- Change pass word -->
-    <div class="container">
+    <!-- <div class="container">
       <form id="ChangeUserInfo">
         <div class="collapse" id="UserInfo">
           <div class="row">
-            <div class="col-lg-4">
-              <div class="card mt-4 box-shadow" style=" width: 18rem;">
-                <div class="card-body">
 
-                  <div class="list-group-flush mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">
-                      <i class="fa fa-floppy-o" area-hidden="true"></i> Save</button>
-                    <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="collapse"
-                      data-target="#UserInfo" aria-expanded="false" aria-controls="UserInfo"><i
-                        class="fa fa-times-circle" aria-hidden="true"></i> Close</a>
-
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div class="col-lg-4"></div>
             <div class="col-lg-8">
               <div class="card mt-4 shadow">
                 <div class="card-body">
@@ -218,6 +219,15 @@
                           </div>
                         </div>
                       </li>
+                      <li>
+                        <div class="list-group-flush mt-4">
+                          <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-floppy-o" area-hidden="true"></i> Save</button>
+                          <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#UserInfo"
+                            aria-expanded="false" aria-controls="UserInfo"><i class="fa fa-times-circle"
+                              aria-hidden="true"></i> Close</a>
+                        </div>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -225,7 +235,7 @@
             </div>
           </div>
       </form>
-    </div>
+    </div> -->
   </div>
 
   <script>
@@ -263,6 +273,7 @@
       });
 
       $("#changePassForm").validate({
+        submitHandler: postPassword,
         rules: {
           oldPass: {
             required: true,
@@ -298,6 +309,25 @@
           }
         }
       });
+
+      function postPassword(event) {
+        event.preventDefault();
+        var data = $("#changePassForm").serialize()
+        var url = $("#changePassForm").attr("action")
+        var posting = $.post(url, data)
+        console.log(data)
+        posting.done(function (d) {
+          if (d.status == false) {
+            alert("Changed password success!!")
+          } else {
+            alert(d.message)
+          }
+        })
+      }
+
+      // $("#btnSubmitPassword").click(function(){
+      //   postPassword()
+      // })
 
     });
 

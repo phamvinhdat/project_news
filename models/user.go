@@ -6,7 +6,7 @@ type User struct {
 	Password    string     `form:"password" binding:"required" gorm:"column:password;type:varchar(255);not null;unique"`
 	RoleID      int        `gorm:"column:role_id;type:varchar(255);not null"`
 	Name        string     `form:"name" binding:"required" gorm:"column:name;type:nvarchar(50);not null"`
-	PhoneNumber string     `gorm:"column:phone_number;type:varchar(12);not null"`
+	PhoneNumber string     `form:"phoneNumber" gorm:"column:phone_number;type:varchar(12);not null"`
 	Sex         bool       `form:"sex" gorm:"column:sex;type:bool;not null"`
 	Email       string     `form:"email" binding:"required" gorm:"column:email;type:varchar(60);unique"`
 }

@@ -30,8 +30,8 @@
 				<th scope="col">Tóm tắt</th>
 				<th scope="col">Avatar</th>
 				<th scope="col">Trạng thái</th>
-				<th scope="col">Duyệt bài viết</th>
-				<th scope="col">Xóa bài viết</th>
+				<th scope="col" >Duyệt bài viết</th>
+				<th scope="col" >Xóa bài viết</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -41,7 +41,7 @@
 				<td>{{.News.Title}}</td>
 				<td>{{.News.Summary}}</td>
 				<td>
-					<img width="150" src="/../../{{.News.Avatar}}" alt="{{.News.Summary}}">
+					<img style="width: 150px;" src="/../../{{.News.Avatar}}" alt="{{.News.Summary}}">
 				</td>
 				<td style="min-width: 150px" id="tdCensor{{.News.ID}}">
 					{{if .Censor}}

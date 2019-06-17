@@ -21,3 +21,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 4px;
 }
+.error {
+    color: rgb(255, 93, 18);
+    font-size: 13px;
+}

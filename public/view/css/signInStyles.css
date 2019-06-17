@@ -86,5 +86,10 @@ input:focus {
     margin-left: 4px;
 }
 .error{
-    color:#FFC312;
+    color:  #FFC312;
+    font-size: 13px;
+}
+#login_err{
+    color:  #FFC312;
+    font-size: 13px;
 }

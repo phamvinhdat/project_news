@@ -16,15 +16,9 @@
     crossorigin="anonymous"></script>
   <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/profile.css">
   <title>{{.userinfo.Name}}</title>
-  <style>
-    body {
-      background: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg') fixed;
-      background-size: cover;
-    }
-  </style>
 </head>
-
 <body>
   <div class="container">
     <div class="row">
@@ -126,7 +120,7 @@
 
       </div>
     </div>
-    <!-- change user info -->
+    <!-- change Password -->
     <div class="container">
       <form id="changePassForm" name="changePassForm"  action="/api/profile/password">
         <div class="collapse" id="ChangePassCollapse">
@@ -136,7 +130,7 @@
             <div class="col-lg-8">
               <div class="card mt-4 shadow">
                 <div class="card-body">
-                  <h5 class="card-title">Basic</h5>
+                  <h5 class="card-title">Change password</h5>
 
                   <div>
                     <ul class="list-group list-group-flush">
@@ -169,9 +163,10 @@
                       </li>
                       <li class="list-group-item">
                         <div class="list-group-flush mt-4">
-                          <input type="submit" id="btnSubmitPassword"  class="btn btn-primary ">
+                          <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-floppy-o" area-hidden="true"></i> Save</button>
 
-                            <i class="fa fa-floppy-o" area-hidden="true"></i>
+                            
                           <button class="btn btn-danger" type="button" data-toggle="collapse"
                             data-target="#ChangePassCollapse" aria-expanded="false"
                             aria-controls="ChangePassCollapse"><i class="fa fa-times-circle" aria-hidden="true"></i>
@@ -187,8 +182,8 @@
       </form>
     </div>
 
-    <!-- Change pass word -->
-    <!-- <div class="container">
+    <!-- Change userinfo-->
+    <div class="container">
       <form id="ChangeUserInfo">
         <div class="collapse" id="UserInfo">
           <div class="row">
@@ -235,7 +230,7 @@
             </div>
           </div>
       </form>
-    </div> -->
+    </div>
   </div>
 
   <script>

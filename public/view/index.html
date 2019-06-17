@@ -5,19 +5,18 @@
     <div class="row mx-0">
         <div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
             <div class="fh5co_suceefh5co_height">
-                <img src="images/untitled-1_ypis.jpg" alt="Tang vật ma túy" />
+                <img src="{{(index .news.rand 0).Avatar}}" alt="Tang vật ma túy" />
                 <a href="single.html">
                     <div class="fh5co_suceefh5co_height_position_absolute"></div>
                     <div class="fh5co_suceefh5co_height_position_absolute_font">
-                        <div class="">
+                        <div>
                             <a>
-                                <i class="fa fa-clock-o "></i>&nbsp;&nbsp;01/05/2019
+                                <i class="fa fa-clock-o "></i>&nbsp;&nbsp;{{(index .news.rand 0).DatePost}}
                             </a>
-                            <a href="#" class="color_fff"> PHÁP LUẬT</a>
+                            <a href="#" class="color_fff">{{(index .news.rand 0).CategoryID}}</a>
                         </div>
                         <div class="pr-3">
-                            <a href="single.html" class="fh5co_good_font">Vận chuyển cả tấn ma túy chỉ là mắt
-                                xích nhỏ</a>
+                            <a href="single.html" class="fh5co_good_font">{{(index .news.rand 0).Title}}</a>
                         </div>
                     </div>
                 </a>
@@ -26,78 +25,29 @@
 
         <div class="col-md-6">
             <div class="row">
+                {{range $i, $e := .news.rand}}
+                {{if gt $i 0}}
                 <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
                     <div class="fh5co_suceefh5co_height_2">
-                        <img src="images/11885379_1687632564791592_1106772882764620660_n_bozh.jpg"
-                            alt="Nghệ sĩ Lê Bình" />
+                        <img src="{{$e.Avatar}}" alt="{{$e.Summary}}" />
                         <a href="single.html">
                             <div class="fh5co_suceefh5co_height_position_absolute"></div>
                             <div class="fh5co_suceefh5co_height_position_absolute_font_2">
                                 <div class="">
                                     <a>
-                                        <i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019
+                                        <i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{$e.DatePost}}
                                     </a>
-                                    <a href="#" class="color_fff">NGHỆ THUẬT</a>
+                                    <a href="#" class="color_fff">{{$e.CategoryID}}</a>
                                 </div>
-                                <div class="pr-3"><a href="single.html" class="fh5co_good_font_2">Nghệ sĩ Lê Bình
-                                        qua đời</a>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
-                    <div class="fh5co_suceefh5co_height_2">
-                        <img src="images/e775ebd71f96f6c8af87.jpg" alt="Chính sách mới" />
-                        <a href="single.html">
-                            <div class="fh5co_suceefh5co_height_position_absolute"></div>
-                            <div class="fh5co_suceefh5co_height_position_absolute_font_2">
-                                <div class="text-white">
-                                    <a><i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019</a>
-                                    <a href="#" class="color_fff">GIÁO DỤC</a>
-                                </div>
-                                <div class="pr-3">
-                                    <a href="single.html" class="fh5co_good_font_2">Nhiều chính sách mới
-                                        có hiệu lực từ tháng 5</a>
+                                <div class="pr-3"><a href="single.html" class="fh5co_good_font_2">{{$e.Title}}</a>
                                 </div>
                             </div>
                         </a>
                     </div>
                 </div>
-                <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
-                    <div class="fh5co_suceefh5co_height_2">
-                        <img src="images/thuysi.jpg" alt="Tập cận bình" />
-                        <a href="single.html">
-                            <div class="fh5co_suceefh5co_height_position_absolute"></div>
-                            <div class="fh5co_suceefh5co_height_position_absolute_font_2">
-                                <div class="text-white">
-                                    <a><i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019</a>
-                                    <a href="#" class="color_fff">THẾ GIỚI</a>
-                                </div>
-                                <div class="pr-3">
-                                    <a href="single.html" class="fh5co_good_font_2">Thụy Sĩ đang mất dần tính trung
-                                        lập?</a>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
-                    <div class="fh5co_suceefh5co_height_2">
-                        <img src="images/59473123_314674859431432_2595058672337944576_n.jpg" alt="Tội phạm" />
-                        <a href="single.html">
-                            <div class="fh5co_suceefh5co_height_position_absolute"></div>
-                            <div class="fh5co_suceefh5co_height_position_absolute_font_2">
-                                <div class="text-white">
-                                    <a><i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019</a>
-                                    <a href="#" class="color_fff">PHÁP LUẬT</a>
-                                </div>
-                                <div class=""><a href="single.html" class="fh5co_good_font_2">9X cướp tiệm vàng bị
-                                        người dân bắt</a></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+
+                {{end}}
+                {{end}}
             </div>
         </div>
     </div>
@@ -108,219 +58,24 @@
             <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Xem nhiều nhất</div>
         </div>
         <div class="owl-carousel owl-theme js" id="slider1">
+            {{range .news.mostViews}}
             <div class="item px-2">
                 <a href="single.html">
                     <div class="fh5co_latest_trading_img_position_relative">
-                        <div class="fh5co_latest_trading_img"><img src="images/1e55ca0e134ffa11a35e.jpg"
-                                alt="Nhật hoàng lên ngôi" class="fh5co_img_special_relative" /></div>
-                        <div class="fh5co_latest_trading_img_position_absolute"></div>
-                        <div class="fh5co_latest_trading_img_position_absolute_1">
-                            <a href="single.html" class="text-white">Hình ảnh tân Nhật hoàng Naruhito lên ngôi</a>
-                            <div class="text-white">
-                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019
-                                <a href="#" class="color_fff">THẾ GIỚI</a>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_latest_trading_img_position_relative">
-                        <div class="fh5co_latest_trading_img"><img src="images/nghi-trua.jpg" alt="Nghỉ trưa"
+                        <div class="fh5co_latest_trading_img"><img src="{{.Avatar}}" alt="{{.Summary}}"
                                 class="fh5co_img_special_relative" /></div>
                         <div class="fh5co_latest_trading_img_position_absolute"></div>
                         <div class="fh5co_latest_trading_img_position_absolute_1">
-                            <a href="single.html" class="text-white">Xếp lịch công chức làm việc từ 8 giờ 30, nghỉ
-                                trưa
-                                1 tiếng</a>
+                            <a href="single.html" class="text-white">{{.Title}}</a>
                             <div class="text-white">
-                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019
-                                <a href="#" class="color_fff">THẾ GIỚI</a>
+                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{.DatePost}}
+                                <a href="#" class="color_fff">{{.CategoryID}}</a>
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_latest_trading_img_position_relative">
-                        <div class="fh5co_latest_trading_img"><img src="images/f68b70d1a99040ce1981.jpg"
-                                alt="Tai nạn giao thông" class="fh5co_img_special_relative" /></div>
-                        <div class="fh5co_latest_trading_img_position_absolute"></div>
-                        <div class="fh5co_latest_trading_img_position_absolute_1">
-                            <a href="single.html" class="text-white">Tài xế Mercedes GLA tông chết 2 phụ nữ khai đã
-                                uống
-                                rượu ở họp lớp</a>
-                            <div class="text-white">
-                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019
-                                <a href="#" class="color_fff">THẾ GIỚI</a>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_latest_trading_img_position_relative">
-                        <div class="fh5co_latest_trading_img"><img src="images/zing_mochau_1.jpg" alt="Lộ hàng"
-                                class="fh5co_img_special_relative" /></div>
-                        <div class="fh5co_latest_trading_img_position_absolute"></div>
-                        <div class="fh5co_latest_trading_img_position_absolute_1">
-                            <a href="single.html" class="text-white">Tranh cãi chuyện du khách nữ mặc váy trên cầu
-                                kính
-                                5D Mộc Châu</a>
-                            <div class="text-white">
-                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019
-                                <a href="#" class="color_fff">THẾ GIỚI</a>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_latest_trading_img_position_relative">
-                        <div class="fh5co_latest_trading_img"><img src="images/nb.jpg" alt="Tổng thống mỹ"
-                                class="fh5co_img_special_relative" /></div>
-                        <div class="fh5co_latest_trading_img_position_absolute"></div>
-                        <div class="fh5co_latest_trading_img_position_absolute_1">
-                            <a href="single.html" class="text-white">Tổng thống Mỹ sẽ là vị khách cấp nhà nước đầu
-                                tiên
-                                của Nhật hoàng Naruhito</a>
-                            <div class="text-white">
-                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019
-                                <a href="#" class="color_fff">THẾ GIỚI</a>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_latest_trading_img_position_relative">
-                        <div class="fh5co_latest_trading_img"><img src="images/zing_mochau_1.jpg" alt="Lộ hàng"
-                                class="fh5co_img_special_relative" /></div>
-                        <div class="fh5co_latest_trading_img_position_absolute"></div>
-                        <div class="fh5co_latest_trading_img_position_absolute_1">
-                            <a href="single.html" class="text-white">Tranh cãi chuyện du khách nữ mặc váy trên cầu
-                                kính
-                                5D Mộc Châu</a>
-                            <div class="text-white">
-                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019
-                                <a href="#" class="color_fff">THẾ GIỚI</a>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_latest_trading_img_position_relative">
-                        <div class="fh5co_latest_trading_img"><img src="images/zing_mochau_1.jpg" alt="Lộ hàng"
-                                class="fh5co_img_special_relative" /></div>
-                        <div class="fh5co_latest_trading_img_position_absolute"></div>
-                        <div class="fh5co_latest_trading_img_position_absolute_1">
-                            <a href="single.html" class="text-white">Tranh cãi chuyện du khách nữ mặc váy trên cầu
-                                kính
-                                5D Mộc Châu</a>
-                            <div class="text-white">
-                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019
-                                <a href="#" class="color_fff">THẾ GIỚI</a>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_latest_trading_img_position_relative">
-                        <div class="fh5co_latest_trading_img"><img src="images/zing_mochau_1.jpg" alt="Lộ hàng"
-                                class="fh5co_img_special_relative" /></div>
-                        <div class="fh5co_latest_trading_img_position_absolute"></div>
-                        <div class="fh5co_latest_trading_img_position_absolute_1">
-                            <a href="single.html" class="text-white">Tranh cãi chuyện du khách nữ mặc váy trên cầu
-                                kính
-                                5D Mộc Châu</a>
-                            <div class="text-white">
-                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019
-                                <a href="#" class="color_fff">THẾ GIỚI</a>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_latest_trading_img_position_relative">
-                        <div class="fh5co_latest_trading_img"><img src="images/zing_mochau_1.jpg" alt="Lộ hàng"
-                                class="fh5co_img_special_relative" /></div>
-                        <div class="fh5co_latest_trading_img_position_absolute"></div>
-                        <div class="fh5co_latest_trading_img_position_absolute_1">
-                            <a href="single.html" class="text-white">Tranh cãi chuyện du khách nữ mặc váy trên cầu
-                                kính
-                                5D Mộc Châu</a>
-                            <div class="text-white">
-                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019
-                                <a href="#" class="color_fff">THẾ GIỚI</a>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_latest_trading_img_position_relative">
-                        <div class="fh5co_latest_trading_img"><img src="images/zing_mochau_1.jpg" alt="Lộ hàng"
-                                class="fh5co_img_special_relative" /></div>
-                        <div class="fh5co_latest_trading_img_position_absolute"></div>
-                        <div class="fh5co_latest_trading_img_position_absolute_1">
-                            <a href="single.html" class="text-white">Tranh cãi chuyện du khách nữ mặc váy trên cầu
-                                kính
-                                5D Mộc Châu</a>
-                            <div class="">
-                                <a href="#" class="color_fff"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019</a>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_latest_trading_img_position_relative">
-                        <div class="fh5co_latest_trading_img"><img src="images/zing_mochau_1.jpg" alt="Lộ hàng"
-                                class="fh5co_img_special_relative" /></div>
-                        <div class="fh5co_latest_trading_img_position_absolute"></div>
-                        <div class="fh5co_latest_trading_img_position_absolute_1">
-                            <a href="single.html" class="text-white">Tranh cãi chuyện du khách nữ mặc váy trên cầu
-                                kính
-                                5D Mộc Châu</a>
-                            <div class="text-white">
-                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019
-                                <a href="#" class="color_fff">THẾ GIỚI</a>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_latest_trading_img_position_relative">
-                        <div class="fh5co_latest_trading_img"><img src="images/zing_mochau_1.jpg" alt="Lộ hàng"
-                                class="fh5co_img_special_relative" /></div>
-                        <div class="fh5co_latest_trading_img_position_absolute"></div>
-                        <div class="fh5co_latest_trading_img_position_absolute_1">
-                            <a href="single.html" class="text-white">Tranh cãi chuyện du khách nữ mặc váy trên cầu
-                                kính
-                                5D Mộc Châu</a>
-                            <div class="text-white">
-                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019
-                                <a href="#" class="color_fff">THẾ GIỚI</a>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
+            {{end}}
         </div>
     </div>
 </div>
@@ -330,85 +85,21 @@
             <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Mới nhất</div>
         </div>
         <div class="owl-carousel owl-theme" id="slider2">
+            {{range .news.newest}}
             <div class="item px-2">
                 <a href="single.html">
                     <div class="fh5co_hover_news_img">
-                        <div class="fh5co_news_img"><img src="images/f0366555bc14554a0c05.jpg" alt="Cầu thủ bóng đá" />
+                        <div class="fh5co_news_img"><img src="{{.Avatar}}" alt="Cầu thủ bóng đá" />
                         </div>
                         <div>
-                            <a href="single.html" class="d-block fh5co_small_post_heading"><span class="">Kết quả
-                                    Champions League hôm nay 1/5</span></a>
-                            <div class="c_g"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019</div>
+                            <a href="single.html" class="d-block fh5co_small_post_heading"><span
+                                    class="">{{.Title}}</span></a>
+                            <div class="c_g"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{.DatePost}}</div>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_hover_news_img">
-                        <div class="fh5co_news_img"><img src="images/a230490b904a7914205b.jpg" alt="súng" /></div>
-                        <div>
-                            <a href="single.html" class="d-block fh5co_small_post_heading"><span class="">Cảnh sát
-                                    truy
-                                    bắt kẻ dùng súng tự chế bắn người tại sới gà</span></a>
-                            <div class="c_g"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_hover_news_img">
-                        <div class="fh5co_news_img"><img src="images/5c928faa56ebbfb5e6fa.jpg" alt="Văn bản" />
-                        </div>
-                        <div>
-                            <a href="single.html" class="d-block fh5co_small_post_heading"><span class="">Bộ Giáo
-                                    dục
-                                    đưa ra 5 giải pháp chống gian lận thi THPT quốc gia 2019</span></a>
-                            <div class="c_g"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_hover_news_img">
-                        <div class="fh5co_news_img"><img src="images/12696d50b4115d4f0400.jpg" alt="Chứng chỉ lái xe" />
-                        </div>
-                        <div>
-                            <a href="single.html" class="d-block fh5co_small_post_heading"><span class="">Đào tạo,
-                                    sát hạch lái xe: Loạn mức phí, dấu hỏi về chất lượng</span></a>
-                            <div class="c_g"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_hover_news_img">
-                        <div class="fh5co_news_img"><img src="images/12696d50b4115d4f0400.jpg" alt="Chứng chỉ lái xe" />
-                        </div>
-                        <div>
-                            <a href="single.html" class="d-block fh5co_small_post_heading"><span class="">Đào tạo,
-                                    sát hạch lái xe: Loạn mức phí, dấu hỏi về chất lượng</span></a>
-                            <div class="c_g"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="item px-2">
-                <a href="single.html">
-                    <div class="fh5co_hover_news_img">
-                        <div class="fh5co_news_img"><img src="images/12696d50b4115d4f0400.jpg" alt="Chứng chỉ lái xe" />
-                        </div>
-                        <div>
-                            <a href="single.html" class="d-block fh5co_small_post_heading"><span class="">Đào tạo,
-                                    sát hạch lái xe: Loạn mức phí, dấu hỏi về chất lượng</span></a>
-                            <div class="c_g"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;01/05/2019</div>
-                        </div>
-                    </div>
-                </a>
-            </div>
+            {{end}}
         </div>
     </div>
 </div>
@@ -420,121 +111,33 @@
                 <div>
                     <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Top chuyên mục</div>
                 </div>
+                {{range .news.top}}
                 <div class="row pb-4">
                     <div class="col-md-5">
                         <a href="single.html">
                             <div class="fh5co_hover_news_img">
                                 <div class="fh5co_news_img">
-                                    <img src="images/1556687196-853-thumbnail.jpg" alt="Đối tượng Trường" />
+                                    <img src="{{.News.Avatar}}" />
                                 </div>
                             </div>
                         </a>
                     </div>
                     <div class="col-md-7 animate-box">
-                        <a href="single.html" class="fh5co_magna py-2">Dụ bé gái 15 tuổi từ Bến Tre ra Quảng Bình
-                            làm "chuyện người lớn"</a>
-                        <div class="fh5co_consectetur">Qua Facebook, Trường quen với cháu N. (15 tuổi, ngụ Bến Tre)
-                            rồi nảy sinh tình cảm. Sau đó, Trường lặn lội vào thăm N....
+                        <a href="single.html" class="fh5co_magna py-2">{{.News.Title}}</a>
+                        <div class="fh5co_consectetur">{{.News.Summary}}
                         </div>
                         <ul class="fh5co_gaming_topikk pt-3">
-                            <li><a class="fh5co_consectetur" href="single.html"
-                                    title="Bị đâm chết vì chặn đường tranh giành bạn gái">Bị đâm chết vì chặn đường
-                                    tranh giành bạn gái</a></li>
-                            <li><a class="fh5co_consectetur" href="single.html"
-                                    title="Lên ô tô của thiếu tá si tình, quý bà xinh đẹp bị sát hại tàn nhẫn">Lên ô
-                                    tô của thiếu tá si tình, quý bà xinh đẹp bị sát hại tàn nhẫn</a></li>
-                            <li><a class="fh5co_consectetur" href="single.html"
-                                    title="Đường dây cờ bạc qua mạng 30 nghìn tỉ đồng bị triệt phá như thế nào?">Đường
-                                    dây cờ bạc qua mạng 30 nghìn tỉ đồng bị triệt phá như thế nào?</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row pb-4">
-                    <div class="col-md-5">
-                        <a href="single.html" title="Trùm tình báo bất ngờ quay lưng với Tổng thống Venezuela">
-                            <div class="fh5co_hover_news_img">
-                                <div class="fh5co_news_img"><img src="images/as-537-155669668682744-thumbnail.jpg"
-                                        alt="" /></div>
-                                <div></div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-7">
-                        <a href="single.html" class="fh5co_magna py-2">Trùm tình báo bất ngờ quay lưng với Tổng
-                            thống Venezuela</a>
-                        <div class="fh5co_consectetur">Người đứng đầu cơ quan tình báo quốc gia Venezuela nói mình
-                            luôn trung thành với Tổng thống Nicolas Maduro, nhưng đã đến...
-                        </div>
-                        <ul class="fh5co_gaming_topikk pt-3">
-                            <li><a class="fh5co_consectetur" href="single.html"
-                                    title="Tiêm kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội bom khủng bố IS">Tiêm
-                                    kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội...</a></li>
-                            <li><a class="fh5co_consectetur" href="single.html"
-                                    title="Tiêm kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội bom khủng bố IS">Tiêm
-                                    kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội...</a></li>
-                            <li><a class="fh5co_consectetur" href="single.html"
-                                    title="Tiêm kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội bom khủng bố IS">Tiêm
-                                    kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội...</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row pb-4">
-                    <div class="col-md-5">
-                        <a href="single.html" title="Những điều thú vị ở thành phố ‘ma quỷ’ Pattaya">
-                            <div class="fh5co_hover_news_img">
-                                <div class="fh5co_news_img"><img src="images/362-313-thumbnail.jpg" alt="" /></div>
-                                <div></div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-7">
-                        <a href="single.html" title="Những điều thú vị ở thành phố ‘ma quỷ’ Pattaya"
-                            class="fh5co_magna py-2">Những điều thú vị ở thành phố ‘ma quỷ’ Pattaya</a>
-                        <div class="fh5co_consectetur">Bước vào cửa hàng dẫu nhỏ, nhưng y như rằng mua một lon bia
-                            hoặc cái bót đánh răng cũng được "tặng nụ cười".
-                        </div>
-                        <ul class="fh5co_gaming_topikk pt-3">
-                            <li><a class="fh5co_consectetur" href="single.html"
-                                    title="Tiêm kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội bom khủng bố IS">Tiêm
-                                    kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội...</a></li>
-                            <li><a class="fh5co_consectetur" href="single.html"
-                                    title="Tiêm kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội bom khủng bố IS">Tiêm
-                                    kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội...</a></li>
-                            <li><a class="fh5co_consectetur" href="single.html"
-                                    title="Tiêm kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội bom khủng bố IS">Tiêm
-                                    kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội...</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row pb-4">
-                    <div class="col-md-5">
-                        <a href="single.html" title="EVN nói gì về hóa đơn tiền điện tăng vọt?">
-                            <div class="fh5co_hover_news_img">
-                                <div class="fh5co_news_img">
-                                    <img src="images/EVN-noi-gi-ve-hoa-don-tien-dien-tang-vot-2-1556586504-635-width428height320.jpg"
-                                        alt="Công nhân điện lực" /></div>
-                                <div></div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-7">
-                        <a href="single.html" class="fh5co_magna py-2">EVN nói gì về hóa đơn tiền điện tăng vọt?</a>
-                        <div class="fh5co_consectetur">Sau phản ánh người dân về hoá đơn tiền điện tháng 4-2019 tăng
-                            cao, thậm chí bất thường, Tập đoàn Điện lực Việt Nam (EVN) đã có lý giải về việc này.
-                        </div>
-                        <ul class="fh5co_gaming_topikk pt-3">
-                            <li><a class="fh5co_consectetur" href="single.html"
-                                    title="Hàng hoá nhích theo giá xăng dầu">Hàng hoá nhích theo giá xăng dầu</a>
+                            {{range .News.RelateNew}}
+                            <li>
+                                <a class="fh5co_consectetur" href="single.html"
+                                    title="{{.Title}}">{{.Title}}
+                                </a>
                             </li>
-                            <li><a class="fh5co_consectetur" href="single.html"
-                                    title="Tiêm kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội bom khủng bố IS">Tiêm
-                                    kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội...</a></li>
-                            <li><a class="fh5co_consectetur" href="single.html"
-                                    title="Tiêm kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội bom khủng bố IS">Tiêm
-                                    kích tàng hình F-35A của Mỹ lần đầu thực chiến, dội...</a></li>
+                            {{end}}
                         </ul>
                     </div>
                 </div>
+                {{end}}
             </div>
             <div class="col-md-3 animate-box" data-animate-effect="fadeInRight">
                 <div>

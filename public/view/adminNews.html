@@ -1,9 +1,27 @@
 {{template "adminHeader_nav.html" .}}
+<style>
+	.button {
+		width: 150px;
+		text-align: center;
+		margin: 0 auto;
+
+	}
+</style>
 <div class="col-md-10">
 	<div class="content">
 		<h4 class="text-center"> Bài viết</h4>
 	</div>
 	<div class="clearfix"></div>
+	<div id="searchForm">
+		<form class="form-row md-form mr-auto mb-4 " >
+			<div class="col-lg-10">
+
+					<input class="form-control " type="search" placeholder="Search">
+			</div>
+				<button class="btn btn-primary" type="submit">Search</button>
+		</form>
+	</div>
+	<br>
 	<table class="table table-bordered">
 		<thead>
 			<tr>
@@ -25,7 +43,7 @@
 				<td>
 					<img width="150" src="/../../{{.News.Avatar}}" alt="{{.News.Summary}}">
 				</td>
-				<td id="tdCensor{{.News.ID}}">
+				<td style="min-width: 150px" id="tdCensor{{.News.ID}}">
 					{{if .Censor}}
 					{{if eq .Censor.IsPublic false}}
 					Không được duyệt

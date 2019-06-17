@@ -43,7 +43,7 @@ func setup(dbConfig *database.Config, conn *gorm.DB) *gin.Engine {
 	imgLocalService := services.NewImgLocalService()
 
 	//create router
-	routerIndex := index.NewRouterIndex(userRepo, categoryRepo, JWTAuthen)
+	routerIndex := index.NewRouterIndex(userRepo, categoryRepo, JWTAuthen, newsRepo)
 	routerAPI := api.NewRouterApi(userRepo, JWTAuthen)
 	routerAdmin := admin.NewRouterAdmin(userRepo, JWTAuthen, categoryRepo, newsRepo, censorRepo)
 	routerWriter := writer.NewRouterWriter(userRepo, JWTAuthen, categoryRepo, imgLocalService, newsRepo, tagRepo, newsTagRepo)

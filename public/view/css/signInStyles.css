@@ -87,4 +87,9 @@ input:focus {
 }
 .error{
     color:#FFC312;
+    font-size: 13px;    
+}
+#login_err{
+    color:#FFC312;
+    font-size: 13px;   
 }

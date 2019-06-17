@@ -30,8 +30,11 @@
 					</div>
 				</div>
 				<div class="card-body">
-					<form name="login" id="formLogin" action="api/login">
+					<form name="login" id="formLogin" action="api/login"><div >
+							<p id="login_err"></p>
+						</div>
 						<div class="input-group form-group">
+							
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
@@ -53,6 +56,7 @@
 							<input id="btnSubmit" type="submit" class="btn float-right login_btn"
 								value="Đăng nhập"></input>
 						</div>
+
 					</form>
 
 				</div>
@@ -90,11 +94,12 @@
 				},
 				messages: {
 					username: {
-						required: 'Tên đăng nhập không được để trống.',
-						noSpace: "Tên đăng nhập không được chứa khoảng trắng."
+						required: 'Tên đăng nhập không được để trống. Vui lòng nhập',
+						noSpace: "Tên đăng nhập không được chứa khoảng trắng"
 					},
 					password: {
 						required: 'Mật khẩu không được để trống. Vui lòng nhập',
+						minlength: "Mật khẩu nhập vào phải có ít nhất 6 ký tự. Vui lòng nhập đủ"
 					},
 
 					highlight: function (e) {
@@ -115,7 +120,8 @@
 				console.log(data)
 				posting.done(function (d) {
 					if (d.status == false) {
-						alert("Username or Password invalid!")
+						$('#login_err').text(
+							'Tên đăng nhập hoặc mật khẩu không chính xác. Xin vui lòng thử lại');
 					} else {
 						window.location.href = "/"
 					}

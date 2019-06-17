@@ -1,0 +1,9 @@
+.error {
+    color: rgb(255, 93, 18);
+    font-size: 13px;
+}
+
+body {
+    background: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg') fixed;
+    background-size: cover;
+}

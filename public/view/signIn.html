@@ -11,7 +11,7 @@
 		integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-
+	<link rel="stylesheet" href="css/error.css">
 	<link rel="stylesheet" type="text/css" href="css/signInStyles.css">
 	<script type="text/javascript" src="js/javascript.js"></script>
 
@@ -30,6 +30,9 @@
 					</div>
 				</div>
 				<div class="card-body">
+					<div>
+						<p id="login_err"></p>
+					</div>
 					<form name="login" id="formLogin" action="api/login">
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
@@ -90,11 +93,12 @@
 				},
 				messages: {
 					username: {
-						required: 'Tên đăng nhập không được để trống.',
-						noSpace: "Tên đăng nhập không được chứa khoảng trắng."
+						required: 'Tên đăng nhập không được để trống. Vui lòng nhập',
+						noSpace: "Tên đăng nhập không được chứa khoảng trắng"
 					},
 					password: {
 						required: 'Mật khẩu không được để trống. Vui lòng nhập',
+						minlength: "Mật khẩu phải có ít nhất 6 ký tự. Vui lòng nhập đủ"
 					},
 
 					highlight: function (e) {
@@ -115,7 +119,7 @@
 				console.log(data)
 				posting.done(function (d) {
 					if (d.status == false) {
-						alert("Username or Password invalid!")
+						$('#login_err').text('Tên đăng nhập hoặc mật khẩu không chính xác. Vui lòng đăng nhập lại')
 					} else {
 						window.location.href = "/"
 					}

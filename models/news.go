@@ -18,6 +18,9 @@ type News struct {
 }
 
 type Page struct {
-	Current int
-	Max     int
+	Current      int
+	IsSelect     bool
+	CategoryName string
+	MaxPage      int
+	NextPage     int
 }

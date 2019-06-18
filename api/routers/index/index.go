@@ -77,7 +77,7 @@ func (r *RouterIndex) getCategory(c *gin.Context) {
 		return
 	}
 
-	news, err := r.NewsRepo.FetchNewestCategory(page, 10, category.ID, 0, true)
+	news, err := r.NewsRepo.FetchNewestCategory(page*5, 5, category.ID, 0, true)
 	if err != nil {
 		ctx := context.WithValue(c.Request.Context(), "error", err)
 		c.Request = c.Request.WithContext(ctx)
@@ -108,9 +108,18 @@ func (r *RouterIndex) getCategory(c *gin.Context) {
 	maxPage := 0
 	mockNews, _ := r.NewsRepo.FetchNewestCategory(0, 150000, category.ID, 0, true)
 	if mockNews != nil {
-		maxPage = len(mockNews)
+		maxPage = (len(mockNews) / 5) + 1
 	}
-	strpage := models.Page{Current: page, Max: maxPage}
+
+	page0 := models.Page{Current: page - 2, IsSelect: false, CategoryName: categoryName, MaxPage: maxPage, NextPage: page - 1}
+	page1 := models.Page{Current: page - 1, IsSelect: false, CategoryName: categoryName, MaxPage: maxPage, NextPage: page}
+	page2 := models.Page{Current: page, IsSelect: true, CategoryName: categoryName, MaxPage: maxPage, NextPage: page + 1}
+	page3 := models.Page{Current: page + 1, IsSelect: false, CategoryName: categoryName, MaxPage: maxPage, NextPage: page + 2}
+	page4 := models.Page{Current: page + 2, IsSelect: false, CategoryName: categoryName, MaxPage: maxPage, NextPage: page + 3}
+
+	pages := []models.Page{
+		page0, page1, page2, page3, page4,
+	}
 
 	c.HTML(http.StatusOK, "category.html", gin.H{
 		"Categories": categoryParents,
@@ -118,8 +127,10 @@ func (r *RouterIndex) getCategory(c *gin.Context) {
 		"name":       name,
 		"news":       news,
 		"tags":       tags,
-		"page":       strpage,
+		"page":       pages,
 		"randNews":   randMews,
+		"prePage":    page - 1,
+		"nextPage":   page + 1,
 	})
 }
 

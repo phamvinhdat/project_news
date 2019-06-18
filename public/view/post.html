@@ -7,7 +7,7 @@
     <title>{{.news.Title}}</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous">
-    </script>
+        </script>
     <link rel="icon" href="../../../images/logo.png">
     <link href="../../../css/media_query.css" rel="stylesheet" type="text/css" />
     <link href="../../../css/bootstrap.css" rel="stylesheet" type="text/css" />
@@ -17,7 +17,10 @@
     <script src="../../../js/owl.carousel.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
         integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous">
-    </script>
+        </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <!-- Waypoints -->
     <script src="../../../js/jquery.waypoints.min.js"></script>
     <!-- Parallax -->
@@ -45,6 +48,32 @@
 
         .author {
             color: blue;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f5f5f5;
+            z-index: 1;
+            border-block: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        #loginLabel {
+            text-decoration: none;
+            color: yellow important !;
+
+        }
+        #header{
+            font-weight: bold;
         }
     </style>
 </head>
@@ -75,17 +104,17 @@
 
                     <div class="text-center d-inline-block">
                         <a class="fh5co_display_table" href="
-                            {{if eq .isLogin false}}
-                            /login
-                            {{else}}
-                            /api/profile
-                            {{end}}">
+                                {{if eq .isLogin false}}
+                                /login
+                                {{else}}
+                                /api/profile
+                                {{end}}">
                             <div class="fh5co_verticle_middle">
                                 <i class="{{if eq .isLogin false}}
-                                    fa fa-sign-in
-                                    {{else}}
-                                    fa fa-user-circle-o
-                                    {{end}}"></i>
+                                        fa fa-sign-in
+                                        {{else}}
+                                        fa fa-user-circle-o
+                                        {{end}}"></i>
                                 {{.name}}
                             </div>
                         </a>
@@ -95,54 +124,43 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid bg-success fh5co_padd_mediya padding_786">
+    <div class="container-fluid bg-success fh5co_padd_mediya padding_786 sticky-top">
         <div class="container padding_786">
-            <nav class="navbar navbar-toggleable-md navbar-light ">
-                <button class="navbar-toggler navbar-toggler-right mt-3" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation"><span class="fa fa-bars"></span></button>
-                <a class="navbar-brand" href="#"><img src="../../../images/logo.png" alt="img"
-                        class="mobile_logo_width" /></a>
+            <nav class="navbar navbar-expand-lg navbar-light ">
+
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
                             <a class="nav-link" href="/">Trang chủ<span class="sr-only">(current)</span></a>
                         </li>
                         {{range .Categories}}
-                        <li class="nav-item {{if .CategoryChild}}dropdown{{end}}">
-                            <a class="nav-link dropdown-toggle" href="/{{.Name}}" id="dropdownMenuButton1"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{.Name}}<span
-                                    class="sr-only">(current)</span></a>
-                            {{if .CategoryChild}}
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link " href="/{{.Name}}" id="dropdownMenuButton1">{{.Name}}</a>
+                            <!-- {{if .CategoryChild}} -->
+                            <div class="dropdown-content">
                                 {{range .CategoryChild}}
                                 <a class="dropdown-item" href="/{{.Name}}">{{.Name}}</a>
                                 {{end}}
                             </div>
-                            {{end}}
+                            <!-- {{end}} -->
+
                         </li>
                         {{end}}
+
                     </ul>
                 </div>
             </nav>
         </div>
     </div>
-    <div id="fh5co-title-box"
-        style="background-image: url(../../../images/phanthanhbinh_qxhg.jpg); background-position: 50% 90.5px;"
-        data-stellar-background-ratio="0.5">
-        <div class="overlay"></div>
-        <div class="page-title">
-            <img src="../../../images/ha-anh_hcli.jpg" alt="Hà Anh">
-            <span>haanh84@gmail.com</span>
-            <span>{{.news.DatePost}}</span>
-            <h2>{{.news.Title}}</h2>
-        </div>
-    </div>
     <div id="fh5co-single-content" class="container-fluid pb-4 pt-4 paddding">
         <div class="container paddding">
             <div class="row mx-0">
-                <div class="col-md-8 animate-box" id="article" data-animate-effect="fadeInLeft">
 
+                <div class="col-md-8 animate-box" id="article" data-animate-effect="fadeInLeft">
+                    <div class="form-group">
+                        <h1 id="header">{{.news.Title}}</h1>
+                        <hr>
+                    </div>
                     {{.content}}
 
                     <div class="form-group">
@@ -184,6 +202,96 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="container paddding">
+
+        <div class="row mx-0">
+            <div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
+                <div class="container animate-box">
+                    <h4 class="list-title">Ý kiến độc giả</h4>
+                    <ul class="list-sorting">
+                        <li id="comment-6325974" class="comment cmt-0 ">
+                            <div class="comment-meta">
+                                <p class="author">Quang Vinh</p>
+                                <p class="comment-content">Đã uống rượu bia quá nồng độ cồn lại không có bằng lái gây
+                                    chết
+                                    nguời mà phạt có 3 - 4 năm
+                                    tù mạng nguời giờ rẻ quá. Chị ta lái xe khi biết mình chưa có bằng lái mà vẫn lái
+                                    trong
+                                    khi
+                                    là một đại gia thì...
+                                    <a class="btnShow" href="#" title="Xem toàn bộ bình luận">
+                                        +
+                                    </a>
+                                </p>
+                            </div>
+                            <p class="comment-actions">
+                                <a class="btnReply" href="#">
+                                    Trả lời
+                                </a>
+                                <span class="separator">•</span>
+                                <a class="btnLike" href="#"><strong>90</strong> Thích</a>
+                                <span class="separator">•</span>
+                                <a class="btnDislike" href="#"><strong>69</strong> Không thích</a>
+                                <span class="time">1 giờ trước</span></p>
+                        </li>
+                        <li id="comment-6325974" class="comment cmt-0 ">
+                            <div class="comment-meta">
+                                <p class="author">Quang Vinh</p>
+                                <p class="comment-content">Đã uống rượu bia quá nồng độ cồn lại không có bằng lái gây
+                                    chết
+                                    nguời mà phạt có 3 - 4 năm
+                                    tù mạng nguời giờ rẻ quá. Chị ta lái xe khi biết mình chưa có bằng lái mà vẫn lái
+                                    trong
+                                    khi
+                                    là một đại gia thì...
+                                    <a class="btnShow" href="#" title="Xem toàn bộ bình luận">
+                                        +
+                                    </a>
+                                </p>
+                            </div>
+                            <p class="comment-actions">
+                                <a class="btnReply" href="#">
+                                    Trả lời
+                                </a>
+                                <span class="separator">•</span>
+                                <a class="btnLike" href="#"><strong>90</strong> Thích</a>
+                                <span class="separator">•</span>
+                                <a class="btnDislike" href="#"><strong>69</strong> Không thích</a>
+                                <span class="time">1 giờ trước</span></p>
+                        </li>
+                        <li id="comment-6325974" class="comment cmt-0 ">
+                            <div class="comment-meta">
+                                <p class="author">Quang Vinh</p>
+                                <p class="comment-content">Đã uống rượu bia quá nồng độ cồn lại không có bằng lái gây
+                                    chết
+                                    nguời mà phạt có 3 - 4 năm
+                                    tù mạng nguời giờ rẻ quá. Chị ta lái xe khi biết mình chưa có bằng lái mà vẫn lái
+                                    trong
+                                    khi
+                                    là một đại gia thì...
+                                    <a class="btnShow" href="#" title="Xem toàn bộ bình luận">
+                                        +
+                                    </a>
+                                </p>
+                            </div>
+                            <p class="comment-actions">
+                                <a class="btnReply" href="#">
+                                    Trả lời
+                                </a>
+                                <span class="separator">•</span>
+                                <a class="btnLike" href="#"><strong>90</strong> Thích</a>
+                                <span class="separator">•</span>
+                                <a class="btnDislike" href="#"><strong>69</strong> Không thích</a>
+                                <span class="time">1 giờ trước</span></p>
+                        </li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </div>
     <div class="container-fluid pb-4 pt-5">
         <div class="container animate-box">

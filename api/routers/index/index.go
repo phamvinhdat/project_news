@@ -1,6 +1,7 @@
 package index
 
 import (
+	"html/template"
 	"net/http"
 	"strconv"
 
@@ -36,9 +37,17 @@ func NewRouterIndex(userRepo repository.IUserRepo, categoryRepo repository.ICare
 
 func (r *RouterIndex) Register(group *gin.RouterGroup) {
 	group.GET("/", r.getIndex)
+	group.GET("/error", r.getError)
 	group.GET("/login", r.getLogin)
 	group.GET("/register", r.getRegister)
 	group.GET("/post/:categoryID/:newsID/:postName", r.getPost)
+}
+
+func (*RouterIndex)getError(c *gin.Context){
+
+	c.HTML(http.StatusOK, "error.html", gin.H{
+
+	})
 }
 
 func (r *RouterIndex) getPost(c *gin.Context) {
@@ -47,6 +56,7 @@ func (r *RouterIndex) getPost(c *gin.Context) {
 	news, err := r.NewsRepo.FetchByID(newsID)
 	if err != nil {
 		c.Redirect(http.StatusSeeOther, "/error")
+		return
 	}
 
 	//get category
@@ -67,12 +77,33 @@ func (r *RouterIndex) getPost(c *gin.Context) {
 		}
 	}
 
+	randTags, err := r.TagRepo.FetchRandTag(10)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	mostViews, err := r.NewsRepo.FetchMostView(10, true)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	randMews, err := r.NewsRepo.FetchRand(10, true)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
 	c.HTML(http.StatusOK, "post.html", gin.H{
-		"title":      "24 News — Tin tức 24h",
 		"Categories": categoryParents,
 		"isLogin":    isLogin,
 		"name":       name,
 		"news":       news,
+		"content":    template.HTML(news.Content),
+		"randTags":   randTags,
+		"mostView":   mostViews,
+		"randNews":   randMews,
 	})
 }
 

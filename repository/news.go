@@ -34,7 +34,7 @@ func (n *MySQLNewsRepo) FetchMostView(number int, isPulic bool) ([]models.News, 
 	if !isPulic {
 		err = n.Conn.Debug().Limit(number).Order("views desc").Find(&news).Error
 	} else {
-		err = n.Conn.Debug().Limit(number).Joins("LEFT JOIN censors c ON news.id = c.news_id").Where("c.is_public = ?", isPulic).Order("views desc").Find(&news).Error
+		err = n.Conn.Debug().Limit(number).Joins("LEFT JOIN censors c ON news.id = c.news_id").Where("c.is_public = ?", isPulic).Order("views desc, date_post desc").Find(&news).Error
 	}
 	if err != nil {
 		return nil, err
@@ -59,15 +59,31 @@ func (n *MySQLNewsRepo) FetchNewest(number int, isPulic bool) ([]models.News, er
 	return news, nil
 }
 
+func (n *MySQLNewsRepo) FetchNewestCategory(number, categoryID, notEqualID int, isPulic bool) ([]models.News, error) {
+	var news []models.News
+	var err error
+
+	if !isPulic {
+		err = n.Conn.Debug().Limit(number).Where("news.category_id = ? AND news.id <> ?", categoryID, notEqualID).Order("date_post desc").Find(&news).Error
+	} else {
+		err = n.Conn.Debug().Limit(number).Joins("LEFT JOIN censors c ON news.id = c.news_id").Where("c.is_public = ? AND news.category_id = ? AND news.id <> ?", isPulic, categoryID, notEqualID).Order("date_post desc").Find(&news).Error
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	return news, nil
+}
+
 func (n *MySQLNewsRepo) FetchTopCategory(number int, isPulic bool) ([]models.News, error) {
 	var news []models.News
 	var err error
 	var strQuery string
 
 	if !isPulic {
-		strQuery = fmt.Sprintf("SELECT k.* FROM news k WHERE k.id = (SELECT n.id FROM news n WHERE n.category_id = k.category_id ORDER BY n.views DESC LIMIT 1) GROUP BY k.category_id ORDER BY k.views DESC LIMIT %d", number)
+		strQuery = fmt.Sprintf("SELECT k.* FROM news k WHERE k.id = (SELECT n.id FROM news n WHERE n.category_id = k.category_id ORDER BY n.views DESC, date_post DESC LIMIT 1) ORDER BY k.views DESC, date_post DESC LIMIT %d", number)
 	} else {
-		strQuery = fmt.Sprintf("SELECT k.* FROM news k LEFT JOIN censors c on k.id = c.news_id WHERE c.is_public = %t AND k.id = (SELECT n.id FROM news n WHERE n.category_id = k.category_id ORDER BY n.views DESC LIMIT 1) GROUP BY k.category_id ORDER BY k.views DESC LIMIT %d", isPulic, number)
+		strQuery = fmt.Sprintf("SELECT k.* FROM news k LEFT JOIN censors c on k.id = c.news_id WHERE c.is_public = %t AND k.id = (SELECT n.id FROM news n WHERE n.category_id = k.category_id ORDER BY n.views DESC, date_post DESC LIMIT 1) ORDER BY k.views DESC, date_post DESC LIMIT %d", isPulic, number)
 	}
 	rows, err := n.Conn.Debug().Raw(strQuery).Rows()
 	if err != nil {
@@ -100,6 +116,7 @@ func (n *MySQLNewsRepo) FetchTopCategory(number int, isPulic bool) ([]models.New
 			Views:      Views,
 			IsPremium:  IsPremium,
 		}
+		println(ID)
 		news = append(news, article)
 	}
 

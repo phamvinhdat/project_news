@@ -20,14 +20,16 @@ type RouterIndex struct {
 	CategoryRepo repository.ICaregoryRepo
 	JwtAuthen    *middleware.JWTAuthen
 	NewsRepo     repository.INewsRepo
+	TagRepo      repository.ITagRepo
 }
 
-func NewRouterIndex(userRepo repository.IUserRepo, categoryRepo repository.ICaregoryRepo, jwtAuthen *middleware.JWTAuthen, newsRepo repository.INewsRepo) *RouterIndex {
+func NewRouterIndex(userRepo repository.IUserRepo, categoryRepo repository.ICaregoryRepo, jwtAuthen *middleware.JWTAuthen, newsRepo repository.INewsRepo, tagRepo repository.ITagRepo) *RouterIndex {
 	return &RouterIndex{
 		UserRepo:     userRepo,
 		CategoryRepo: categoryRepo,
 		JwtAuthen:    jwtAuthen,
 		NewsRepo:     newsRepo,
+		TagRepo:      tagRepo,
 	}
 }
 
@@ -35,6 +37,14 @@ func (r *RouterIndex) Register(group *gin.RouterGroup) {
 	group.GET("/", r.getIndex)
 	group.GET("/login", r.getLogin)
 	group.GET("/register", r.getRegister)
+	group.GET("/post/:newsID", r.getPost)
+}
+
+func (r *RouterIndex)getPost(c *gin.Context){
+	newsID := c.GetInt("newsID")
+	//news, err := r.NewsRepo.FetchByID(newID)
+	println(newsID)
+
 }
 
 func (*RouterIndex) getLogin(c *gin.Context) {
@@ -92,16 +102,37 @@ func (r *RouterIndex) getIndex(c *gin.Context) {
 		return
 	}
 
+	topCategoryAndRelate, err := r.createTopCategoryAndRelate()
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	randMews2, err := r.NewsRepo.FetchRand(10, true)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	randTags, err := r.TagRepo.FetchRandTag(10)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
 	c.HTML(http.StatusOK, "index.html", gin.H{
 		"title":      "24 News — Tin tức 24h",
 		"Categories": categoryParents,
 		"isLogin":    isLogin,
 		"name":       name,
 		"news": gin.H{
-			"mostViews": mostViews,
-			"newest":    newest,
-			"rand":      randNews,
-			"top":       topCategoryNews,
+			"mostViews":    mostViews,
+			"newest":       newest,
+			"rand":         randNews,
+			"top":          topCategoryNews,
+			"topAndRelate": topCategoryAndRelate,
+			"rand2":        randMews2,
+			"randTag":      randTags,
 		},
 	})
 }
@@ -134,27 +165,27 @@ func HandlerError(httpStatus int, err error, c *gin.Context) {
 	}
 }
 
-// func (r *RouterIndex)createTopCategoryAndRelate()([]topCategoryAndRelate), error){
-	
-// 	var result []topCategoryAndRelate
-// 	topCategoryNews, err := r.NewsRepo.FetchTopCategory(10, true)
+func (r *RouterIndex) createTopCategoryAndRelate() ([]topCategoryAndRelate, error) {
 
-// 	 if err != nil{
-// 		 return nil, err
-// 	 }
+	var result []topCategoryAndRelate
+	topCategoryNews, err := r.NewsRepo.FetchTopCategory(10, true)
 
-// 	 for topNews := range topCategoryAndRelate{
-// 		 relateNew, _ := r.newsRepo.FetchNewest(3, true)
-// 		result = append(result, topCategoryAndRelate{
-// 			News: topNews,
-// 			RelateNew: relateNew,
-// 		})
-// 	 }
+	if err != nil {
+		return nil, err
+	}
 
-// 	 return result, nil
-// }
+	for _, topNews := range topCategoryNews {
+		relateNew, _ := r.NewsRepo.FetchNewestCategory(3, topNews.CategoryID, topNews.ID, true)
+		result = append(result, topCategoryAndRelate{
+			News:      topNews,
+			RelateNew: relateNew,
+		})
+	}
+
+	return result, nil
+}
 
 type topCategoryAndRelate struct {
-	News      *models.News
-	RelateNew []*models.News
+	News      models.News
+	RelateNew []models.News
 }

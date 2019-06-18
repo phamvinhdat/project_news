@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"time"
+
 	"github.com/jinzhu/gorm"
 	"github.com/phamvinhdat/project_news/models"
 )
@@ -42,4 +44,31 @@ func (t *MySQLTagRepo) Fetch(id int) (*models.Tag, error) {
 	}
 
 	return &tag, nil
+}
+
+func (t *MySQLTagRepo) FetchTopTag(number int, timeDuring *time.Time, isPublic, isPrivate bool) ([]models.Tag, error) {
+	// var tags []models.Tag
+	
+	// if !isPublic{
+	// 	err := t.Conn.Debug().Limit(number)..Error
+	// }else{
+
+	// }
+
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// return tags, nil
+	return nil, nil
+}
+
+func (t *MySQLTagRepo) FetchRandTag(number int) ([]models.Tag, error) {
+	var tags []models.Tag
+	err := t.Conn.Debug().Limit(number).Order("RAND()").Find(&tags).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return tags, nil
 }

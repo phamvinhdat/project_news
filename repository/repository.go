@@ -22,6 +22,7 @@ type ITagRepo interface {
 	Create(*models.Tag) error
 	Fetch(id int) (*models.Tag, error)
 	IsExists(name string) int
+	FetchRandTag(number int) ([]models.Tag, error)
 }
 
 type INewsTagRepo interface {
@@ -51,4 +52,5 @@ type INewsRepo interface {
 	FetchNewest(number int, isPulic bool) ([]models.News, error)
 	FetchRand(number int, isPulic bool) ([]models.News, error)
 	FetchTopCategory(number int, isPulic bool) ([]models.News, error)
+	FetchNewestCategory(number, categoryID, notEqualID int, isPulic bool) ([]models.News, error)
 }

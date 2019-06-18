@@ -88,11 +88,11 @@
                         </li>
                         {{range .Categories}}
                         <li class="nav-item dropdown">
-                            <a class="nav-link " href="/posts/{{.Name}}" id="dropdownMenuButton1">{{.Name}}</a>
+                            <a class="nav-link " href="/posts/{{.Name}}/0" id="dropdownMenuButton1">{{.Name}}</a>
                             <!-- {{if .CategoryChild}} -->
                             <div class="dropdown-content">
                                 {{range .CategoryChild}}
-                                <a class="dropdown-item" href="/post/{{.Name}}">{{.Name}}</a>
+                                <a class="dropdown-item" href="/posts/{{.Name}}/0">{{.Name}}</a>
                                 {{end}}
                             </div>
                             <!-- {{end}} -->
@@ -158,72 +158,25 @@
                         {{end}}
                     </div>
                     <div>
-                        <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Xem nhiều</div>
+                        <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Có thể bạn muốn xem</div>
                     </div>
+                    {{range .randNews}}
                     <div class="row pb-3">
                         <div class="col-5 align-self-center">
-                            <a href="single.html">
-                                <img src="images/1e55ca0e134ffa11a35e.jpg" alt="Nhật hoàng" class="fh5co_most_trading"
-                                    title="Hình ảnh tân Nhật hoàng Naruhito lên ngôi" />
+                            <a href="/post/{{.CategoryID}}/{{.ID}}/{{.Title}}">
+                                <img src="../../{{.Avatar}}" alt="{{.Title}}" class="fh5co_most_trading"
+                                    title="{{.Title}}" />
                             </a>
                         </div>
                         <div class="col-7 paddding">
                             <div class="most_fh5co_treding_font">
-                                <a class="fh5co_consectetur" href="single.html"
-                                    title="Hình ảnh tân Nhật hoàng Naruhito lên ngôi">Hình ảnh tân Nhật hoàng Naruhito
-                                    lên ngôi</a>
+                                <a class="fh5co_consectetur" href="/post/{{.CategoryID}}/{{.ID}}/{{.Title}}"
+                                    title="{{.Title}}">{{.Title}}</a>
                             </div>
                             <div class="most_fh5co_treding_font_123">01/05/2019</div>
                         </div>
                     </div>
-                    <div class="row pb-3">
-                        <div class="col-5 align-self-center">
-                            <a href="single.html">
-                                <img src="images/nghi-trua.jpg" alt="Nhật hoàng" class="fh5co_most_trading"
-                                    title="Xếp lịch công chức làm việc từ 8 giờ 30, nghỉ trưa 1 tiếng" />
-                            </a>
-                        </div>
-                        <div class="col-7 paddding">
-                            <div class="most_fh5co_treding_font">
-                                <a class="fh5co_consectetur" href="single.html"
-                                    title="Xếp lịch công chức làm việc từ 8 giờ 30, nghỉ trưa 1 tiếng">Xếp lịch công
-                                    chức làm việc từ 8 giờ 30, nghỉ trưa 1 tiếng</a>
-                            </div>
-                            <div class="most_fh5co_treding_font_123">01/05/2019</div>
-                        </div>
-                    </div>
-                    <div class="row pb-3">
-                        <div class="col-5 align-self-center">
-                            <a href="single.html">
-                                <img src="images/f68b70d1a99040ce1981.jpg" alt="Nhật hoàng" class="fh5co_most_trading"
-                                    title="Tài xế Mercedes GLA tông chết 2 phụ nữ khai đã uống rượu ở họp lớp" />
-                            </a>
-                        </div>
-                        <div class="col-7 paddding">
-                            <div class="most_fh5co_treding_font">
-                                <a class="fh5co_consectetur" href="single.html"
-                                    title="Tài xế Mercedes GLA tông chết 2 phụ nữ khai đã uống rượu ở họp lớp">Tài xế
-                                    Mercedes GLA tông chết 2 phụ nữ khai đã uống rượu ở họp lớp</a>
-                            </div>
-                            <div class="most_fh5co_treding_font_123">01/05/2019</div>
-                        </div>
-                    </div>
-                    <div class="row pb-3">
-                        <div class="col-5 align-self-center">
-                            <a href="single.html">
-                                <img src="images/zing_mochau_1.jpg" alt="Nhật hoàng" class="fh5co_most_trading"
-                                    title="Tranh cãi chuyện du khách nữ mặc váy trên cầu kính 5D Mộc Châu" />
-                            </a>
-                        </div>
-                        <div class="col-7 paddding">
-                            <div class="most_fh5co_treding_font">
-                                <a class="fh5co_consectetur" href="single.html"
-                                    title="Tranh cãi chuyện du khách nữ mặc váy trên cầu kính 5D Mộc Châu">Tranh cãi
-                                    chuyện du khách nữ mặc váy trên cầu kính 5D Mộc Châu</a>
-                            </div>
-                            <div class="most_fh5co_treding_font_123">01/05/2019</div>
-                        </div>
-                    </div>
+                    {{end}}
                 </div>
             </div>
             <div class="row mx-0 animate-box" data-animate-effect="fadeInUp">

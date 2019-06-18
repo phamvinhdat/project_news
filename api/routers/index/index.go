@@ -42,12 +42,14 @@ func (r *RouterIndex) Register(group *gin.RouterGroup) {
 	group.GET("/error", r.getError)
 	group.GET("/login", r.getLogin)
 	group.GET("/register", r.getRegister)
-	group.GET("/posts/:category", r.getCategory)
+	group.GET("/posts/:category/:page", r.getCategory)
 	group.GET("/post/:category/:newsID/:title", r.getPost)
 }
 
 func (r *RouterIndex) getCategory(c *gin.Context) {
 	categoryName := c.Param("category")
+	pageStr := c.Param("page")
+	page, _ := strconv.Atoi(pageStr)
 	log.Println(categoryName)
 	//get category
 	categories, err := r.CategoryRepo.FetchAll()
@@ -75,7 +77,7 @@ func (r *RouterIndex) getCategory(c *gin.Context) {
 		return
 	}
 
-	news, err := r.NewsRepo.FetchNewestCategory(10, category.ID, 0, true)
+	news, err := r.NewsRepo.FetchNewestCategory(page, 10, category.ID, 0, true)
 	if err != nil {
 		ctx := context.WithValue(c.Request.Context(), "error", err)
 		c.Request = c.Request.WithContext(ctx)
@@ -83,7 +85,7 @@ func (r *RouterIndex) getCategory(c *gin.Context) {
 		return
 	}
 
-	if len(news) <= 0{
+	if len(news) <= 0 {
 		c.Redirect(http.StatusSeeOther, "/")
 	}
 
@@ -95,12 +97,29 @@ func (r *RouterIndex) getCategory(c *gin.Context) {
 		return
 	}
 
+	randMews, err := r.NewsRepo.FetchRand(5, true)
+	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	maxPage := 0
+	mockNews, _ := r.NewsRepo.FetchNewestCategory(0, 150000, category.ID, 0, true)
+	if mockNews != nil {
+		maxPage = len(mockNews)
+	}
+	strpage := models.Page{Current: page, Max: maxPage}
+
 	c.HTML(http.StatusOK, "category.html", gin.H{
 		"Categories": categoryParents,
 		"isLogin":    isLogin,
 		"name":       name,
 		"news":       news,
 		"tags":       tags,
+		"page":       strpage,
+		"randNews":   randMews,
 	})
 }
 
@@ -152,7 +171,7 @@ func (r *RouterIndex) getPost(c *gin.Context) {
 		return
 	}
 
-	mostViews, err := r.NewsRepo.FetchMostView(10, true)
+	mostViews, err := r.NewsRepo.FetchMostView(0, 10, true)
 	if err != nil {
 		ctx := context.WithValue(c.Request.Context(), "error", err)
 		c.Request = c.Request.WithContext(ctx)
@@ -211,7 +230,7 @@ func (r *RouterIndex) getIndex(c *gin.Context) {
 		}
 	}
 
-	mostViews, err := r.NewsRepo.FetchMostView(10, true)
+	mostViews, err := r.NewsRepo.FetchMostView(0, 10, true)
 	if err != nil {
 		ctx := context.WithValue(c.Request.Context(), "error", err)
 		c.Request = c.Request.WithContext(ctx)
@@ -219,7 +238,7 @@ func (r *RouterIndex) getIndex(c *gin.Context) {
 		return
 	}
 
-	newest, err := r.NewsRepo.FetchNewest(10, true)
+	newest, err := r.NewsRepo.FetchNewest(0, 10, true)
 	if err != nil {
 		ctx := context.WithValue(c.Request.Context(), "error", err)
 		c.Request = c.Request.WithContext(ctx)
@@ -235,7 +254,7 @@ func (r *RouterIndex) getIndex(c *gin.Context) {
 		return
 	}
 
-	topCategoryNews, err := r.NewsRepo.FetchMostView(5, true)
+	topCategoryNews, err := r.NewsRepo.FetchMostView(0, 5, true)
 	if err != nil {
 		ctx := context.WithValue(c.Request.Context(), "error", err)
 		c.Request = c.Request.WithContext(ctx)
@@ -315,14 +334,14 @@ func HandlerError(httpStatus int, err error, c *gin.Context) {
 func (r *RouterIndex) createTopCategoryAndRelate() ([]topCategoryAndRelate, error) {
 
 	var result []topCategoryAndRelate
-	topCategoryNews, err := r.NewsRepo.FetchTopCategory(10, true)
+	topCategoryNews, err := r.NewsRepo.FetchTopCategory(0, 10, true)
 
 	if err != nil {
 		return nil, err
 	}
 
 	for _, topNews := range topCategoryNews {
-		relateNew, _ := r.NewsRepo.FetchNewestCategory(3, topNews.CategoryID, topNews.ID, true)
+		relateNew, _ := r.NewsRepo.FetchNewestCategory(0, 3, topNews.CategoryID, topNews.ID, true)
 		result = append(result, topCategoryAndRelate{
 			News:      topNews,
 			RelateNew: relateNew,

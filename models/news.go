@@ -16,3 +16,8 @@ type News struct {
 	Views      int        `gorm:"colums:views;type:int(11);default 0"`
 	IsPremium  bool       `from:"ispremium" gorm:"colums:is_premium;type:bool;default 0"`
 }
+
+type Page struct {
+	Current int
+	Max     int
+}

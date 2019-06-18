@@ -49,9 +49,9 @@ type INewsRepo interface {
 	Create(news *models.News) error
 	FetchAllNew()(*[]models.News, error)
 	FetchByID(newID int)(*models.News, error)
-	FetchMostView(number int, isPulic bool)([]models.News, error)
-	FetchNewest(number int, isPulic bool) ([]models.News, error)
+	FetchMostView(offset, number int, isPulic bool)([]models.News, error)
+	FetchNewest(offset, number int, isPulic bool) ([]models.News, error)
 	FetchRand(number int, isPulic bool) ([]models.News, error)
-	FetchTopCategory(number int, isPulic bool) ([]models.News, error)
-	FetchNewestCategory(number, categoryID, notEqualID int, isPulic bool) ([]models.News, error)
+	FetchTopCategory(offset, number int, isPulic bool) ([]models.News, error)
+	FetchNewestCategory(offset, number, categoryID, notEqualID int, isPulic bool) ([]models.News, error)
 }

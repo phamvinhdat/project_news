@@ -27,14 +27,14 @@ func (n *MySQLNewsRepo) Create(news *models.News) error {
 	return nil
 }
 
-func (n *MySQLNewsRepo) FetchMostView(number int, isPulic bool) ([]models.News, error) {
+func (n *MySQLNewsRepo) FetchMostView(offset, number int, isPulic bool) ([]models.News, error) {
 	var news []models.News
 	var err error
 
 	if !isPulic {
-		err = n.Conn.Debug().Limit(number).Order("views desc").Find(&news).Error
+		err = n.Conn.Offset(offset).Limit(number).Order("views desc").Find(&news).Error
 	} else {
-		err = n.Conn.Debug().Limit(number).Joins("LEFT JOIN censors c ON news.id = c.news_id").Where("c.is_public = ?", isPulic).Order("views desc, date_post desc").Find(&news).Error
+		err = n.Conn.Offset(offset).Limit(number).Joins("LEFT JOIN censors c ON news.id = c.news_id").Where("c.is_public = ?", isPulic).Order("views desc, date_post desc").Find(&news).Error
 	}
 	if err != nil {
 		return nil, err
@@ -43,14 +43,14 @@ func (n *MySQLNewsRepo) FetchMostView(number int, isPulic bool) ([]models.News, 
 	return news, nil
 }
 
-func (n *MySQLNewsRepo) FetchNewest(number int, isPulic bool) ([]models.News, error) {
+func (n *MySQLNewsRepo) FetchNewest(offset, number int, isPulic bool) ([]models.News, error) {
 	var news []models.News
 	var err error
 
 	if !isPulic {
-		err = n.Conn.Debug().Limit(number).Order("date_post desc").Find(&news).Error
+		err = n.Conn.Offset(offset).Limit(number).Order("date_post desc").Find(&news).Error
 	} else {
-		err = n.Conn.Debug().Limit(number).Joins("LEFT JOIN censors c ON news.id = c.news_id").Where("c.is_public = ?", isPulic).Order("date_post desc").Find(&news).Error
+		err = n.Conn.Offset(offset).Limit(number).Joins("LEFT JOIN censors c ON news.id = c.news_id").Where("c.is_public = ?", isPulic).Order("date_post desc").Find(&news).Error
 	}
 	if err != nil {
 		return nil, err
@@ -59,14 +59,14 @@ func (n *MySQLNewsRepo) FetchNewest(number int, isPulic bool) ([]models.News, er
 	return news, nil
 }
 
-func (n *MySQLNewsRepo) FetchNewestCategory(number, categoryID, notEqualID int, isPulic bool) ([]models.News, error) {
+func (n *MySQLNewsRepo) FetchNewestCategory(offset, number, categoryID, notEqualID int, isPulic bool) ([]models.News, error) {
 	var news []models.News
 	var err error
 
 	if !isPulic {
-		err = n.Conn.Debug().Limit(number).Where("news.category_id = ? AND news.id <> ?", categoryID, notEqualID).Order("date_post desc").Find(&news).Error
+		err = n.Conn.Offset(offset).Limit(number).Where("news.category_id = ? AND news.id <> ?", categoryID, notEqualID).Order("date_post desc").Find(&news).Error
 	} else {
-		err = n.Conn.Debug().Limit(number).Joins("LEFT JOIN censors c ON news.id = c.news_id").Where("c.is_public = ? AND news.category_id = ? AND news.id <> ?", isPulic, categoryID, notEqualID).Order("date_post desc").Find(&news).Error
+		err = n.Conn.Offset(offset).Debug().Limit(number).Joins("LEFT JOIN censors c ON news.id = c.news_id").Where("c.is_public = ? AND news.category_id = ? AND news.id <> ?", isPulic, categoryID, notEqualID).Order("date_post desc").Find(&news).Error
 	}
 	if err != nil {
 		return nil, err
@@ -75,17 +75,17 @@ func (n *MySQLNewsRepo) FetchNewestCategory(number, categoryID, notEqualID int, 
 	return news, nil
 }
 
-func (n *MySQLNewsRepo) FetchTopCategory(number int, isPulic bool) ([]models.News, error) {
+func (n *MySQLNewsRepo) FetchTopCategory(offset, number int, isPulic bool) ([]models.News, error) {
 	var news []models.News
 	var err error
 	var strQuery string
 
 	if !isPulic {
-		strQuery = fmt.Sprintf("SELECT k.* FROM news k WHERE k.id = (SELECT n.id FROM news n WHERE n.category_id = k.category_id ORDER BY n.views DESC, date_post DESC LIMIT 1) ORDER BY k.views DESC, date_post DESC LIMIT %d", number)
+		strQuery = fmt.Sprintf("SELECT k.* FROM news k WHERE k.id = (SELECT n.id FROM news n WHERE n.category_id = k.category_id ORDER BY n.views DESC, date_post DESC LIMIT 1) ORDER BY k.views DESC, date_post DESC LIMIT %d OFFSET %d", number, offset)
 	} else {
-		strQuery = fmt.Sprintf("SELECT k.* FROM news k LEFT JOIN censors c on k.id = c.news_id WHERE c.is_public = %t AND k.id = (SELECT n.id FROM news n WHERE n.category_id = k.category_id ORDER BY n.views DESC, date_post DESC LIMIT 1) ORDER BY k.views DESC, date_post DESC LIMIT %d", isPulic, number)
+		strQuery = fmt.Sprintf("SELECT k.* FROM news k LEFT JOIN censors c on k.id = c.news_id WHERE c.is_public = %t AND k.id = (SELECT n.id FROM news n WHERE n.category_id = k.category_id ORDER BY n.views DESC, date_post DESC LIMIT 1) ORDER BY k.views DESC, date_post DESC LIMIT %d OFFSET %d", isPulic, number, offset)
 	}
-	rows, err := n.Conn.Debug().Raw(strQuery).Rows()
+	rows, err := n.Conn.Raw(strQuery).Rows()
 	if err != nil {
 		return nil, err
 	}
@@ -141,7 +141,7 @@ func (n *MySQLNewsRepo) FetchRand(number int, isPulic bool) ([]models.News, erro
 
 func (n *MySQLNewsRepo) FetchAllNew() (*[]models.News, error) {
 	var news []models.News
-	err := n.Conn.Find(&news).Error
+	err := n.Conn.Order("date_post DESC").Find(&news).Error
 	if err != nil {
 		return nil, err
 	}
@@ -168,11 +168,11 @@ func (n *MySQLNewsRepo) CountAll() int {
 
 	return count
 }
-func (n *MySQLNewsRepo)PageByNews(limit int, offset int)(*[]models.News, error){
+func (n *MySQLNewsRepo) PageByNews(limit int, offset int) (*[]models.News, error) {
 	var news []models.News
 
 	err := n.Conn.Debug().Offset(offset).Limit(limit).Find(&news).Error
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 

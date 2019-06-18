@@ -6,7 +6,7 @@
         <div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
             <div class="fh5co_suceefh5co_height">
                 <img src="{{(index .news.rand 0).Avatar}}" alt="Tang vật ma túy" />
-                <a href="/post/{{(index .news.rand 0).ID}}/{{(index .news.rand 0).Title}}">
+                <a href="/post/{{(index .news.rand 0).CategoryID}}/{{(index .news.rand 0).ID}}/{{(index .news.rand 0).Title}}">
                     <div class="fh5co_suceefh5co_height_position_absolute"></div>
                     <div class="fh5co_suceefh5co_height_position_absolute_font">
                         <div>
@@ -16,7 +16,7 @@
                             <a href="#" class="color_fff">{{(index .news.rand 0).CategoryID}}</a>
                         </div>
                         <div class="pr-3">
-                            <a href="/post/{{(index .news.rand 0).ID}}/{{(index .news.rand 0).Title}}" class="fh5co_good_font">{{(index .news.rand 0).Title}}</a>
+                            <a href="/post/{{(index .news.rand 0).CategoryID}}/{{(index .news.rand 0).ID}}/{{(index .news.rand 0).Title}}" class="fh5co_good_font">{{(index .news.rand 0).Title}}</a>
                         </div>
                     </div>
                 </a>
@@ -30,7 +30,7 @@
                 <div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
                     <div class="fh5co_suceefh5co_height_2">
                         <img src="{{$e.Avatar}}" alt="{{$e.Summary}}" />
-                        <a href="/post/{{$e.ID}}/{{$e.Title}}">
+                        <a href="/post/{{$e.CategoryID}}/{{$e.ID}}/{{$e.Title}}">
                             <div class="fh5co_suceefh5co_height_position_absolute"></div>
                             <div class="fh5co_suceefh5co_height_position_absolute_font_2">
                                 <div class="">
@@ -39,7 +39,7 @@
                                     </a>
                                     <a href="#" class="color_fff">{{$e.CategoryID}}</a>
                                 </div>
-                                <div class="pr-3"><a href="/post/{{$e.ID}}/{{$e.Title}}" class="fh5co_good_font_2">{{$e.Title}}</a>
+                                <div class="pr-3"><a href="/post/{{$e.CategoryID}}/{{$e.ID}}/{{$e.Title}}" class="fh5co_good_font_2">{{$e.Title}}</a>
                                 </div>
                             </div>
                         </a>
@@ -60,13 +60,13 @@
         <div class="owl-carousel owl-theme js" id="slider1">
             {{range .news.mostViews}}
             <div class="item px-2">
-                <a href="/post/{{.ID}}/{{.Title}}">
+                <a href="/post/{{.CategoryID}}/{{.ID}}/{{.Title}}">
                     <div class="fh5co_latest_trading_img_position_relative">
                         <div class="fh5co_latest_trading_img"><img src="{{.Avatar}}" alt="{{.Summary}}"
                                 class="fh5co_img_special_relative" /></div>
                         <div class="fh5co_latest_trading_img_position_absolute"></div>
                         <div class="fh5co_latest_trading_img_position_absolute_1">
-                            <a href="/post/{{.ID}}/{{.Title}}" class="text-white">{{.Title}}</a>
+                            <a href="/post/{{.CategoryID}}/{{.ID}}/{{.Title}}" class="text-white">{{.Title}}</a>
                             <div class="text-white">
                                 <i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{.DatePost}}
                                 <a href="#" class="color_fff">{{.CategoryID}}</a>
@@ -87,12 +87,12 @@
         <div class="owl-carousel owl-theme" id="slider2">
             {{range .news.newest}}
             <div class="item px-2">
-                <a href="/post/{{.ID}}/{{.Title}}">
+                <a href="/post/{{.CategoryID}}/{{.ID}}/{{.Title}}">
                     <div class="fh5co_hover_news_img">
                         <div class="fh5co_news_img"><img src="{{.Avatar}}" alt="Cầu thủ bóng đá" />
                         </div>
                         <div>
-                            <a href="/post/{{.ID}}/{{.Title}}" class="d-block fh5co_small_post_heading"><span
+                            <a href="/post/{{.CategoryID}}/{{.ID}}/{{.Title}}" class="d-block fh5co_small_post_heading"><span
                                     class="">{{.Title}}</span></a>
                             <div class="c_g"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{.DatePost}}</div>
                         </div>
@@ -114,7 +114,7 @@
                 {{range .news.topAndRelate}}
                 <div class="row pb-4">
                     <div class="col-md-5">
-                        <a href="/post/{{.News.ID}}/{{.News.Title}}">
+                        <a href="/post/{{.News.CategoryID}}/{{.News.ID}}/{{.News.Title}}">
                             <div class="fh5co_hover_news_img">
                                 <div class="fh5co_news_img">
                                     <img src="{{.News.Avatar}}" />
@@ -123,13 +123,13 @@
                         </a>
                     </div>
                     <div class="col-md-7 animate-box">
-                        <a href="/post/{{.News.ID}}/{{.News.Title}}" class="fh5co_magna py-2">{{.News.Title}}</a>
+                        <a href="/post/{{.News.CategoryID}}/{{.News.ID}}/{{.News.Title}}" class="fh5co_magna py-2">{{.News.Title}}</a>
                         <div class="fh5co_consectetur">{{.News.Summary}}
                         </div>
                         <ul class="fh5co_gaming_topikk pt-3">
                             {{range .RelateNew}}
                             <li>
-                                <a class="fh5co_consectetur" href="/post/{{.ID}}/{{.Title}}"
+                                <a class="fh5co_consectetur" href="/post/{{.CategoryID}}/{{.ID}}/{{.Title}}"
                                     title="{{.Title}}">{{.Title}}
                                 </a>
                             </li>
@@ -155,14 +155,14 @@
                 {{range .news.rand2}}
                 <div class="row pb-3">
                     <div class="col-5 align-self-center">
-                        <a href="/post/{{.ID}}/{{.Title}}">
+                        <a href="/post/{{.CategoryID}}/{{.ID}}/{{.Title}}">
                             <img src="{{.Avatar}}" alt="{{.Summary}}" class="fh5co_most_trading"
                                 title="{{.Title}}" />
                         </a>
                     </div>
                     <div class="col-7 paddding">
                         <div class="most_fh5co_treding_font">
-                            <a class="fh5co_consectetur" href="/post/{{.ID}}/{{.Title}}"
+                            <a class="fh5co_consectetur" href="/post/{{.CategoryID}}/{{.ID}}/{{.Title}}"
                                 title="{{.Title}}">{{.Title}}</a>
                         </div>
                         <div class="most_fh5co_treding_font_123">{{.DatePost}}</div>

@@ -2,6 +2,7 @@ package index
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/phamvinhdat/project_news/api/middleware"
@@ -37,14 +38,42 @@ func (r *RouterIndex) Register(group *gin.RouterGroup) {
 	group.GET("/", r.getIndex)
 	group.GET("/login", r.getLogin)
 	group.GET("/register", r.getRegister)
-	group.GET("/post/:newsID", r.getPost)
+	group.GET("/post/:categoryID/:newsID/:postName", r.getPost)
 }
 
-func (r *RouterIndex)getPost(c *gin.Context){
-	newsID := c.GetInt("newsID")
-	//news, err := r.NewsRepo.FetchByID(newID)
-	println(newsID)
+func (r *RouterIndex) getPost(c *gin.Context) {
+	strNewsID := c.Param("newsID")
+	newsID, _ := strconv.Atoi(strNewsID)
+	news, err := r.NewsRepo.FetchByID(newsID)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+	}
 
+	//get category
+	categories, err := r.CategoryRepo.FetchAll()
+	HandlerError(http.StatusNotFound, err, c)
+	categoryParents := convertCategoriesToCategorytParents(categories)
+
+	//get cookie
+	isLogin := false
+	name := "Login"
+	cookie, err := c.Request.Cookie("token")
+	if err == nil {
+		token := cookie.Value
+		tk, err := r.JwtAuthen.ParseToken(token)
+		if err == nil && tk.Username != "" {
+			isLogin = true
+			name = tk.Username
+		}
+	}
+
+	c.HTML(http.StatusOK, "post.html", gin.H{
+		"title":      "24 News — Tin tức 24h",
+		"Categories": categoryParents,
+		"isLogin":    isLogin,
+		"name":       name,
+		"news":       news,
+	})
 }
 
 func (*RouterIndex) getLogin(c *gin.Context) {

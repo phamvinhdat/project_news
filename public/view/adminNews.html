@@ -44,7 +44,7 @@
 				<td>
 					<img style="width: 150px;" src="/../../{{.News.Avatar}}" alt="{{.News.Summary}}">
 				</td>
-				<td id="tdCensor{{.News.ID}}">
+				<td style="min-width: 150px" id="tdCensor{{.News.ID}}">
 					{{if .Censor}}
 					{{if eq .Censor.IsPublic false}}
 					Không được duyệt

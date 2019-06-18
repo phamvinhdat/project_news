@@ -2,6 +2,7 @@ package index
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/phamvinhdat/project_news/api/middleware"
@@ -19,13 +20,17 @@ type RouterIndex struct {
 	UserRepo     repository.IUserRepo
 	CategoryRepo repository.ICaregoryRepo
 	JwtAuthen    *middleware.JWTAuthen
+	NewsRepo     repository.INewsRepo
+	TagRepo      repository.ITagRepo
 }
 
-func NewRouterIndex(userRepo repository.IUserRepo, categoryRepo repository.ICaregoryRepo, jwtAuthen *middleware.JWTAuthen) *RouterIndex {
+func NewRouterIndex(userRepo repository.IUserRepo, categoryRepo repository.ICaregoryRepo, jwtAuthen *middleware.JWTAuthen, newsRepo repository.INewsRepo, tagRepo repository.ITagRepo) *RouterIndex {
 	return &RouterIndex{
 		UserRepo:     userRepo,
 		CategoryRepo: categoryRepo,
 		JwtAuthen:    jwtAuthen,
+		NewsRepo:     newsRepo,
+		TagRepo:      tagRepo,
 	}
 }
 
@@ -33,6 +38,42 @@ func (r *RouterIndex) Register(group *gin.RouterGroup) {
 	group.GET("/", r.getIndex)
 	group.GET("/login", r.getLogin)
 	group.GET("/register", r.getRegister)
+	group.GET("/post/:categoryID/:newsID/:postName", r.getPost)
+}
+
+func (r *RouterIndex) getPost(c *gin.Context) {
+	strNewsID := c.Param("newsID")
+	newsID, _ := strconv.Atoi(strNewsID)
+	news, err := r.NewsRepo.FetchByID(newsID)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+	}
+
+	//get category
+	categories, err := r.CategoryRepo.FetchAll()
+	HandlerError(http.StatusNotFound, err, c)
+	categoryParents := convertCategoriesToCategorytParents(categories)
+
+	//get cookie
+	isLogin := false
+	name := "Login"
+	cookie, err := c.Request.Cookie("token")
+	if err == nil {
+		token := cookie.Value
+		tk, err := r.JwtAuthen.ParseToken(token)
+		if err == nil && tk.Username != "" {
+			isLogin = true
+			name = tk.Username
+		}
+	}
+
+	c.HTML(http.StatusOK, "post.html", gin.H{
+		"title":      "24 News — Tin tức 24h",
+		"Categories": categoryParents,
+		"isLogin":    isLogin,
+		"name":       name,
+		"news":       news,
+	})
 }
 
 func (*RouterIndex) getLogin(c *gin.Context) {
@@ -60,10 +101,52 @@ func (r *RouterIndex) getIndex(c *gin.Context) {
 	if err == nil {
 		token := cookie.Value
 		tk, err := r.JwtAuthen.ParseToken(token)
-		if err == nil && tk.Username != ""{
+		if err == nil && tk.Username != "" {
 			isLogin = true
 			name = tk.Username
 		}
+	}
+
+	mostViews, err := r.NewsRepo.FetchMostView(10, true)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	newest, err := r.NewsRepo.FetchNewest(10, true)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	randNews, err := r.NewsRepo.FetchRand(5, true)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	topCategoryNews, err := r.NewsRepo.FetchMostView(5, true)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	topCategoryAndRelate, err := r.createTopCategoryAndRelate()
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	randMews2, err := r.NewsRepo.FetchRand(10, true)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	randTags, err := r.TagRepo.FetchRandTag(10)
+	if err != nil {
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
 	}
 
 	c.HTML(http.StatusOK, "index.html", gin.H{
@@ -71,6 +154,15 @@ func (r *RouterIndex) getIndex(c *gin.Context) {
 		"Categories": categoryParents,
 		"isLogin":    isLogin,
 		"name":       name,
+		"news": gin.H{
+			"mostViews":    mostViews,
+			"newest":       newest,
+			"rand":         randNews,
+			"top":          topCategoryNews,
+			"topAndRelate": topCategoryAndRelate,
+			"rand2":        randMews2,
+			"randTag":      randTags,
+		},
 	})
 }
 
@@ -100,4 +192,29 @@ func HandlerError(httpStatus int, err error, c *gin.Context) {
 		c.AbortWithError(httpStatus, err)
 		return
 	}
+}
+
+func (r *RouterIndex) createTopCategoryAndRelate() ([]topCategoryAndRelate, error) {
+
+	var result []topCategoryAndRelate
+	topCategoryNews, err := r.NewsRepo.FetchTopCategory(10, true)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for _, topNews := range topCategoryNews {
+		relateNew, _ := r.NewsRepo.FetchNewestCategory(3, topNews.CategoryID, topNews.ID, true)
+		result = append(result, topCategoryAndRelate{
+			News:      topNews,
+			RelateNew: relateNew,
+		})
+	}
+
+	return result, nil
+}
+
+type topCategoryAndRelate struct {
+	News      models.News
+	RelateNew []models.News
 }

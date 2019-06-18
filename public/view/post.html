@@ -1,6 +1,105 @@
-{{template "header.html" .}}
+<!DOCTYPE html>
+<html lang="en" class="no-js">
 
-{{template "navbar.html" .}}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{.title}}</title>
+    <link href="../../../css/media_query.css" rel="stylesheet" type="text/css" />
+    <link href="../../../css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="../../../css/animate.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <link href="../../../css/owl.carousel.css" rel="stylesheet" type="text/css" />
+    <link href="../../../css/owl.theme.default.css" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap CSS -->
+    <link href="../../../css/style_1.css" rel="stylesheet" type="text/css" />
+    <!-- Modernizr JS -->
+    <script src="../../../js/modernizr-3.5.0.min.js"></script>
+    <script src="../../../js/index.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-3 fh5co_padding_menu">
+                    <a href="/"><img src="../../../images/logo.png" alt="logo-24h" class="fh5co_logo_width" /></a>
+                </div>
+
+                <div class="col-12 col-md-9 align-self-center fh5co_mediya_right">
+                    <div class="text-center d-inline-block">
+                        <div class="fh5co_verticle_middle">
+                            <div class="h-100">
+                                <div class="d-flex justify-content-center h-100">
+                                    <div class="searchbar bg-success">
+                                        <input id="txtSearch" class="search_input" type="text" name=""
+                                            placeholder="Search...">
+                                        <a href="/" id="aSearch" class="search_icon"><i class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="text-center d-inline-block">
+                        <a class="fh5co_display_table" href="
+                            {{if eq .isLogin false}}
+                            /login
+                            {{else}}
+                            /api/profile
+                            {{end}}">
+                            <div class="fh5co_verticle_middle">
+                                <i class="{{if eq .isLogin false}}
+                                    fa fa-sign-in
+                                    {{else}}
+                                    fa fa-user-circle-o
+                                    {{end}}"></i>
+                                {{.name}}
+                            </div>
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-success fh5co_padd_mediya padding_786">
+        <div class="container padding_786">
+            <nav class="navbar navbar-toggleable-md navbar-light ">
+                <button class="navbar-toggler navbar-toggler-right mt-3" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation"><span class="fa fa-bars"></span></button>
+                <a class="navbar-brand" href="#"><img src="../../../images/logo.png" alt="img"
+                        class="mobile_logo_width" /></a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/">Trang chủ<span class="sr-only">(current)</span></a>
+                        </li>
+                        {{range .Categories}}
+                        <li class="nav-item {{if .CategoryChild}}dropdown{{end}}">
+                            <a class="nav-link dropdown-toggle" href="/{{.Name}}" id="dropdownMenuButton1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{.Name}}<span
+                                    class="sr-only">(current)</span></a>
+                            {{if .CategoryChild}}
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
+                                {{range .CategoryChild}}
+                                <a class="dropdown-item" href="/{{.Name}}">{{.Name}}</a>
+                                {{end}}
+                            </div>
+                            {{end}}
+                        </li>
+                        {{end}}
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
     <div id="fh5co-title-box"
         style="background-image: url(images/phanthanhbinh_qxhg.jpg); background-position: 50% 90.5px;"
         data-stellar-background-ratio="0.5">
@@ -8,47 +107,17 @@
         <div class="page-title">
             <img src="images/ha-anh_hcli.jpg" alt="Hà Anh">
             <span>haanh84@gmail.com</span>
-            <span>02/05/2019</span>
-            <h2>'Nói Việt Nam là một trong 10 nền giáo dục hàng đầu thế giới thì thật khó hiểu'</h2>
+            <span>{{.news.DatePost}}</span>
+            <h2>{{.news.Title}}</h2>
         </div>
     </div>
     <div id="fh5co-single-content" class="container-fluid pb-4 pt-4 paddding">
         <div class="container paddding">
             <div class="row mx-0">
-                <div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
-                    <h4>Thông tin Việt Nam là một trong 10 nền giáo dục tiên tiến nhất thế giới là nội dung gây nhiều
-                        tranh cãi trong buổi tọa đàm về Giáo dục trong bối cảnh công nghệ số diễn ra tại Trường ĐH Sài
-                        Gòn hôm nay 2.5.</h4>
-                    <img src="images/binhmoi_rpvs.jpg" title="Ông Phan Thanh Bình phát biểu tại hội thảo"
-                        alt="Ông Phan Thanh Bình phát biểu tại hội thảo">
+                <div class="col-md-8 animate-box" id="article" data-animate-effect="fadeInLeft">
 
-                    <p class="img_title"><i class="fa fa-camera"></i> Ông Phan Thanh Bình phát biểu tại hội thảo</p>
-                    <p>Chiều 2.5, Ủy ban Văn hóa, Giáo dục, Thanh niên, Thiếu niên và nhi đồng của Quốc hội tổ chức toạ
-                        đàm Giáo dục trong bối cảnh công nghệ số tại Trường ĐH Sài Gòn. Tham dự có lãnh đạo nhiều trường
-                        ĐH và phổ thông trên địa bàn.</p>
-                    <h3>"Giáo dục Việt Nam đang kém nhất thế giới"</h3>
-                    <p>Phát biểu tại tọa đàm, ông Phan Thanh Bình, Chủ nhiệm Ủy ban Văn hóa, Giáo dục, Thanh niên, Thiếu
-                        niên và nhi đồng của Quốc hội, báo cáo kinh tế xã hội của Bộ Kế hoạch Đầu tư gửi Ủy ban kinh tế
-                        Quốc hội có nội dung Việt Nam là một trong 10 hệ thống giáo dục hàng đầu thế giới.</p>
-                    <p>Trước thông tin này, hiệu trưởng một trường ĐH có mặt trong tọa đàm nói ngay: “Giáo dục Việt Nam
-                        đang kém nhất thế giới chứ không phải hàng đầu thế giới”.</p>
-                    <p>“Thực trạng giáo dục nước ta hiện nay đang kém nhất thế giới, nếu chúng ta không kịp thay đổi
-                        trong 5 năm nữa thì mình tiếp tục thua kém thế giới cả 10 lần”, vị hiệu trưởng nhấn mạnh. </p>
-                    <p>Còn GS-TSKH Trần Ngọc Thêm, chuyên gia văn hóa học và ngôn ngữ học, nêu quan điểm: “Nếu nói giáo
-                        dục Việt Nam là một trong 10 nền giáo dục tệ nhất thế giới thì còn có thể hiểu được, còn là một
-                        trong 10 nền giáo dục hàng đầu thế giới thì thật khó hiểu”.</p>
-                    <h3>Giáo dục Việt Nam đang theo kiểu đối phó</h3>
-                    <p>Phát biểu tại tọa đàm, GS-TSKH Trần Ngọc Thêm cho rằng giáo dục Việt Nam đang theo kiểu đối phó.
-                    </p>
-                    <p>Ông Thêm phân tích: “Trường học đối phó, nhờ đối phó mà chúng ta có kết quả PISA rất cao. Hiện
-                        chúng ta kiểm định chất lượng, dù biết kết quả ra sao nhưng tất cả đều qua hết. Có những trường,
-                        người học gần như bị lừa vì khi vào học thấy rất tệ”.</p>
-                    <img src="images/tranngocthem_imum.jpg" alt="GS-TSKH Trần Ngọc Thêm trao đổi tại hội thảo">
-                    <p class="img_title"><i class="fa fa-camera"></i> GS-TSKH Trần Ngọc Thêm trao đổi tại hội thảo</p>
-                    <p>Cũng theo ông Thêm, nhiều trường đang phải loay hoay trong xây dựng chương trình, thay vì sắp xếp
-                        những môn học chung ở năm đầu tiên nhưng điều này sẽ khiến sinh viên bỏ học hàng loạt vì chán
-                        nản. Cuối cùng, có trường đối phó bằng cách sắp xếp những môn học chung vào học kỳ cuối cùng,
-                        đẩy những môn học hấp dẫn cho năm đầu tiên.</p>
+                    {{.news.Content}}
+
                     <div class="form-group">
                         <label for="comment" class="font-weight-bold">Comment:</label>
                         <textarea class="form-control" rows="5" id="comment"></textarea>
@@ -237,8 +306,7 @@
             </div>
         </div>
     </div>
-    {{template "footer.html" .}}
-    <!-- <div class="container-fluid fh5co_footer_bg pb-3">
+    <div class="container-fluid fh5co_footer_bg pb-3">
         <div class="container animate-box">
             <div class="row">
                 <div class="col-12 spdp_right py-5">
@@ -271,18 +339,26 @@
         <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
     </div>
 
+    <script>
+        let text = document.getElementById("article").innerHTML
+        text = text.substr(1, text.length - 1);
+        console.log(text)
+        document.getElementById("article").innerHTML = text
+    </script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
+    <script src="../../../js/owl.carousel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
         integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
         crossorigin="anonymous"></script>
-    <script src="js/jquery.waypoints.min.js"></script>
-    <script src="js/jquery.stellar.min.js"></script>
-    <script src="js/main.js"></script>
-    <script>if (!navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i)) { $(window).stellar(); }</script>
+    <!-- Waypoints -->
+    <script src="../../../js/jquery.waypoints.min.js"></script>
+    <!-- Main -->
+    <script src="../../../js/main.js"></script>
+
 </body>
 
-</html> -->
+</html>

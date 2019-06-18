@@ -53,3 +53,13 @@ func (n *MySQLNewsRepo) CountAll() int {
 
 	return count
 }
+func (n *MySQLNewsRepo)PageByNews(limit int, offset int)(*[]models.News, error){
+	var news []models.News
+
+	err := n.Conn.Debug().Offset(offset).Limit(limit).Find(&news).Error
+	if err != nil{
+		return nil, err
+	}
+
+	return &news, nil
+}

@@ -59,7 +59,7 @@ func (u *MySQLUserRepo) FetchRole(username string) (*models.Role, error) {
 	return &role, err
 }
 
-func (u *MySQLUserRepo) UpdatePassword(newPassword string, username string) error {
+func (u *MySQLUserRepo) UpdatePassword(newPassword string,  username string) error {
 	user, err := u.FetchByUsername(username)
 	if err != nil {
 		return err
@@ -76,7 +76,7 @@ func (u *MySQLUserRepo) UpdatePassword(newPassword string, username string) erro
 func (u *MySQLUserRepo) CountAll() int {
 	var count int
 	err := u.Conn.Model(&models.User{}).Count(&count).Error
-	if err != nil{
+	if err != nil {
 		return 0
 	}
 

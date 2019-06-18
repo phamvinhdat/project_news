@@ -32,12 +32,13 @@ func NewRouterAdmin(userRepo repository.IUserRepo, jwtAuthen *middleware.JWTAuth
 func (r *RouterAdmin) Register(group *gin.RouterGroup) {
 	group.GET("/", r.getAdmin)
 	group.GET("/news", r.getAdminNews)
+	group.GET("/allnews", r.getAdminAllNews)
 	group.POST("/news/ispublic", r.postNewsIsPublic)
 	group.DELETE("/news/:newsid", r.deleteNews)
 }
 
 func (r *RouterAdmin) deleteNews(c *gin.Context) {
-	
+
 }
 
 func (r *RouterAdmin) postNewsIsPublic(c *gin.Context) {
@@ -117,6 +118,7 @@ func (r *RouterAdmin) getAdmin(c *gin.Context) {
 
 	c.HTML(http.StatusOK, "adminDashboard.html", gin.H{
 		"status":   true,
+		"type":     true,
 		"username": username,
 		"payload": gin.H{
 			"countCategory": countCategory,
@@ -127,6 +129,31 @@ func (r *RouterAdmin) getAdmin(c *gin.Context) {
 }
 
 func (r *RouterAdmin) getAdminNews(c *gin.Context) {
+	username := c.Request.Context().Value("username").(string)
+
+	countCategory := r.CategoryRepo.CountAll()
+	countNews := r.NewsRepo.CountAll()
+	countUser := r.UserRepo.CountAll()
+	news, _ := r.NewsRepo.FetchAllNew()
+
+	var newsReturns []*newsReturn
+	for _, val := range *news {
+		censor, _ := r.CensorRepo.FetchByIDNews(val.ID)
+		newsReturns = append(newsReturns, &newsReturn{News: val, Censor: censor})
+	}
+
+	c.HTML(http.StatusOK, "adminNews.html", gin.H{
+		"status":   true,
+		"username": username,
+		"payload": gin.H{
+			"countCategory": countCategory,
+			"countNews":     countNews,
+			"countUser":     countUser,
+		},
+		"news": newsReturns,
+	})
+}
+func (r *RouterAdmin) getAdminAllNews(c *gin.Context) {
 	username := c.Request.Context().Value("username").(string)
 
 	countCategory := r.CategoryRepo.CountAll()

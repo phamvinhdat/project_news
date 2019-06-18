@@ -7,6 +7,7 @@
 
 	}
 </style>
+
 <div class="col-md-10">
 	<div class="content">
 		<h4 class="text-center"> Bài viết</h4>
@@ -30,8 +31,8 @@
 				<th scope="col">Tóm tắt</th>
 				<th scope="col">Avatar</th>
 				<th scope="col">Trạng thái</th>
-				<th scope="col" >Duyệt bài viết</th>
-				<th scope="col" >Xóa bài viết</th>
+				<th scope="col" {{if .type }} hidden {{end}}>Duyệt bài viết</th>
+				<th scope="col">Xóa bài viết</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -100,7 +101,7 @@
 				}
 			})
 		})
-		
+
 		//$()
 	})
 </script>

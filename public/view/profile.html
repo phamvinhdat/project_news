@@ -9,16 +9,17 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
   <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../../css/profile.css">
   <title>{{.userinfo.Name}}</title>
 </head>
+
 <body>
   <div class="container">
     <div class="row">
@@ -29,6 +30,10 @@
             <div class="list-group-flush mt-4">
               <a href="/" class="list-group-item list-group-item-action active">
                 <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+              <a href="/api/writer" class="list-group-item list-group-item-action ">
+                <i class="fa fa-pencil-square-o"></i></i>Viết bài</a>
+              <a href="/api/admin" class="list-group-item list-group-item-action">
+                <i class="fa fa-user-o"></i></i> Admin</a>
               <a href="/api/profile/logout" class="list-group-item list-group-item-action"><i class="fa fa-power-off"
                   aria-hidden="true"></i> Logout</a>
 
@@ -122,7 +127,7 @@
     </div>
     <!-- change Password -->
     <div class="container">
-      <form id="changePassForm" name="changePassForm"  action="/api/profile/password">
+      <form id="changePassForm" name="changePassForm" action="/api/profile/password">
         <div class="collapse" id="ChangePassCollapse">
           <div class="row">
             <div class="col-lg-4">
@@ -166,7 +171,7 @@
                           <button type="submit" class="btn btn-primary">
                             <i class="fa fa-floppy-o" area-hidden="true"></i> Save</button>
 
-                            
+
                           <button class="btn btn-danger" type="button" data-toggle="collapse"
                             data-target="#ChangePassCollapse" aria-expanded="false"
                             aria-controls="ChangePassCollapse"><i class="fa fa-times-circle" aria-hidden="true"></i>
@@ -234,7 +239,6 @@
   </div>
 
   <script>
-
     $(document).ready(function () {
       $("#ChangeUserInfo").validate({
         rules: {
@@ -325,7 +329,6 @@
       // })
 
     });
-
   </script>
 
 </body>

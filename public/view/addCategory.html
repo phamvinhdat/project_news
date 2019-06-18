@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <form id="addCategoryForm">
+        <div class="form-group col-lg-8">
+            <div class="form-group">
+
+                <label for="catName">Tên danh mục</label>
+                <input type="text" class="form-control" id="catName" name="catName" placeholder="Nhập tên danh mục">
+            </div>
+            <div class="form-group ">
+                <label for="catName">Danh mục cha</label>
+                <select class="custom-select">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Save</button>
+        </div>
+    </form>
+    <script>
+        $(document).ready(function () {
+            $('#addCategoryForm').validate({
+                rules: {
+                    catName: {
+                        required: true,
+                    },
+
+                },
+                messages: {
+                    catName: {
+                        required: 'Vui lòng không để trống tên danh mục.',
+                    },
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

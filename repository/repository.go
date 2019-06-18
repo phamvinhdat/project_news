@@ -33,6 +33,7 @@ type INewsTagRepo interface {
 type ICaregoryRepo interface {
 	FetchAll() ([]models.Category, error)
 	CountAll() int
+	FetchByName(name string) (*models.Category, error)
 }
 
 type IRoleRepo interface {

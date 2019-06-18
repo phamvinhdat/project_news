@@ -14,12 +14,16 @@
 
     body {
       background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
-       background-size: cover;
-      
+      background-size: cover;
     }
-
-    
   </style>
+  <title>
+    {{if .title}}
+    {{.title}}
+    {{else}}
+    Error!
+    {{end}}
+  </title>
 </head>
 
 <body>
@@ -30,16 +34,22 @@
         <div class="card w-100 shadow mx-auto">
           <div class="card-body text-center">
             <h1 class="card-title">Oops!</h1>
-            <h5 class="text-danger">Error</h5>
-            
+            <h5 class="text-danger">
+              {{if .error}}
+              {{.error}}
+              {{else}}
+              Có lỗi sảy ra! Hãy liên hệ với quản trị viên để được hỗ trợ
+              {{end}}
+            </h5>
+
             <div class="my-4">
               <a href="/" class="btn btn-primary btn-lg">
                 <i class="fa fa-home" aria-hidden="true"></i>
-                Take Me Home
+                Vê trang chủ
               </a>
               <a href="javascript:;" class="btn btn-success btn-lg">
                 <i class="fa fa-envelope" aria-hidden="true"></i>
-                Contact Support
+                Liên hệ
               </a>
             </div>
           </div>
@@ -48,6 +58,6 @@
     </div>
   </div>
 
- </body>
+</body>
 
 </html>

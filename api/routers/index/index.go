@@ -1,7 +1,9 @@
 package index
 
 import (
+	"context"
 	"html/template"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -40,25 +42,13 @@ func (r *RouterIndex) Register(group *gin.RouterGroup) {
 	group.GET("/error", r.getError)
 	group.GET("/login", r.getLogin)
 	group.GET("/register", r.getRegister)
-	group.GET("/post/:categoryID/:newsID/:postName", r.getPost)
+	group.GET("/posts/:category", r.getCategory)
+	group.GET("/post/:category/:newsID/:title", r.getPost)
 }
 
-func (*RouterIndex)getError(c *gin.Context){
-
-	c.HTML(http.StatusOK, "error.html", gin.H{
-
-	})
-}
-
-func (r *RouterIndex) getPost(c *gin.Context) {
-	strNewsID := c.Param("newsID")
-	newsID, _ := strconv.Atoi(strNewsID)
-	news, err := r.NewsRepo.FetchByID(newsID)
-	if err != nil {
-		c.Redirect(http.StatusSeeOther, "/error")
-		return
-	}
-
+func (r *RouterIndex) getCategory(c *gin.Context) {
+	categoryName := c.Param("category")
+	log.Println(categoryName)
 	//get category
 	categories, err := r.CategoryRepo.FetchAll()
 	HandlerError(http.StatusNotFound, err, c)
@@ -77,20 +67,103 @@ func (r *RouterIndex) getPost(c *gin.Context) {
 		}
 	}
 
+	category, err := r.CategoryRepo.FetchByName(categoryName)
+	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	news, err := r.NewsRepo.FetchNewestCategory(10, category.ID, 0, true)
+	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	if len(news) <= 0{
+		c.Redirect(http.StatusSeeOther, "/")
+	}
+
+	tags, err := r.TagRepo.FetchRandTag(10)
+	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	c.HTML(http.StatusOK, "category.html", gin.H{
+		"Categories": categoryParents,
+		"isLogin":    isLogin,
+		"name":       name,
+		"news":       news,
+		"tags":       tags,
+	})
+}
+
+func (*RouterIndex) getError(c *gin.Context) {
+
+	c.HTML(http.StatusOK, "error.html", gin.H{})
+}
+
+func (r *RouterIndex) getPost(c *gin.Context) {
+	//get category
+	categories, err := r.CategoryRepo.FetchAll()
+	HandlerError(http.StatusNotFound, err, c)
+	categoryParents := convertCategoriesToCategorytParents(categories)
+
+	//get cookie
+	isLogin := false
+	name := "Login"
+	cookie, err := c.Request.Cookie("token")
+	if err == nil {
+		token := cookie.Value
+		tk, err := r.JwtAuthen.ParseToken(token)
+		if err == nil && tk.Username != "" {
+			isLogin = true
+			name = tk.Username
+		}
+	}
+
+	strNewsID := c.Param("newsID")
+	newsID, err := strconv.Atoi(strNewsID)
+	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+	news, err := r.NewsRepo.FetchByID(newsID)
+	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
 	randTags, err := r.TagRepo.FetchRandTag(10)
 	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
 		c.Redirect(http.StatusSeeOther, "/error")
 		return
 	}
 
 	mostViews, err := r.NewsRepo.FetchMostView(10, true)
 	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
 		c.Redirect(http.StatusSeeOther, "/error")
 		return
 	}
 
 	randMews, err := r.NewsRepo.FetchRand(10, true)
 	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
 		c.Redirect(http.StatusSeeOther, "/error")
 		return
 	}
@@ -140,42 +213,56 @@ func (r *RouterIndex) getIndex(c *gin.Context) {
 
 	mostViews, err := r.NewsRepo.FetchMostView(10, true)
 	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
 		c.Redirect(http.StatusSeeOther, "/error")
 		return
 	}
 
 	newest, err := r.NewsRepo.FetchNewest(10, true)
 	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
 		c.Redirect(http.StatusSeeOther, "/error")
 		return
 	}
 
 	randNews, err := r.NewsRepo.FetchRand(5, true)
 	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
 		c.Redirect(http.StatusSeeOther, "/error")
 		return
 	}
 
 	topCategoryNews, err := r.NewsRepo.FetchMostView(5, true)
 	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
 		c.Redirect(http.StatusSeeOther, "/error")
 		return
 	}
 
 	topCategoryAndRelate, err := r.createTopCategoryAndRelate()
 	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
 		c.Redirect(http.StatusSeeOther, "/error")
 		return
 	}
 
 	randMews2, err := r.NewsRepo.FetchRand(10, true)
 	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
 		c.Redirect(http.StatusSeeOther, "/error")
 		return
 	}
 
 	randTags, err := r.TagRepo.FetchRandTag(10)
 	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
 		c.Redirect(http.StatusSeeOther, "/error")
 		return
 	}

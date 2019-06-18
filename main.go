@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 
 	"github.com/phamvinhdat/project_news/services"
 
@@ -73,6 +74,12 @@ func main() {
 	}
 	defer conn.Close()
 	r := setup(dbConfig, conn)
-
+	r.NoRoute(func(c *gin.Context) {
+		err := c.Request.Context().Value("error").(string)
+		c.HTML(http.StatusOK, "error.html", gin.H{
+			"title": err,
+			"error": err,
+		})
+	})
 	r.Run()
 }

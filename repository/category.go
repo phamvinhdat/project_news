@@ -15,6 +15,16 @@ func NewMySQLCategoryRepo(conn *gorm.DB) ICaregoryRepo {
 	}
 }
 
+func (c *MySQLCategoryRepo) FetchByName(name string) (*models.Category, error) {
+	var categorie models.Category
+	err := c.Conn.Where("Name = ?", name).First(&categorie).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &categorie, nil
+}
+
 func (c *MySQLCategoryRepo) FetchAll() ([]models.Category, error) {
 	var categories []models.Category
 	err := c.Conn.Find(&categories).Error

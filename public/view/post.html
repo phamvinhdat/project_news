@@ -135,11 +135,11 @@
                         </li>
                         {{range .Categories}}
                         <li class="nav-item dropdown">
-                            <a class="nav-link " href="/{{.Name}}" id="dropdownMenuButton1">{{.Name}}</a>
+                            <a class="nav-link " href="/posts/{{.Name}}/0" id="dropdownMenuButton1">{{.Name}}</a>
                             <!-- {{if .CategoryChild}} -->
                             <div class="dropdown-content">
                                 {{range .CategoryChild}}
-                                <a class="dropdown-item" href="/{{.Name}}">{{.Name}}</a>
+                                <a class="dropdown-item" href="/posts/{{.Name}}/0">{{.Name}}</a>
                                 {{end}}
                             </div>
                             <!-- {{end}} -->

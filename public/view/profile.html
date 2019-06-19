@@ -8,9 +8,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-  </script>
+  </script> -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
   </script>
@@ -29,15 +29,18 @@
 
             <div class="list-group-flush mt-4">
               <a href="/" class="list-group-item list-group-item-action active">
-                <i class="fa fa-home" aria-hidden="true"></i> Trang chủ</a>
+                <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+              {{if eq .userinfo.RoleID 3}}
               <a href="/api/writer" class="list-group-item list-group-item-action ">
-                <i class="fa fa-pencil-square-o"></i>Viết bài</a>
-                <a href="/api/admin/news" class="list-group-item list-group-item-action">
-                  <i class="fa fa-check"></i> Duyệt bài</a>
-                <a href="/api/admin" class="list-group-item list-group-item-action">
-                <i class="fa fa-user-o"></i> Admin</a>
-              <a href="/api/profile/logout" class="list-group-item list-group-item-action" ><i class="fa fa-power-off"
-                  aria-hidden="true" ></i> Đăng xuất/a>
+                <i class="fa fa-pencil-square-o"></i></i>Viết bài</a>
+              {{end}}
+              {{if eq .userinfo.RoleID 5}}
+              <a href="/api/admin" class="list-group-item list-group-item-action">
+                <i class="fa fa-user-o"></i></i> Admin</a>
+              {{end}}
+
+              <a href="/api/profile/logout" class="list-group-item list-group-item-action"><i class="fa fa-power-off"
+                  aria-hidden="true"></i> Logout</a>
 
             </div>
           </div>
@@ -102,8 +105,7 @@
                   <div class="form-group row">
                     <label for="phoneNumber" class="col-lg-3 col-form-label">Phone number: </label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="phone" 
-                        value="{{.userinfo.PhoneNumber}}" readonly>
+                      <input type="text" class="form-control" id="phone" value="{{.userinfo.PhoneNumber}}" readonly>
                     </div>
                   </div>
                 </li>
@@ -129,7 +131,7 @@
     </div>
     <!-- change Password -->
     <div class="container">
-      <form id="changePassForm" name="changePassForm" action="/api/profile/password">
+      <!-- <form id="changePassForm" name="changePassForm" action="/api/profile/password">
         <div class="collapse" id="ChangePassCollapse">
           <div class="row">
             <div class="col-lg-4">
@@ -137,47 +139,44 @@
             <div class="col-lg-8">
               <div class="card mt-4 shadow">
                 <div class="card-body">
-                  <h5 class="card-title">Đổi mật khẩu</h5>
-
+                  <h5 class="card-title">Change password</h5>
                   <div>
                     <ul class="list-group list-group-flush">
                       <li class="list-group-item">
                         <div class="form-group row">
-                          <label for="oldPass" class="col-lg-3 col-form-label">Mật khẩu hiện tại: </label>
+                          <label for="oldPass" class="col-lg-3 col-form-label">Old password: </label>
                           <div class="col-lg-9">
                             <input type="password" class="form-control" id="oldPass" name="oldPass"
-                              placeholder="Nhập mật khẩu hiện tại">
+                              placeholder="Password">
                           </div>
                         </div>
                       </li>
                       <li class="list-group-item">
                         <div class="form-group row">
-                          <label for="newPass" class="col-lg-3 col-form-label">Mật khẩu mới:</label>
+                          <label for="newPass" class="col-lg-3 col-form-label">New password:</label>
                           <div class="col-lg-9">
                             <input type="password" class="form-control" id="newPass" name="newPass"
-                              placeholder="Nhập mật khẩu mới">
+                              placeholder="New Password">
                           </div>
                         </div>
                       </li>
                       <li class="list-group-item">
                         <div class="form-group row">
-                          <label for="rePass" class="col-lg-3 col-form-label">Nhập lại mật khẩu: </label>
+                          <label for="rePass" class="col-lg-3 col-form-label">Repeat new password: </label>
                           <div class="col-lg-9">
                             <input type="password" class="form-control" id="rePass" name="rePass"
-                              placeholder="Nhập lại mật khẩu">
+                              placeholder="Repeat new password">
                           </div>
                         </div>
                       </li>
                       <li class="list-group-item">
                         <div class="list-group-flush mt-4">
                           <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-floppy-o" area-hidden="true"></i> Lưu</button>
-
-
+                            <i class="fa fa-floppy-o" area-hidden="true"></i> Save</button>
                           <button class="btn btn-danger" type="button" data-toggle="collapse"
                             data-target="#ChangePassCollapse" aria-expanded="false"
                             aria-controls="ChangePassCollapse"><i class="fa fa-times-circle" aria-hidden="true"></i>
-                            Đóng</a>
+                            Close</a>
                         </div>
                       </li>
                     </ul>
@@ -186,12 +185,12 @@
               </div>
             </div>
           </div>
-      </form>
+      </form> -->
     </div>
 
     <!-- Change userinfo-->
     <div class="container">
-      <div id="ChangeUserInfo">
+      <div id="ChangeUserInfo" type="POST">
         <div class="collapse" id="UserInfo">
           <div class="row">
 
@@ -199,68 +198,67 @@
             <div class="col-lg-8">
               <div class="card mt-4 shadow">
                 <div class="card-body">
-                  <h5 class="card-title">Thay đổi thông tin</h5>
+                  <h5 class="card-title">Basic</h5>
 
                   <div>
                     <ul class="list-group list-group-flush">
 
                       <li class="list-group-item">
                         <div class="form-group row">
-                          <label for="name" class="col-lg-3 col-form-label">Tên mới:</label>
+                          <label for="newName" class="col-lg-3 col-form-label">New name:</label>
                           <div class="col-lg-9">
-                            <input id="ipName" type="password" class="form-control" id="name" name="name" placeholder="Tên mới">
+                            <input type="text" class="form-control" id="newName" name="newName" placeholder="New name">
                           </div>
                         </div>
                       </li>
                       <li class="list-group-item">
                         <div class="form-group row">
-                          <label for="phoneNumber" class="col-lg-3 col-form-label">Số điện thoại mới: </label>
+                          <label for="newPhoneNumber" class="col-lg-3 col-form-label">New phone number: </label>
                           <div class="col-lg-9">
-                            <input id="ipPhoneNumber" type="text" class="form-control" id="phoneNumber" name="phoneNumber"
-                              placeholder="Số điện thoại mới">
+                            <input type="text" class="form-control" id="newPhoneNumber" name="newPhoneNumber"
+                              placeholder="New phone number">
                           </div>
                         </div>
                       </li>
                       <li>
                         <div class="list-group-flush mt-4">
                           <button id="btnSaveInfo" class="btn btn-primary">
-                            <i class="fa fa-floppy-o" area-hidden="true"></i> Lưu</button>
+                            <i class="fa fa-floppy-o" area-hidden="true"></i> Save</button>
                           <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#UserInfo"
                             aria-expanded="false" aria-controls="UserInfo"><i class="fa fa-times-circle"
-                              aria-hidden="true"></i> Đóng</a>
+                              aria-hidden="true"></i> Close</a>
                         </div>
                       </li>
                     </ul>
+                    </f>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
     </div>
   </div>
-
   <script>
     $(document).ready(function () {
       $("#ChangeUserInfo").validate({
+        submitHandler: postInfo,
         rules: {
-          name: {
+          newName: {
             required: true,
           },
-          phoneNumber: {
+          newPhoneNumber: {
             required: true,
-
           },
-
         },
         messages: {
-          name: {
+          newName: {
             required: 'Vui lòng nhập tên mới.',
           },
-          phoneNumber: {
+          newPhoneNumber: {
             required: 'Vui lòng nhập số điện thoại mới.',
           },
-
           errorElement: 'small',
           errorClass: 'help-block text-danger',
           validClass: 'is-valid',
@@ -272,7 +270,32 @@
           }
         }
       });
-
+      function postPassword(event) {
+        event.preventDefault();
+        var data = $("#changePassForm").serialize()
+        var url = $("#changePassForm").attr("action")
+        var posting = $.post(url, data)
+        console.log(data)
+        posting.done(function (d) {
+          if (d.status == false) {
+            alert("Changed password success!!")
+          } else {
+            alert(d.message)
+          }
+        })
+      }
+      $("#btnSaveInfo").click(function () {
+        var name = $("#newName").val()
+        var phone = $("#newPhoneNumber").val()
+        console.log(name)
+        $.ajax({
+          url: "/api/profile/change/" + name + "/" + phone,
+          type: "GET",
+          success: function (data) {
+            alert(data)
+          }
+        })
+      })
       $("#changePassForm").validate({
         submitHandler: postPassword,
         rules: {
@@ -281,7 +304,6 @@
           },
           newPass: {
             required: true,
-
           },
           rePass: {
             required: true,
@@ -310,35 +332,7 @@
           }
         }
       });
-
-      function postPassword(event) {
-        event.preventDefault();
-        var data = $("#changePassForm").serialize()
-        var url = $("#changePassForm").attr("action")
-        var posting = $.post(url, data)
-        console.log(data)
-        posting.done(function (d) {
-          if (d.status == false) {
-            alert("Changed password success!!")
-          } else {
-            alert(d.message)
-          }
-        })
-      }
-
-      $("#btnSaveInfo").click(function(){
-        var name = $("#ipName").val()
-        var phoneNumber = $("#ipPhoneNumber").val()
-        $.ajax({
-          url: "/api/profile/" + name + "/" + phoneNumber,
-          type: "GET",
-          success:{
-            
-          }
-        })
-      })
-
-    });
+    })
   </script>
 
 </body>

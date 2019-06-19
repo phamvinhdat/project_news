@@ -1,6 +1,7 @@
 package profile
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -25,7 +26,78 @@ func (r *RouterProfile) Register(group *gin.RouterGroup) {
 	group.GET("/", r.getProfile)
 	group.GET("/logout", r.getLogout)
 	group.POST("/password", r.postPassword)
-	// group.GET("/:name/:phone", r.changeInfo)
+	group.GET("/change/:name/:phone", r.changeInfo)
+}
+
+
+func (r *RouterProfile) changeInfo(c *gin.Context) {
+	log.Println("cc")
+	newName := c.Param("name")
+	newPhone := c.Param("phone")
+	log.Println(newName, newPhone)
+	// cookie, _ := c.Request.Cookie("token")
+	// token := cookie.Value
+	// tk, _ := r.JwtAuthen.ParseToken(token)
+	// newName := c.PostForm("newName")
+	// newPhoneNumber := c.PostForm("newPhoneNumber")
+	// decoder := json.NewDecoder(c.Request.Body)
+	// var req request
+	// _ = decoder.Decode(&req)
+	// log.Println("username", req, newName, newPhoneNumber)
+	// if newName == "" && newPhoneNumber == "" {
+	// 	c.JSON(http.StatusOK, gin.H{
+	// 		"status":  false,
+	// 		"message": "Thong tin khong hop le",
+	// 	})
+	// 	return
+	// }
+
+	// err := r.UserRepo.UpdateName(newName, tk.Username)
+	// if err != nil {
+	// 	c.JSON(http.StatusOK, gin.H{
+	// 		"status":  false,
+	// 		"message": err,
+	// 	})
+	// }
+
+	// err = r.UserRepo.UpdatePhoneNumber(newPhoneNumber, tk.Username)
+	// if err != nil {
+	// 	c.JSON(http.StatusOK, gin.H{
+	// 		"status":  false,
+	// 		"message": err,
+	// 	})
+	// }
+
+	// c.JSON(http.StatusOK, gin.H{
+	// 	"status":  true,
+	// 	"message": "update successfully",
+	// })
+	// newName:=c.Query("newName")
+	// newPhoneNumber := c.Query("newPhoneNumber")
+	// if(newName==""||newPhoneNumber==""){
+	// 	c.JSON(http.StatusOK,false)
+	// 	return
+	// }
+	// err := r.UserRepo.UpdateName(newName, tk.Username)
+	// if err != nil {
+	// 	c.JSON(http.StatusOK, gin.H{
+	// 		"status":  false,
+	// 		"message": err,
+	// 	})
+	// }
+
+	// err = r.UserRepo.UpdatePhoneNumber(newPhoneNumber, tk.Username)
+	// if err != nil {
+	// 	c.JSON(http.StatusOK, gin.H{
+	// 		"status":  false,
+	// 		"message": err,
+	// 	})
+	// }
+
+	// c.JSON(http.StatusOK, gin.H{
+	// 	"status":  true,
+	// 	"message": "update successfully",
+	// })
 }
 
 
@@ -44,7 +116,7 @@ func (r *RouterProfile) postPassword(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	err = bcrypt.CompareHashAndPassword([]byte(findUser.Password), []byte(oldPassword))
 	if err != nil {
 		c.HTML(http.StatusOK, "profile.html", gin.H{
@@ -56,7 +128,7 @@ func (r *RouterProfile) postPassword(c *gin.Context) {
 
 	newPassword := c.PostForm("newPass")
 	rePassword := c.PostForm("rePass")
-	if newPassword != rePassword{
+	if newPassword != rePassword {
 		c.HTML(http.StatusOK, "profile.html", gin.H{
 			"status":   false,
 			"userinfo": "Repeat password incorect.",
@@ -83,7 +155,7 @@ func (r *RouterProfile) postPassword(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "profile.html", gin.H{
-		"status":   true,
+		"status": true,
 	})
 }
 
@@ -97,11 +169,10 @@ func (r *RouterProfile) getProfile(c *gin.Context) {
 		return
 	}
 	user.Password = ""
-	user.RoleID = 0
 
 	c.HTML(http.StatusOK, "profile.html", gin.H{
 		"status":   true,
-		"userinfo": user,
+		"userinfo": *user,
 	})
 }
 

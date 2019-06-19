@@ -131,6 +131,7 @@ func (r *RouterIndex) getCategory(c *gin.Context) {
 		"randNews":   randMews,
 		"prePage":    page - 1,
 		"nextPage":   page + 1,
+		"CategoryName": category.Name,
 	})
 }
 

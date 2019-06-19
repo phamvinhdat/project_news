@@ -59,6 +59,35 @@ func (u *MySQLUserRepo) FetchRole(username string) (*models.Role, error) {
 	return &role, err
 }
 
+func (u *MySQLUserRepo) UpdatePhoneNumber(phoneNumber string,  username string) error {
+	user, err := u.FetchByUsername(username)
+	if err != nil {
+		return err
+	}
+
+	err = u.Conn.Model(user).Update("phone_number", phoneNumber).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+
+func (u *MySQLUserRepo) UpdateName(newName string,  username string) error {
+	user, err := u.FetchByUsername(username)
+	if err != nil {
+		return err
+	}
+
+	err = u.Conn.Model(user).Update("name", newName).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (u *MySQLUserRepo) UpdatePassword(newPassword string,  username string) error {
 	user, err := u.FetchByUsername(username)
 	if err != nil {

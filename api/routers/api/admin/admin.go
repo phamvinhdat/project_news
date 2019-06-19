@@ -35,6 +35,22 @@ func (r *RouterAdmin) Register(group *gin.RouterGroup) {
 	group.GET("/allnews", r.getAdminAllNews)
 	group.POST("/news/ispublic", r.postNewsIsPublic)
 	group.DELETE("/news/:newsid", r.deleteNews)
+	group.GET("/users", r.getUsers)
+
+}
+
+func (r *RouterAdmin) getUsers(c *gin.Context) {
+	username := c.Request.Context().Value("username").(string)
+	
+
+
+	c.HTML(http.StatusOK, "userManager.html", gin.H{
+		"status":   true,
+		"username": username,
+		"payload": gin.H{
+			
+		},
+	})
 }
 
 func (r *RouterAdmin) deleteNews(c *gin.Context) {

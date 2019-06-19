@@ -11,6 +11,8 @@ type IUserRepo interface {
 	FetchRole(username string) (*models.Role, error)
 	UpdatePassword(newPassword string, username string) error
 	CountAll() int
+	UpdatePhoneNumber(phoneNumber string,  username string) error
+	UpdateName(newName string,  username string) error
 }
 
 type ICensorRepo interface {

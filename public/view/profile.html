@@ -8,9 +8,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-  </script>
+  </script> -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
   </script>
@@ -30,12 +30,17 @@
             <div class="list-group-flush mt-4">
               <a href="/" class="list-group-item list-group-item-action active">
                 <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+              {{if eq .userinfo.RoleID 3}}
               <a href="/api/writer" class="list-group-item list-group-item-action ">
                 <i class="fa fa-pencil-square-o"></i></i>Viết bài</a>
+              {{end}}
+              {{if eq .userinfo.RoleID 5}}
               <a href="/api/admin" class="list-group-item list-group-item-action">
                 <i class="fa fa-user-o"></i></i> Admin</a>
-              <a href="/api/profile/logout" class="list-group-item list-group-item-action" ><i class="fa fa-power-off"
-                  aria-hidden="true" ></i> Logout</a>
+              {{end}}
+
+              <a href="/api/profile/logout" class="list-group-item list-group-item-action"><i class="fa fa-power-off"
+                  aria-hidden="true"></i> Logout</a>
 
             </div>
           </div>
@@ -100,8 +105,7 @@
                   <div class="form-group row">
                     <label for="phoneNumber" class="col-lg-3 col-form-label">Phone number: </label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="phone" 
-                        value="{{.userinfo.PhoneNumber}}" readonly>
+                      <input type="text" class="form-control" id="phone" value="{{.userinfo.PhoneNumber}}" readonly>
                     </div>
                   </div>
                 </li>
@@ -127,7 +131,7 @@
     </div>
     <!-- change Password -->
     <div class="container">
-      <form id="changePassForm" name="changePassForm" action="/api/profile/password">
+      <!-- <form id="changePassForm" name="changePassForm" action="/api/profile/password">
         <div class="collapse" id="ChangePassCollapse">
           <div class="row">
             <div class="col-lg-4">
@@ -184,12 +188,12 @@
               </div>
             </div>
           </div>
-      </form>
+      </form> -->
     </div>
 
     <!-- Change userinfo-->
     <div class="container">
-      <form id="ChangeUserInfo">
+      <div id="ChangeUserInfo" type="POST">
         <div class="collapse" id="UserInfo">
           <div class="row">
 
@@ -204,24 +208,24 @@
 
                       <li class="list-group-item">
                         <div class="form-group row">
-                          <label for="name" class="col-lg-3 col-form-label">New name:</label>
+                          <label for="newName" class="col-lg-3 col-form-label">New name:</label>
                           <div class="col-lg-9">
-                            <input type="password" class="form-control" id="name" name="name" placeholder="New name">
+                            <input type="text" class="form-control" id="newName" name="newName" placeholder="New name">
                           </div>
                         </div>
                       </li>
                       <li class="list-group-item">
                         <div class="form-group row">
-                          <label for="phoneNumber" class="col-lg-3 col-form-label">New phone number: </label>
+                          <label for="newPhoneNumber" class="col-lg-3 col-form-label">New phone number: </label>
                           <div class="col-lg-9">
-                            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                            <input type="text" class="form-control" id="newPhoneNumber" name="newPhoneNumber"
                               placeholder="New phone number">
                           </div>
                         </div>
                       </li>
                       <li>
                         <div class="list-group-flush mt-4">
-                          <button type="submit" class="btn btn-primary">
+                          <button id="btnSaveInfo" class="btn btn-primary">
                             <i class="fa fa-floppy-o" area-hidden="true"></i> Save</button>
                           <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#UserInfo"
                             aria-expanded="false" aria-controls="UserInfo"><i class="fa fa-times-circle"
@@ -229,33 +233,35 @@
                         </div>
                       </li>
                     </ul>
+                    </f>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-      </form>
+        </div>
+      </div>
     </div>
   </div>
-
   <script>
     $(document).ready(function () {
       $("#ChangeUserInfo").validate({
+        submitHandler: postInfo,
         rules: {
-          name: {
+          newName: {
             required: true,
           },
-          phoneNumber: {
+          newPhoneNumber: {
             required: true,
 
           },
 
         },
         messages: {
-          name: {
+          newName: {
             required: 'Vui lòng nhập tên mới.',
           },
-          phoneNumber: {
+          newPhoneNumber: {
             required: 'Vui lòng nhập số điện thoại mới.',
           },
 
@@ -270,6 +276,34 @@
           }
         }
       });
+
+      function postPassword(event) {
+        event.preventDefault();
+        var data = $("#changePassForm").serialize()
+        var url = $("#changePassForm").attr("action")
+        var posting = $.post(url, data)
+        console.log(data)
+        posting.done(function (d) {
+          if (d.status == false) {
+            alert("Changed password success!!")
+          } else {
+            alert(d.message)
+          }
+        })
+      }
+
+      $("#btnSaveInfo").click(function () {
+        var name = $("#newName").val()
+        var phone = $("#newPhoneNumber").val()
+        console.log(name)
+        $.ajax({
+          url: "/api/profile/change/" + name + "/" + phone,
+          type: "GET",
+          success: function (data) {
+            alert(data)
+          }
+        })
+      })
 
       $("#changePassForm").validate({
         submitHandler: postPassword,
@@ -309,26 +343,7 @@
         }
       });
 
-      function postPassword(event) {
-        event.preventDefault();
-        var data = $("#changePassForm").serialize()
-        var url = $("#changePassForm").attr("action")
-        var posting = $.post(url, data)
-        console.log(data)
-        posting.done(function (d) {
-          if (d.status == false) {
-            alert("Changed password success!!")
-          } else {
-            alert(d.message)
-          }
-        })
-      }
-
-      // $("#btnSubmitPassword").click(function(){
-      //   postPassword()
-      // })
-
-    });
+    })
   </script>
 
 </body>

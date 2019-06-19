@@ -140,7 +140,6 @@
               <div class="card mt-4 shadow">
                 <div class="card-body">
                   <h5 class="card-title">Change password</h5>
-
                   <div>
                     <ul class="list-group list-group-flush">
                       <li class="list-group-item">
@@ -174,8 +173,6 @@
                         <div class="list-group-flush mt-4">
                           <button type="submit" class="btn btn-primary">
                             <i class="fa fa-floppy-o" area-hidden="true"></i> Save</button>
-
-
                           <button class="btn btn-danger" type="button" data-toggle="collapse"
                             data-target="#ChangePassCollapse" aria-expanded="false"
                             aria-controls="ChangePassCollapse"><i class="fa fa-times-circle" aria-hidden="true"></i>
@@ -253,9 +250,7 @@
           },
           newPhoneNumber: {
             required: true,
-
           },
-
         },
         messages: {
           newName: {
@@ -264,7 +259,6 @@
           newPhoneNumber: {
             required: 'Vui lòng nhập số điện thoại mới.',
           },
-
           errorElement: 'small',
           errorClass: 'help-block text-danger',
           validClass: 'is-valid',
@@ -276,7 +270,6 @@
           }
         }
       });
-
       function postPassword(event) {
         event.preventDefault();
         var data = $("#changePassForm").serialize()
@@ -291,7 +284,6 @@
           }
         })
       }
-
       $("#btnSaveInfo").click(function () {
         var name = $("#newName").val()
         var phone = $("#newPhoneNumber").val()
@@ -304,7 +296,6 @@
           }
         })
       })
-
       $("#changePassForm").validate({
         submitHandler: postPassword,
         rules: {
@@ -313,7 +304,6 @@
           },
           newPass: {
             required: true,
-
           },
           rePass: {
             required: true,
@@ -342,7 +332,6 @@
           }
         }
       });
-
     })
   </script>
 

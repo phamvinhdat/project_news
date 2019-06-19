@@ -70,7 +70,23 @@
                                 </div>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="text-center d-inline-block">
+                        <a class="fh5co_display_table" href="
+                            {{if eq .isLogin false}}
+                            /login
+                            {{else}}
+                            /api/profile
+                            {{end}}">
+                            <div class="fh5co_verticle_middle">
+                                <i class="{{if eq .isLogin false}}
+                                    fa fa-sign-in
+                                    {{else}}
+                                    fa fa-user-circle-o
+                                    {{end}}"></i>
+                                {{.name}}
+                            </div>
+                        </a>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -99,7 +115,7 @@
 
                         </li>
                         {{end}}
-                        <li class="text-center d-inline-block">
+                        <!-- <li class="text-center d-inline-block">
                             <a id="loginLabel" class="fh5co_display_table" href="
                                     {{if eq .isLogin false}}
                                     /login
@@ -115,7 +131,7 @@
                                     {{.name}}
                                 </div>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </nav>
@@ -232,10 +248,10 @@
     <script src="../../js/owl.carousel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous">
-    </script>
+        </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
         integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous">
-    </script>
+        </script>
     <!-- Waypoints -->
     <script src="../../js/jquery.waypoints.min.js"></script>
     <!-- Main -->

@@ -63,6 +63,22 @@ func (r *RouterAdmin) getUsers(c *gin.Context) {
 func (r *RouterAdmin) deleteNews(c *gin.Context) {
 
 }
+func (r *RouterAdmin) getAddCategory(c *gin.Context) {
+	username := c.Request.Context().Value("username").(string)
+	countCategory := r.CategoryRepo.CountAll()
+	countNews := r.NewsRepo.CountAll()
+	countUser := r.UserRepo.CountAll()
+	c.HTML(http.StatusOK, "addCategory.html", gin.H{
+		"status":   true,
+		"type":     true,
+		"username": username,
+		"payload": gin.H{
+			"countCategory": countCategory,
+			"countNews":     countNews,
+			"countUser":     countUser,
+		},
+	})
+}
 
 func (r *RouterAdmin) postNewsIsPublic(c *gin.Context) {
 	username := c.Request.Context().Value("username").(string)

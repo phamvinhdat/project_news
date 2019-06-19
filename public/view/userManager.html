@@ -6,59 +6,36 @@
 	</div>
 	<div class="clearfix"></div>
 	<table class="table table-bordered">
-  		<thead >
-  			<tr>
-     			 <th scope="col">Id</th>
-     			 <th scope="col">Tên</th>
-     			 <th scope="col" width="300">Username</th>
-     			 <th scope="col">Email</th>
-     			 <th scope="col" width="150">Role</th>
-     			 <th scope="col" width="100">Lưu</th>
-   			</tr>
-  		</thead>		
- 	 	<tbody>
-   	 		<tr>
-    	  		<td >1</td>
-    	  		<td>Mark</td>
-    	  		<td>Otto</td>
-    	  		<td>@mdo</td>
-    	  		<td> <select>
-  					<option value="volvo">Editter</option>
-  					<option value="saab">Writer</option>
-  					<option value="mercedes">Premium User</option>
-  					<option value="audi">Nomar User</option>
-					</select> 
+		<thead>
+			<tr>
+				<th scope="col">Id</th>
+				<th scope="col">Tên</th>
+				<th scope="col" width="300">Username</th>
+				<th scope="col">Email</th>
+				<th scope="col" width="150">Role</th>
+				<th scope="col" width="100">Lưu</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{range .payload.users}}
+			<tr>
+				<td>{{.ID}}</td>
+				<td>{{.Name}}</td>
+				<td>{{.Username}}</td>
+				<td>{{.Email}}</td>
+				<td> <select>
+						<option value="volvo">Độc giả</option>
+						<option value="saab">Premium</option>
+						<option value="mercedes">Writer</option>
+						<option value="audi">Editor</option>
+						<option value="audi">Admin</option>
+					</select>
 				</td>
-  				<td><a href="#"><i class="fa fa-floppy-o"></i></td>
-    	  		
-      		</tr>
-    		<tr>
-    	  		<td >2</td>
-    		  <td>Jacob</td>
-    		  <td>Thornton</td>
-    		  <td>@fat</td>
-    		  <td><select>
-  					<option value="volvo">Editter</option>
-  					<option value="saab">Writer</option>
-  					<option value="mercedes">Premium User</option>
-  					<option value="audi">Nomar User</option>
-					</select></td>
-    		  <td><a href="#"><i class="fa fa-floppy-o"></i></td>
-    		</tr>
-   			 <tr>
-    	  		<td >3</td>
-      			<td>Larry</td>
-    	  		<td>the Bird</td>
-    	  		<td>@twitter</td>
-    	  		<td><select>
-  					<option value="volvo">Editter</option>
-  					<option value="saab">Writer</option>
-  					<option value="mercedes">Premium User</option>
-  					<option value="audi">Nomar User</option>
-					</select></td>
-    	  		<td><a href="#"><i class="fa fa-floppy-o"></i></a></td>
-    		</tr>
- 	 	</tbody>
+				<td><a href="#"><i class="fa fa-floppy-o"></i></td>
 
-		</table>
-	</div>
+			</tr>
+			{{end}}
+		</tbody>
+
+	</table>
+</div>

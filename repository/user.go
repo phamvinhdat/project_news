@@ -24,6 +24,16 @@ func (u *MySQLUserRepo) Create(user *models.User) error {
 	return nil
 }
 
+func (u *MySQLUserRepo) FetchAll(exceptUsername string) ([]models.User, error) {
+	var users []models.User
+	err := u.Conn.Find(&users, "username <> ?", exceptUsername).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}
+
 func (u *MySQLUserRepo) FetchByUsername(username string) (*models.User, error) {
 	var user models.User
 	err := u.Conn.First(&user, "username = ?", username).Error

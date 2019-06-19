@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"context"
 	"net/http"
 	"strconv"
 	"time"
@@ -41,14 +42,20 @@ func (r *RouterAdmin) Register(group *gin.RouterGroup) {
 
 func (r *RouterAdmin) getUsers(c *gin.Context) {
 	username := c.Request.Context().Value("username").(string)
-	
 
+	users, err := r.UserRepo.FetchAll(username)
+	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
 
 	c.HTML(http.StatusOK, "userManager.html", gin.H{
 		"status":   true,
 		"username": username,
-		"payload": gin.H{
-			
+		"payload":  gin.H{
+			"users": users,
 		},
 	})
 }

@@ -44,6 +44,96 @@ func (r *RouterIndex) Register(group *gin.RouterGroup) {
 	group.GET("/register", r.getRegister)
 	group.GET("/posts/:category/:page", r.getCategory)
 	group.GET("/post/:category/:newsID/:title", r.getPost)
+	group.GET("/tag/:tagName/:page", r.getTag)
+}
+
+func (r *RouterIndex) getTag(c *gin.Context) {
+	categoryName := c.Param("tagName")
+	pageStr := c.Param("page")
+	page, _ := strconv.Atoi(pageStr)
+	log.Println(categoryName)
+	//get category
+	categories, err := r.CategoryRepo.FetchAll()
+	HandlerError(http.StatusNotFound, err, c)
+	categoryParents := convertCategoriesToCategorytParents(categories)
+
+	//get cookie
+	isLogin := false
+	name := "Login"
+	cookie, err := c.Request.Cookie("token")
+	if err == nil {
+		token := cookie.Value
+		tk, err := r.JwtAuthen.ParseToken(token)
+		if err == nil && tk.Username != "" {
+			isLogin = true
+			name = tk.Username
+		}
+	}
+
+	category, err := r.CategoryRepo.FetchByName(categoryName)
+	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	news, err := r.NewsRepo.FetchNewestCategory(page*5, 5, category.ID, 0, true)
+	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	if len(news) <= 0 {
+		c.Redirect(http.StatusSeeOther, "/")
+	}
+
+	tags, err := r.TagRepo.FetchRandTag(10)
+	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	randMews, err := r.NewsRepo.FetchRand(5, true)
+	if err != nil {
+		ctx := context.WithValue(c.Request.Context(), "error", err)
+		c.Request = c.Request.WithContext(ctx)
+		c.Redirect(http.StatusSeeOther, "/error")
+		return
+	}
+
+	maxPage := 0
+	mockNews, _ := r.NewsRepo.FetchNewestCategory(0, 150000, category.ID, 0, true)
+	if mockNews != nil {
+		maxPage = (len(mockNews) / 5) + 1
+	}
+
+	page0 := models.Page{Current: page - 2, IsSelect: false, CategoryName: categoryName, MaxPage: maxPage, NextPage: page - 1}
+	page1 := models.Page{Current: page - 1, IsSelect: false, CategoryName: categoryName, MaxPage: maxPage, NextPage: page}
+	page2 := models.Page{Current: page, IsSelect: true, CategoryName: categoryName, MaxPage: maxPage, NextPage: page + 1}
+	page3 := models.Page{Current: page + 1, IsSelect: false, CategoryName: categoryName, MaxPage: maxPage, NextPage: page + 2}
+	page4 := models.Page{Current: page + 2, IsSelect: false, CategoryName: categoryName, MaxPage: maxPage, NextPage: page + 3}
+
+	pages := []models.Page{
+		page0, page1, page2, page3, page4,
+	}
+
+	c.HTML(http.StatusOK, "category.html", gin.H{
+		"Categories": categoryParents,
+		"isLogin":    isLogin,
+		"name":       name,
+		"news":       news,
+		"tags":       tags,
+		"page":       pages,
+		"randNews":   randMews,
+		"prePage":    page - 1,
+		"nextPage":   page + 1,
+		"CategoryName": category.Name,
+	})
 }
 
 func (r *RouterIndex) getCategory(c *gin.Context) {

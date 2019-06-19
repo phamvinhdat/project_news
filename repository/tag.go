@@ -72,3 +72,13 @@ func (t *MySQLTagRepo) FetchRandTag(number int) ([]models.Tag, error) {
 
 	return tags, nil
 }
+
+func (t *MySQLTagRepo) FetchByName(name string) (*models.Tag, error) {
+	var tag models.Tag
+	err := t.Conn.First("name = ?", name).Find(&tag).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &tag, nil
+}

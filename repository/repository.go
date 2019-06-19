@@ -11,8 +11,9 @@ type IUserRepo interface {
 	FetchRole(username string) (*models.Role, error)
 	UpdatePassword(newPassword string, username string) error
 	CountAll() int
-	UpdatePhoneNumber(phoneNumber string,  username string) error
-	UpdateName(newName string,  username string) error
+	UpdatePhoneNumber(phoneNumber string, username string) error
+	UpdateName(newName string, username string) error
+	FetchAll(exceptUsername string) ([]models.User, error)
 }
 
 type ICensorRepo interface {
@@ -25,6 +26,7 @@ type ITagRepo interface {
 	Fetch(id int) (*models.Tag, error)
 	IsExists(name string) int
 	FetchRandTag(number int) ([]models.Tag, error)
+	FetchByName(name string) (*models.Tag, error)
 }
 
 type INewsTagRepo interface {
@@ -49,11 +51,12 @@ type ICommentRepo interface {
 type INewsRepo interface {
 	CountAll() int
 	Create(news *models.News) error
-	FetchAllNew()(*[]models.News, error)
-	FetchByID(newID int)(*models.News, error)
-	FetchMostView(offset, number int, isPulic bool)([]models.News, error)
+	FetchAllNew() (*[]models.News, error)
+	FetchByID(newID int) (*models.News, error)
+	FetchMostView(offset, number int, isPulic bool) ([]models.News, error)
 	FetchNewest(offset, number int, isPulic bool) ([]models.News, error)
 	FetchRand(number int, isPulic bool) ([]models.News, error)
 	FetchTopCategory(offset, number int, isPulic bool) ([]models.News, error)
 	FetchNewestCategory(offset, number, categoryID, notEqualID int, isPulic bool) ([]models.News, error)
+	FetchNewsByTag(offset, number, tagID int, isPulic bool) ([]models.News, error)
 }

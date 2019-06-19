@@ -66,7 +66,23 @@ func (n *MySQLNewsRepo) FetchNewestCategory(offset, number, categoryID, notEqual
 	if !isPulic {
 		err = n.Conn.Offset(offset).Limit(number).Where("news.category_id = ? AND news.id <> ?", categoryID, notEqualID).Order("date_post desc").Find(&news).Error
 	} else {
-		err = n.Conn.Offset(offset).Debug().Limit(number).Joins("LEFT JOIN censors c ON news.id = c.news_id").Where("c.is_public = ? AND news.category_id = ? AND news.id <> ?", isPulic, categoryID, notEqualID).Order("date_post desc").Find(&news).Error
+		err = n.Conn.Offset(offset).Limit(number).Joins("LEFT JOIN censors c ON news.id = c.news_id").Where("c.is_public = ? AND news.category_id = ? AND news.id <> ?", isPulic, categoryID, notEqualID).Order("date_post desc").Find(&news).Error
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	return news, nil
+}
+
+func (n *MySQLNewsRepo) FetchNewsByTag(offset, number, tagID int, isPulic bool) ([]models.News, error) {
+	var news []models.News
+	var err error
+
+	if !isPulic {
+		err = n.Conn.Offset(offset).Limit(number).Joins("JOIN news_tags nt ON nt.news_id = news.id").Where("nt.tag_id = ?", tagID).Order("date_post desc").Find(&news).Error
+	} else {
+		err = n.Conn.Debug().Offset(offset).Limit(number).Joins("LEFT JOIN censors c ON news.id = c.news_id JOIN news_tags nt ON nt.news_id = news.id").Where("nt.tag_id = ?", tagID).Order("date_post desc").Find(&news).Error
 	}
 	if err != nil {
 		return nil, err

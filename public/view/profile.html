@@ -29,13 +29,15 @@
 
             <div class="list-group-flush mt-4">
               <a href="/" class="list-group-item list-group-item-action active">
-                <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+                <i class="fa fa-home" aria-hidden="true"></i> Trang chủ</a>
               <a href="/api/writer" class="list-group-item list-group-item-action ">
-                <i class="fa fa-pencil-square-o"></i></i>Viết bài</a>
-              <a href="/api/admin" class="list-group-item list-group-item-action">
-                <i class="fa fa-user-o"></i></i> Admin</a>
+                <i class="fa fa-pencil-square-o"></i>Viết bài</a>
+                <a href="/api/admin/news" class="list-group-item list-group-item-action">
+                  <i class="fa fa-check"></i> Duyệt bài</a>
+                <a href="/api/admin" class="list-group-item list-group-item-action">
+                <i class="fa fa-user-o"></i> Admin</a>
               <a href="/api/profile/logout" class="list-group-item list-group-item-action" ><i class="fa fa-power-off"
-                  aria-hidden="true" ></i> Logout</a>
+                  aria-hidden="true" ></i> Đăng xuất/a>
 
             </div>
           </div>
@@ -135,47 +137,47 @@
             <div class="col-lg-8">
               <div class="card mt-4 shadow">
                 <div class="card-body">
-                  <h5 class="card-title">Change password</h5>
+                  <h5 class="card-title">Đổi mật khẩu</h5>
 
                   <div>
                     <ul class="list-group list-group-flush">
                       <li class="list-group-item">
                         <div class="form-group row">
-                          <label for="oldPass" class="col-lg-3 col-form-label">Old password: </label>
+                          <label for="oldPass" class="col-lg-3 col-form-label">Mật khẩu hiện tại: </label>
                           <div class="col-lg-9">
                             <input type="password" class="form-control" id="oldPass" name="oldPass"
-                              placeholder="Password">
+                              placeholder="Nhập mật khẩu hiện tại">
                           </div>
                         </div>
                       </li>
                       <li class="list-group-item">
                         <div class="form-group row">
-                          <label for="newPass" class="col-lg-3 col-form-label">New password:</label>
+                          <label for="newPass" class="col-lg-3 col-form-label">Mật khẩu mới:</label>
                           <div class="col-lg-9">
                             <input type="password" class="form-control" id="newPass" name="newPass"
-                              placeholder="New Password">
+                              placeholder="Nhập mật khẩu mới">
                           </div>
                         </div>
                       </li>
                       <li class="list-group-item">
                         <div class="form-group row">
-                          <label for="rePass" class="col-lg-3 col-form-label">Repeat new password: </label>
+                          <label for="rePass" class="col-lg-3 col-form-label">Nhập lại mật khẩu: </label>
                           <div class="col-lg-9">
                             <input type="password" class="form-control" id="rePass" name="rePass"
-                              placeholder="Repeat new password">
+                              placeholder="Nhập lại mật khẩu">
                           </div>
                         </div>
                       </li>
                       <li class="list-group-item">
                         <div class="list-group-flush mt-4">
                           <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-floppy-o" area-hidden="true"></i> Save</button>
+                            <i class="fa fa-floppy-o" area-hidden="true"></i> Lưu</button>
 
 
                           <button class="btn btn-danger" type="button" data-toggle="collapse"
                             data-target="#ChangePassCollapse" aria-expanded="false"
                             aria-controls="ChangePassCollapse"><i class="fa fa-times-circle" aria-hidden="true"></i>
-                            Close</a>
+                            Đóng</a>
                         </div>
                       </li>
                     </ul>
@@ -189,7 +191,7 @@
 
     <!-- Change userinfo-->
     <div class="container">
-      <form id="ChangeUserInfo">
+      <div id="ChangeUserInfo">
         <div class="collapse" id="UserInfo">
           <div class="row">
 
@@ -197,35 +199,35 @@
             <div class="col-lg-8">
               <div class="card mt-4 shadow">
                 <div class="card-body">
-                  <h5 class="card-title">Basic</h5>
+                  <h5 class="card-title">Thay đổi thông tin</h5>
 
                   <div>
                     <ul class="list-group list-group-flush">
 
                       <li class="list-group-item">
                         <div class="form-group row">
-                          <label for="name" class="col-lg-3 col-form-label">New name:</label>
+                          <label for="name" class="col-lg-3 col-form-label">Tên mới:</label>
                           <div class="col-lg-9">
-                            <input type="password" class="form-control" id="name" name="name" placeholder="New name">
+                            <input id="ipName" type="password" class="form-control" id="name" name="name" placeholder="Tên mới">
                           </div>
                         </div>
                       </li>
                       <li class="list-group-item">
                         <div class="form-group row">
-                          <label for="phoneNumber" class="col-lg-3 col-form-label">New phone number: </label>
+                          <label for="phoneNumber" class="col-lg-3 col-form-label">Số điện thoại mới: </label>
                           <div class="col-lg-9">
-                            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
-                              placeholder="New phone number">
+                            <input id="ipPhoneNumber" type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                              placeholder="Số điện thoại mới">
                           </div>
                         </div>
                       </li>
                       <li>
                         <div class="list-group-flush mt-4">
-                          <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-floppy-o" area-hidden="true"></i> Save</button>
+                          <button id="btnSaveInfo" class="btn btn-primary">
+                            <i class="fa fa-floppy-o" area-hidden="true"></i> Lưu</button>
                           <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#UserInfo"
                             aria-expanded="false" aria-controls="UserInfo"><i class="fa fa-times-circle"
-                              aria-hidden="true"></i> Close</a>
+                              aria-hidden="true"></i> Đóng</a>
                         </div>
                       </li>
                     </ul>
@@ -234,7 +236,7 @@
               </div>
             </div>
           </div>
-      </form>
+        </div>
     </div>
   </div>
 
@@ -324,9 +326,17 @@
         })
       }
 
-      // $("#btnSubmitPassword").click(function(){
-      //   postPassword()
-      // })
+      $("#btnSaveInfo").click(function(){
+        var name = $("#ipName").val()
+        var phoneNumber = $("#ipPhoneNumber").val()
+        $.ajax({
+          url: "/api/profile/" + name + "/" + phoneNumber,
+          type: "GET",
+          success:{
+            
+          }
+        })
+      })
 
     });
   </script>

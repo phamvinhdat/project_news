@@ -25,7 +25,10 @@ func (r *RouterProfile) Register(group *gin.RouterGroup) {
 	group.GET("/", r.getProfile)
 	group.GET("/logout", r.getLogout)
 	group.POST("/password", r.postPassword)
+	// group.GET("/:name/:phone", r.changeInfo)
 }
+
+
 
 func (r *RouterProfile) postPassword(c *gin.Context) {
 	cookie, _ := c.Request.Cookie("token")

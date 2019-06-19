@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html>
+{{template "adminHeader_nav.html" .}}
+<script src="../../js/jquery.validate.js"></script>
 
-<head>
-    <title></title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css"
-        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
 
 <body>
     <form id="addCategoryForm">
@@ -19,7 +12,7 @@
             </div>
             <div class="form-group ">
                 <label for="catName">Danh mục cha</label>
-                <select class="custom-select">
+                <select class="custom-select" >
                     <option selected>Open this select menu</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
@@ -40,12 +33,9 @@
                 },
                 messages: {
                     catName: {
-                        required: 'Vui lòng không để trống tên danh mục.',
+                        required: 'Vui lòng nhập tên danh mục.',
                     },
                 }
             })
         })
     </script>
-</body>
-
-</html>

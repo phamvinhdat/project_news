@@ -36,7 +36,7 @@
               {{end}}
               {{if eq .userinfo.RoleID 5}}
               <a href="/api/admin" class="list-group-item list-group-item-action">
-                <i class="fa fa-user-o"></i></i> Admin</a>
+                <i class="fa fa-user-o"></i></i> Kiểm duyệt</a>
               {{end}}
 
               <a href="/api/profile/logout" class="list-group-item list-group-item-action"><i class="fa fa-power-off"
@@ -131,7 +131,7 @@
     </div>
     <!-- change Password -->
     <div class="container">
-      <!-- <form id="changePassForm" name="changePassForm" action="/api/profile/password">
+      <form id="changePassForm" name="changePassForm" >
         <div class="collapse" id="ChangePassCollapse">
           <div class="row">
             <div class="col-lg-4">
@@ -185,7 +185,7 @@
               </div>
             </div>
           </div>
-      </form> -->
+      </form>
     </div>
 
     <!-- Change userinfo-->
@@ -270,32 +270,32 @@
           }
         }
       });
-      function postPassword(event) {
-        event.preventDefault();
-        var data = $("#changePassForm").serialize()
-        var url = $("#changePassForm").attr("action")
-        var posting = $.post(url, data)
-        console.log(data)
-        posting.done(function (d) {
-          if (d.status == false) {
-            alert("Changed password success!!")
-          } else {
-            alert(d.message)
-          }
-        })
-      }
-      $("#btnSaveInfo").click(function () {
-        var name = $("#newName").val()
-        var phone = $("#newPhoneNumber").val()
-        console.log(name)
-        $.ajax({
-          url: "/api/profile/change/" + name + "/" + phone,
-          type: "GET",
-          success: function (data) {
-            alert(data)
-          }
-        })
-      })
+      // function postPassword(event) {
+      //   event.preventDefault();
+      //   var data = $("#changePassForm").serialize()
+      //   var url = $("#changePassForm").attr("action")
+      //   var posting = $.post(url, data)
+      //   console.log(data)
+      //   posting.done(function (d) {
+      //     if (d.status == false) {
+      //       alert("Changed password success!!")
+      //     } else {
+      //       alert(d.message)
+      //     }
+      //   })
+      // }
+      // $("#btnSaveInfo").click(function () {
+      //   var name = $("#newName").val()
+      //   var phone = $("#newPhoneNumber").val()
+      //   console.log(name)
+      //   $.ajax({
+      //     url: "/api/profile/change/" + name + "/" + phone,
+      //     type: "GET",
+      //     success: function (data) {
+      //       alert(data)
+      //     }
+      //   })
+      // })
       $("#changePassForm").validate({
         submitHandler: postPassword,
         rules: {

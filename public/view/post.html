@@ -42,7 +42,7 @@
     <script src="../../../js/modernizr-3.5.0.min.js"></script>
     <script src="../../../js/index.js"></script>
     <style>
-        ul {
+        /* ul {
             list-style-type: none;
         }
 
@@ -71,15 +71,15 @@
             text-decoration: none;
             color: yellow important !;
 
-        }
+        } */
         #header{
             font-weight: bold;
         }
     </style>
 </head>
 
-<body>
-    <div class="container-fluid">
+    {{template "navbar.html" .}}
+    <!-- <div class="container-fluid">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-3 fh5co_padding_menu">
@@ -136,13 +136,11 @@
                         {{range .Categories}}
                         <li class="nav-item dropdown">
                             <a class="nav-link " href="/posts/{{.Name}}/0" id="dropdownMenuButton1">{{.Name}}</a>
-                            <!-- {{if .CategoryChild}} -->
                             <div class="dropdown-content">
                                 {{range .CategoryChild}}
                                 <a class="dropdown-item" href="/posts/{{.Name}}/0">{{.Name}}</a>
                                 {{end}}
                             </div>
-                            <!-- {{end}} -->
 
                         </li>
                         {{end}}
@@ -151,7 +149,7 @@
                 </div>
             </nav>
         </div>
-    </div>
+    </div> -->
     <div id="fh5co-single-content" class="container-fluid pb-4 pt-4 paddding">
         <div class="container paddding">
             <div class="row mx-0">

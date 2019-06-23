@@ -53,11 +53,21 @@ func setup(dbConfig *database.Config, conn *gorm.DB) *gin.Engine {
 
 	//create group
 	groupIndex := r.Group("/")
-
 	groupProfile := r.Group("/api/profile", JWTAuthen.JWTAuthentication())
 	groupAPI := r.Group("/api")
 	groupAdmin := r.Group("/api/admin", JWTAuthen.JWTAuthentication(), JWTAuthen.JWTAuthenAdminRole())
 	groupWriter := r.Group("/api/writer", JWTAuthen.JWTAuthentication())
+	r.NoRoute(func(c *gin.Context) {
+		err := "Đường dẫn không đúng! Vui lòng thử lại hoặc liên hệ quản trị viên."
+		IErr := c.Request.Context().Value("error")
+		if IErr != nil {
+			err = IErr.(string)
+		}
+		c.HTML(http.StatusOK, "error.html", gin.H{
+			"title": err,
+			"error": err,
+		})
+	})
 
 	//regis router
 	router.Register(groupIndex, groupAPI, groupAdmin, groupWriter, groupProfile)
@@ -74,12 +84,5 @@ func main() {
 	}
 	defer conn.Close()
 	r := setup(dbConfig, conn)
-	r.NoRoute(func(c *gin.Context) {
-		err := c.Request.Context().Value("error").(string)
-		c.HTML(http.StatusOK, "error.html", gin.H{
-			"title": err,
-			"error": err,
-		})
-	})
 	r.Run()
 }
